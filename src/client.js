@@ -4,7 +4,7 @@ import PersistComponent from './packages/persist-component/PersistComponent';
 import {CookieStorage} from 'redux-persist-cookie-storage';
 import CookiesJS from 'cookies-js';
 import initializeStore from './redux/store';
-import client from './packages/ultimate/client';
+import client, {trigger} from './packages/ultimate/client';
 import routes from './routes';
 
 const cookiesStorage = new CookieStorage(CookiesJS, {
@@ -36,5 +36,13 @@ const cookiesStorage = new CookieStorage(CookiesJS, {
   };
 
   client(routes, {initializeStore, state, providers}, reduxWrapper, awaitRender);
+
+  if (module.hot) {
+    module.hot.accept('./routes', () => {
+      const routes = require('./routes').default;
+      trigger(routes);
+    })
+  }
+
 })();
 
