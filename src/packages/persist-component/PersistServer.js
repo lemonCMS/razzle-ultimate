@@ -4,7 +4,6 @@ const asyncMap = (arr, mapper) => {
 };
 
 export default ({store, storage, modules}) => {
-
   const promises = [];
   (typeof modules === 'string' ? [modules] : modules).map((module) => {
     promises.push(storage.getItem(module).then((item) => {

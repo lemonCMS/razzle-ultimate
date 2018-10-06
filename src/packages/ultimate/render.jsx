@@ -1,10 +1,10 @@
 import * as React from 'react';
 import * as ReactDOMServer from 'react-dom/server';
 import Helmet from 'react-helmet';
-import { matchPath, StaticRouter } from 'react-router-dom';
-import {triggerWait, authorizeWait} from '@wicked_query/redial';
+import {StaticRouter} from 'react-router-dom';
+import {triggerWait, authorizeWait} from '../redial';
 import DefaultDoc from './Document';
-import Ultimate from './After';
+import Ultimate from './Ultimate';
 import asyncMatchRoutes from './asyncMatchRoutes';
 
 const modPageFn = function(Page) {

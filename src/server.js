@@ -1,51 +1,68 @@
-import App from './App';
-import React from 'react';
-import { StaticRouter } from 'react-router-dom';
-import express from 'express';
-import { renderToString } from 'react-dom/server';
+import server, {render} from './packages/ultimate/server';
+import {CookieStorage, NodeCookiesWrapper} from 'redux-persist-cookie-storage';
+import PersistServer from './packages/persist-component/PersistServer';
+import Cookies from 'cookies';
+import initializeStore from './redux/store';
+import routes from './routes';
+import stats from '../build/react-loadable.json';
 
-const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
 
-const server = express();
-server
-  .disable('x-powered-by')
-  .use(express.static(process.env.RAZZLE_PUBLIC_DIR))
-  .get('/*', (req, res) => {
-    const context = {};
-    const markup = renderToString(
-      <StaticRouter context={context} location={req.url}>
-        <App />
-      </StaticRouter>
-    );
+server.use(Cookies.express());
+const dev = process.env.NODE_ENV === 'development';
+const devProxy = {
+  '/api': {
+    target: process.env.RAZZLE_PROXY_HOST,
+    // pathRewrite: {'^/api': '/'},
+    changeOrigin: true,
+    onProxyReq: (proxyReq, req) => {
+      if (req.cookies && req.cookies.get('token')) {
+        proxyReq.setHeader('authorization', `Bearer ${req.cookies.get('token')}`);
+      }
+    }
+  }
+};
+if (dev && devProxy) {
+  const proxyMiddleware = require('http-proxy-middleware');
+  Object.keys(devProxy).forEach(function (context) {
+    server.use(proxyMiddleware(context, devProxy[context]))
+  })
+}
 
-    if (context.url) {
-      res.redirect(context.url);
-    } else {
-      res.status(200).send(
-        `<!doctype html>
-    <html lang="">
-    <head>
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta charset="utf-8" />
-        <title>Welcome to Razzle</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        ${
-          assets.client.css
-            ? `<link rel="stylesheet" href="${assets.client.css}">`
-            : ''
-        }
-        ${
-          process.env.NODE_ENV === 'production'
-            ? `<script src="${assets.client.js}" defer></script>`
-            : `<script src="${assets.client.js}" defer crossorigin></script>`
-        }
-    </head>
-    <body>
-        <div id="root">${markup}</div>
-    </body>
-</html>`
-      );
+server.use((req, res, next) => {
+  next();
+}).get('/*',  async (req, res) => {
+  const cookies = new Cookies(req, res);
+  const cookieJar = new NodeCookiesWrapper(cookies);
+  const cookiesStorage = new CookieStorage(cookieJar, {
+    setCookieOptions: {
+      path: '/'
     }
   });
+  const providers = {
+    cookies: cookiesStorage
+  };
+
+  const wrapper = (node) => node;
+  const awaitRender = ({store}) => {
+    const promise = [];
+
+    const sleep = (ms) => {
+      return new Promise(resolve => setTimeout(resolve, ms));
+    };
+    promise.push(sleep(5000));
+
+    promise.push(PersistServer({
+      store,
+      storage: cookiesStorage,
+      modules: ['auth']
+    }));
+
+    return Promise.all(promise);
+  };
+
+  render({req, res}, stats, routes, {initializeStore, providers}, wrapper, awaitRender);
+
+});
 
 export default server;
+

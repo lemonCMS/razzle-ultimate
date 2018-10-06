@@ -32,7 +32,7 @@ export const rehydrate = async (_routes, {store, providers}, wrapper) => {
 };
 
 
-export const trigger = (_routes) => (rehydrate(_routes, {store: _store, providers: _providers}, _wrapper))
+export const trigger = (_routes) => (rehydrate(_routes, {store: _store, providers: _providers}, _wrapper));
 
 export default function client(routes, {initializeStore, state, providers}, wrapper, awaitRender) {
 
@@ -46,7 +46,7 @@ export default function client(routes, {initializeStore, state, providers}, wrap
     await Loadable.preloadReady();
 
     if (typeof awaitRender === 'function') {
-      awaitRender({_store, _providers}).then(() => {
+      awaitRender({store: _store, provider: _providers}).then(() => {
         rehydrate(routes, {store: _store, providers: _providers}, _wrapper);
       });
     } else {

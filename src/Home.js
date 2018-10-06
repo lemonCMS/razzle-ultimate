@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 import logo from './react.svg';
 import './Home.css';
 
@@ -15,6 +16,9 @@ class Home extends React.Component {
           <code>src/Home.js</code> and save to reload.
         </p>
         <ul className="Home-resources">
+          <li>
+            <Link to={'/about'}>About</Link>
+          </li>
           <li>
             <a href="https://github.com/jaredpalmer/razzle">Docs</a>
           </li>

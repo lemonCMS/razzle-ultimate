@@ -1,5 +1,8 @@
 import React from 'react';
-import {AfterRoot} from '@jaredpalmer/after';
+
+const AfterRoot = () =>
+  (<div id="root">DO_NOT_DELETE_THIS_YOU_WILL_BREAK_YOUR_APP</div>);
+
 
 class Document extends React.PureComponent {
   static async getInitialProps({assets, data, renderPage}) {
@@ -55,7 +58,6 @@ class Document extends React.PureComponent {
         </head>
         <body {...bodyAttrs}>
           <AfterRoot />
-          {/*<AfterData data={data} />*/}
 
           {scripts}
           {chunks
