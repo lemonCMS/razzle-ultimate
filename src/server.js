@@ -49,7 +49,7 @@ server.use((req, res, next) => {
     const sleep = (ms) => {
       return new Promise(resolve => setTimeout(resolve, ms));
     };
-    promise.push(sleep(5000));
+    // promise.push(sleep(5000));
 
     promise.push(PersistServer({
       store,

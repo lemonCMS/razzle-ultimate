@@ -5,7 +5,7 @@ import {renderRoutes} from 'react-router-config';
 class Ultimate extends Component {
   render() {
     return (
-      <div>sss
+      <div>
         {renderRoutes(this.props.routes)}
       </div>
     );

@@ -11,8 +11,6 @@ class Document extends React.PureComponent {
   }
 
   render() {
-
-    // console.log('MYDOC', this.props);
     const {helmet, assets, data, bundles} = this.props;
     const chunks = bundles.filter(bundle => bundle.file.endsWith('.js'));
     const styles = bundles.filter(bundle => bundle.file.endsWith('.css'));
