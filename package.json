@@ -9,8 +9,6 @@
     "start:prod": "NODE_ENV=production node build/server.js"
   },
   "dependencies": {
-    "add-asset-html-webpack-plugin": "^3.0.1",
-    "autodll-webpack-plugin": "^0.4.2",
     "autoprefixer": "^9.1.5",
     "axios": "^0.18.0",
     "babel-plugin-transform-decorators-legacy": "^1.3.5",
@@ -30,7 +28,7 @@
     "node-sass": "^4.9.3",
     "nprogress": "^0.2.0",
     "prop-types": "^15.6.2",
-    "razzle": "^2.4.0",
+    "razzle": "",
     "react": "^16.5.2",
     "react-bootstrap": "^0.32.4",
     "react-datetime": "^2.15.0",
@@ -51,6 +49,7 @@
     "style-loader": "^0.23.0"
   },
   "devDependencies": {
+    "autodll-webpack-plugin": "^0.4.2",
     "babel-plugin-lodash": "^3.3.4",
     "babel-plugin-transform-decorators-legacy": "^1.3.5",
     "eslint-config-react-app": "^2.1.0",

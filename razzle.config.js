@@ -18,7 +18,19 @@ module.exports = {
         'react-router-config',
         'final-form',
         'final-form-arrays',
-        'react-dom'
+        'react-dom',
+        'react-bootstrap',
+        'react-datetime',
+        'react-final-form',
+        'react-final-form-arrays',
+        'react-helmet',
+        'react-loadable',
+        'react-redux',
+        'react-router-dom',
+        'react-router-redux',
+        'redux-devtools-extension',
+        'redux-persist-cookie-storage',
+        'redux-thunk'
       ]
     );
 
