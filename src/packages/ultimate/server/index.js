@@ -7,8 +7,9 @@ import {getBundles} from 'react-loadable/webpack';
 import createMemoryHistory from 'history/createMemoryHistory';
 import {renderToString} from 'react-dom/server';
 import {Provider} from 'react-redux';
-const paths = require('razzle/config/paths');
 import fs from 'fs-extra';
+
+const paths = require('razzle/config/paths');
 
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
 
