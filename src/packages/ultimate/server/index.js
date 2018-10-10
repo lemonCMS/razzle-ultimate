@@ -7,8 +7,20 @@ import {getBundles} from 'react-loadable/webpack';
 import createMemoryHistory from 'history/createMemoryHistory';
 import {renderToString} from 'react-dom/server';
 import {Provider} from 'react-redux';
+const paths = require('razzle/config/paths');
+import fs from 'fs-extra';
 
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
+
+let vendorAssets = {};
+if (process.env.RAZZLE_VENDOR_MANIFEST) {
+  const vendorFile = paths.appBuild + '/' + process.env.RAZZLE_VENDOR_MANIFEST;
+  if (fs.pathExistsSync(vendorFile)) {
+    vendorAssets = fs.readJsonSync(vendorFile);
+  }
+}
+
+
 const index = express();
 
 index.disable('x-powered-by')
@@ -53,7 +65,7 @@ export const render = ({req, res}, stats, routes, {initializeStore, providers}, 
         res,
         customRenderer,
         routes,
-        assets,
+        assets: Object.assign({}, vendorAssets, assets),
         store,
         client: providers.client
       });

@@ -88,7 +88,7 @@ export default (custom) => (Component) => {
         onSubmit: this.onSubmit
       };
 
-      return (<Component {...props} />)
+      return (<Component {...props} />);
     }
   }
 
