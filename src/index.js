@@ -1,8 +1,6 @@
 import express from 'express';
 import Loadable from 'react-loadable';
 
-
-
 let app = require('./server').default;
 
 if (module.hot) {

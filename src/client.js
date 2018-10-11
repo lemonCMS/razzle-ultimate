@@ -19,7 +19,7 @@ const cookiesStorage = new CookieStorage(CookiesJS, {
 
   const reduxWrapper = (ultimate, store) => {
     return (
-      <PersistComponent storage={cookiesStorage} modules={{auth: state => ({token: state.token, loggedIn: state.loggedIn})}}>
+      <PersistComponent storage={cookiesStorage} modules={['counters', {auth: state => ({token: state.token, loggedIn: state.loggedIn})}]}>
         {ultimate}
       </PersistComponent>);
   };

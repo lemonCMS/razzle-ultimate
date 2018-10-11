@@ -57,7 +57,7 @@ server.use((req, res, next) => {
     promise.push(PersistServer({
       store,
       storage: cookiesStorage,
-      modules: ['auth']
+      modules: ['auth', 'counters']
     }));
 
     return Promise.all(promise);

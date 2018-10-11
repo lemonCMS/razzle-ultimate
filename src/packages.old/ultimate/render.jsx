@@ -33,7 +33,6 @@ export async function render(options) {
     return { helmet, ...renderedContent };
   };
 
-  console.log('HALLO?', routes);
   const {components, match, params} = await asyncMatchRoutes(routes, req._parsedUrl.pathname);
 
   const locals = {

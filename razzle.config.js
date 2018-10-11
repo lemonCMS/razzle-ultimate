@@ -24,7 +24,6 @@ module.exports = {
         'react-final-form',
         'react-final-form-arrays',
         'react-helmet',
-        'react-loadable',
         'react-redux',
         'react-router-dom',
         'react-router-redux',
