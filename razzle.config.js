@@ -4,6 +4,8 @@ const DLLLoader = require('@wicked_query/ultimatejs/lib/ultimate-webpack-dll');
 
 module.exports = {
   modify: (baseConfig, {dev, target}) => {
+
+    baseConfig.devtool = dev ? 'source-map' : '';
     let appConfig = Object.assign({}, baseConfig);
     appConfig = UltimateReactLoadable(sassLoader(appConfig, {dev, target}), {dev, target});
     appConfig = DLLLoader(appConfig, {dev, target},
