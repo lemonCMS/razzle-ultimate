@@ -31,6 +31,9 @@ if (dev && devProxy) {
 server.use((req, res, next) => {
   next();
 }).get('/*',  async (req, res) => {
+
+
+
   const cookies = new Cookies(req, res);
   const cookieJar = new NodeCookiesWrapper(cookies);
   const cookiesStorage = new CookieStorage(cookieJar, {
@@ -59,7 +62,6 @@ server.use((req, res, next) => {
 
     return Promise.all(promise);
   };
-
   render({req, res}, stats, routes, {initializeStore, providers}, wrapper, awaitRender);
 
 });
