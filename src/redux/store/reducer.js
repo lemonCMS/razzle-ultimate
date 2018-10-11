@@ -1,6 +1,6 @@
 import {routerReducer} from 'react-router-redux';
-import store from '../../packages/redux/store/reducer';
-import routesState from '../../packages/redux/routeState/reducer';
+import store from '@wicked_query/ultimatejs/lib/redux/store/reducer';
+import routesState from '@wicked_query/ultimatejs/lib/redux/routeState/reducer';
 import auth from './auth';
 import storage from './storage';
 

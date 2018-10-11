@@ -1,10 +1,10 @@
 import React from 'react';
-import PersistServer from './packages/persist-component/PersistServer';
-import PersistComponent from './packages/persist-component/PersistComponent';
+import PersistServer from '@wicked_query/ultimatejs/lib/persist-component/PersistServer';
+import PersistComponent from '@wicked_query/ultimatejs/lib/persist-component/PersistComponent';
 import {CookieStorage} from 'redux-persist-cookie-storage';
 import CookiesJS from 'cookies-js';
 import initializeStore from './redux/store';
-import client, {trigger} from './packages/ultimate/client';
+import client, {trigger} from '@wicked_query/ultimatejs/lib/ultimate/client';
 import routes from './routes';
 
 const cookiesStorage = new CookieStorage(CookiesJS, {

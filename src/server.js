@@ -1,13 +1,13 @@
-import server, {render} from './packages/ultimate/server';
+import server, {render} from '@wicked_query/ultimatejs/lib/ultimate/server';
 import {CookieStorage, NodeCookiesWrapper} from 'redux-persist-cookie-storage';
-import PersistServer from './packages/persist-component/PersistServer';
+import PersistServer from '@wicked_query/ultimatejs/lib/persist-component/PersistServer';
 import Cookies from 'cookies';
 import initializeStore from './redux/store';
 import routes from './routes';
 import stats from '../build/react-loadable.json';
 
-
 server.use(Cookies.express());
+
 const dev = process.env.NODE_ENV === 'development';
 const devProxy = {
   '/api': {

@@ -1,6 +1,6 @@
-const UltimateReactLoadable = require('./src/packages/ultimate/plugins/ultimate-react-loadable');
-const sassLoader = require('./src/packages/ultimate/plugins/ultimate-sass');
-const DLLLoader = require('./src/packages/ultimate/plugins/ultimate-webpack-dll');
+const UltimateReactLoadable = require('@wicked_query/ultimatejs/lib/ultimate-react-loadable');
+const sassLoader = require('@wicked_query/ultimatejs/lib/ultimate-sass');
+const DLLLoader = require('@wicked_query/ultimatejs/lib/ultimate-webpack-dll');
 
 module.exports = {
   modify: (baseConfig, {dev, target}) => {
