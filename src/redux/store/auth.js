@@ -29,6 +29,15 @@ export const AUTH_UPDATE_FAIL = 'AUTH_UPDATE_FAIL';
 export const AUTH_REDIRECT_AFTER_LOGIN = 'AUTH_REDIRECT_AFTER_LOGIN';
 export const AUTH_CLEAR_REDIRECT_AFTER_LOGIN = 'AUTH_CLEAR_REDIRECT_AFTER_LOGIN';
 
+export const authRestore = () => ({
+  save: (state) => ({token: state.token, loggedIn: state.loggedIn}),
+  restore: ({dispatch, result, currentState}) => {
+    if (result.token && currentState.token && result.token !== currentState.token) {
+      dispatch({action: AUTH_RESTORE, result});
+    }
+  }
+});
+
 export function logout() {
   return ({dispatch, cookies}) => {
     cookies.removeItem('token').then(() => {

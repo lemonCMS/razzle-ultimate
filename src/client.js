@@ -1,7 +1,10 @@
 import React from 'react';
-import PersistServer from '@wicked_query/ultimatejs/lib/persist-component/PersistServer';
-import PersistComponent from '@wicked_query/ultimatejs/lib/persist-component/PersistComponent';
+import {authRestore} from './redux/store/auth';
+import PersistServer from './reduxPersist/PersistServer';
+import PersistComponent from './reduxPersist/PersistComponent';
 import {CookieStorage} from 'redux-persist-cookie-storage';
+import localForage from 'localforage';
+import {saveAndRestoreCookie, saveAndRestoreLocal} from './redux/store/counter';
 import CookiesJS from 'cookies-js';
 import initializeStore from './redux/store';
 import client, {trigger} from '@wicked_query/ultimatejs/lib/ultimate/client';
@@ -19,8 +22,10 @@ const cookiesStorage = new CookieStorage(CookiesJS, {
 
   const reduxWrapper = (ultimate, store) => {
     return (
-      <PersistComponent storage={cookiesStorage} modules={['counters', {auth: state => ({token: state.token, loggedIn: state.loggedIn})}]}>
-        {ultimate}
+      <PersistComponent storage={cookiesStorage} modules={[{counters: saveAndRestoreCookie()}, {auth: authRestore()}]}>
+        <PersistComponent storage={localForage} modules={[{counters: saveAndRestoreLocal()}]}>
+          {ultimate}
+        </PersistComponent>
       </PersistComponent>);
   };
 
@@ -29,7 +34,7 @@ const cookiesStorage = new CookieStorage(CookiesJS, {
     const restoreState = PersistServer({
       store,
       storage: cookiesStorage,
-      modules: ['auth']
+      modules: [{auth: authRestore()}]
     });
     promise.push(restoreState);
     return Promise.all(promise);

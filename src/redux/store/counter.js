@@ -1,11 +1,40 @@
 import _get from 'lodash/get';
 import _set from 'lodash/set';
+import {wrapAction} from 'multireducer';
 
 export const COUNTER_RESTORE = '@@redux-persist-component/counters';
 export const COUNTER_INCREASE = 'counter_increase';
 export const COUNTER_DECREASE = 'counter_decrease';
 export const COUNTER_RESET = 'counter_reset';
 export const COUNTER_RESET_ALL = 'counter_reset_all';
+
+export function saveAndRestoreCookie() {
+  return {
+    save: (state) => ({counterCookie: state.counterCookie}),
+    restore: ({dispatch, result, currentState}) =>
+      (Object.keys(result).map(objKey => {
+          return objKey === 'counterCookie' && JSON.stringify(result.counterCookie) !== JSON.stringify(currentState.counterCookie) ? dispatch(wrapAction({
+            type: '@@redux-persist-component/counters',
+            result: result[objKey]
+          }, objKey)) : null
+        }
+      ))
+  };
+}
+
+export function saveAndRestoreLocal() {
+  return {
+    save: (state) => ({counterLocalStorage: state.counterLocalStorage}),
+    restore: ({dispatch, result, currentState}) =>
+      (Object.keys(result).map(objKey =>
+        objKey === 'counterLocalStorage' && JSON.stringify(result.counterLocalStorage) !== JSON.stringify(currentState.counterLocalStorage) ? dispatch(wrapAction({
+          type: '@@redux-persist-component/counters',
+          result: result[objKey]
+        }, objKey)) : null
+      ))
+  };
+}
+
 
 export function increase(index) {
   return {
@@ -40,7 +69,6 @@ const initialState = {};
 
 export default function reducer(state = initialState, action = {}) {
   const newState = Object.assign({}, state);
-
   switch (action.type) {
     case COUNTER_RESTORE:
       return Object.assign({}, newState, action.result);
@@ -52,7 +80,8 @@ export default function reducer(state = initialState, action = {}) {
       return _set(newState, action.index, 0);
     case COUNTER_RESET_ALL:
       return initialState;
-    default: return state;
+    default:
+      return state;
   }
 
 

@@ -1,5 +1,4 @@
 import {createStore as _createStore, applyMiddleware, compose, combineReducers} from 'redux';
-import {routerMiddleware} from 'react-router-redux';
 import { composeWithDevTools } from 'redux-devtools-extension'
 import clientMiddleware from '@wicked_query/ultimatejs/lib/redux/middleware';
 import thunkMiddleware from 'redux-thunk'
@@ -13,7 +12,7 @@ function getNoopReducers(reducers, data) {
 
 export default function initializeStore (initialState, helpers) {
   // return createStore(reducer, initialState, composeWithDevTools(applyMiddleware(...[clientMiddleware(), thunkMiddleware])))
-  const middleware = [clientMiddleware(helpers), thunkMiddleware, routerMiddleware(helpers.history)];
+  const middleware = [clientMiddleware(helpers), thunkMiddleware];
   const enhancers = [composeWithDevTools(applyMiddleware(...middleware))];
 
   const finalCreateStore = compose(...enhancers)(_createStore);

@@ -28,7 +28,6 @@ module.exports = {
         'react-helmet',
         'react-redux',
         'react-router-dom',
-        'react-router-redux',
         'redux-devtools-extension',
         'redux-persist-cookie-storage',
         'redux-thunk'

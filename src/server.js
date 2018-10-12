@@ -1,10 +1,11 @@
 import server, {render} from '@wicked_query/ultimatejs/lib/ultimate/server';
 import {CookieStorage, NodeCookiesWrapper} from 'redux-persist-cookie-storage';
-import PersistServer from '@wicked_query/ultimatejs/lib/persist-component/PersistServer';
+import PersistServer from './reduxPersist/PersistServer';
 import Cookies from 'cookies';
 import initializeStore from './redux/store';
 import routes from './routes';
 import stats from '../build/react-loadable.json';
+import {saveAndRestoreCookie} from './redux/store/counter';
 
 server.use(Cookies.express());
 
@@ -57,7 +58,7 @@ server.use((req, res, next) => {
     promise.push(PersistServer({
       store,
       storage: cookiesStorage,
-      modules: ['auth', 'counters']
+      modules: ['auth', {counters: saveAndRestoreCookie()}]
     }));
 
     return Promise.all(promise);
