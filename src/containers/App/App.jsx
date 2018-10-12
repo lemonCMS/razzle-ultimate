@@ -4,7 +4,7 @@ import {Switch} from 'react-router';
 import {renderRoutes} from 'react-router-config';
 import {NavLink} from 'react-router-dom';
 // import logo from './react.svg';
-// import './app.scss';
+import './app.scss';
 
 class App extends React.Component {
   render() {
