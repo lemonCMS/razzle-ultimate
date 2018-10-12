@@ -65,8 +65,6 @@
     "postcss-reporter": "^6.0.0",
     "postcss-url": "^8.0.0",
     "redux-devtools-extension": "^2.13.5",
-    "redux-persist-component": "^0.0.1",
-    "redux-persist-cookie-storage": "^1.0.0",
     "redux-thunk": "^2.3.0",
     "resolve-url-loader": "^3.0.0",
     "sass-loader": "^7.1.0",
