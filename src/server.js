@@ -1,15 +1,21 @@
 import server, {render} from '@wicked_query/ultimatejs/lib/ultimate/server';
 import {CookieStorage, NodeCookiesWrapper} from 'redux-persist-cookie-storage';
+const paths = require('razzle/config/paths');
 import PersistServer from './reduxPersist/PersistServer';
 import Cookies from 'cookies';
+import express from 'express';
 import initializeStore from './redux/store';
 import routes from './routes';
 import stats from '../build/react-loadable.json';
 import {saveAndRestoreCookie} from './redux/store/counter';
 
-server.use(Cookies.express());
 
+server.use(Cookies.express());
+// server.use(express.static(paths.appPublic));
 const dev = process.env.NODE_ENV === 'development';
+
+console.log(process.env.NODE_ENV === 'production');
+
 const devProxy = {
   '/api': {
     target: process.env.RAZZLE_PROXY_HOST,

@@ -1,4 +1,5 @@
 import React from 'react';
+import Helmet from 'react-helmet';
 // import PropTypes from 'prop-types';
 import {Switch} from 'react-router';
 import {renderRoutes} from 'react-router-config';
@@ -11,6 +12,10 @@ class App extends React.Component {
     const {route: {routes}} = this.props;
     return (
       <div className={'container'}>
+        <Helmet>
+          <script type={"text/javascript"} src={'/js/plupload-2.1.9/plupload.full.min.js'} />
+          <script type={"text/javascript"} src={'/js/tinymce/js/tinymce/tinymce.min.js'} />
+        </Helmet>
         <div className="jumbotron">
           <h1 className="display-4">Welcome to @Wicked_query/UltimateJS</h1>
           <p className="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention
@@ -29,6 +34,9 @@ class App extends React.Component {
           </li>
           <li className="nav-item">
             <NavLink className="nav-link" to={'/counters'} activeClassName={'active'}>Counters</NavLink>
+          </li>
+          <li className="nav-item">
+            <NavLink className="nav-link" to={'/forms'} activeClassName={'active'}>Forms</NavLink>
           </li>
         </ul>
 

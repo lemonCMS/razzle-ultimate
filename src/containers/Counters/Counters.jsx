@@ -6,7 +6,7 @@ class Counters extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <div className={'row'}>
+        <div className={'row mt-5'}>
           <div className={'col-md-12'}>
             <h2>Counters stored in cookies</h2>
             <p>
@@ -19,7 +19,7 @@ class Counters extends React.Component {
           <CounterItem index={2} as={'counterCookie'} />
           <CounterItem index={3} as={'counterCookie'} />
         </div>
-        <div className={'row'}>
+        <div className={'row mt-5'}>
           <div className={'col-md-12'}>
             <h2>Counters stored in Localstorage</h2>
             <p>
