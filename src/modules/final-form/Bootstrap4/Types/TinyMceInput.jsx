@@ -179,11 +179,13 @@ class TinyMCEInput extends React.Component {
           handler(tinyMCEEvent);
         }
       });
+      return null;
     });
 
     const handlers = this.props.otherEventHandlers;
     Object.keys(handlers).map((key, index) => {
       editor.on(index, key);
+      return null;
     });
   }
 

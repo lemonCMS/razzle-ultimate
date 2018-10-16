@@ -5,16 +5,29 @@ import BrowseButton from './BrowseButton';
 import UploadButton from './UploadButton';
 
 const EVENTS = [
-  'PostInit', 'Browse', 'Refresh', 'StateChanged', 'QueueChanged', 'OptionChanged',
-  'BeforeUpload', 'UploadProgress', 'FileFiltered', 'FilesAdded', 'FilesRemoved', 'FileUploaded', 'ChunkUploaded',
-  'UploadComplete', 'Destroy', 'Error'
+  'PostInit',
+  'Browse',
+  'Refresh',
+  'StateChanged',
+  'QueueChanged',
+  'OptionChanged',
+  'BeforeUpload',
+  'UploadProgress',
+  'FileFiltered',
+  'FilesAdded',
+  'FilesRemoved',
+  'FileUploaded',
+  'ChunkUploaded',
+  'UploadComplete',
+  'Destroy',
+  'Error',
 ];
 
 class Plupload extends React.Component {
   constructor() {
     super();
     this.id = new Date().valueOf();
-    this.state = {files: [], uploadState: false, progress: {}};
+    this.state = { files: [], uploadState: false, progress: {} };
     this.runUploader = this.runUploader.bind(this);
     this.getComponentId = this.getComponentId.bind(this);
     this.refresh = this.refresh.bind(this);
@@ -27,100 +40,13 @@ class Plupload extends React.Component {
     this.container = null;
   }
 
-  checkUploader() {
-    return window.plupload !== undefined;
-  }
-
-  runUploader() {
-    const self = this;
-    this.initUploader();
-    this.uploader.init();
-
-    EVENTS.forEach(function (event) {
-      const handler = self.props['on' + event];
-      if (typeof handler === 'function') {
-        self.uploader.bind(event, handler);
-      }
-    });
-
-    // Put the selected files into the current state
-    this.uploader.bind('FilesAdded', (up, files) => {
-      if (_.get(self.props, 'multi_selection') === false) {
-        self.clearAllFiles();
-      } else {
-        self.clearFailedFiles();
-      }
-
-      const f = self.state.files;
-      _.map(files, (file) => {
-        f.push(file);
-      });
-      self.setState({files: f}, () => {
-        if (self.props.autoUpload === true) {
-          self.uploader.start();
-        }
-      });
-    });
-
-    this.uploader.bind('FilesRemoved', (up, rmFiles) => {
-      const stateFiles = self.state.files;
-      const files = _.filter(stateFiles, (file) => {
-        // console.log(rmFiles, file);
-        return -1 !== _.find(rmFiles, {id: file.id});
-      });
-      self.setState({files: files});
-    });
-
-    this.uploader.bind('StateChanged', (up) => {
-      if (up.state === window.plupload.STARTED && self.state.uploadState === false) {
-        self.setState({uploadState: true});
-      }
-      if (up.state !== window.plupload.STARTED && self.state.uploadState === true) {
-        self.setState({uploadState: false});
-      }
-    });
-
-    this.uploader.bind('FileUploaded', (up, file) => {
-      const stateFiles = self.state.files;
-      _.map(stateFiles, (val, key) => {
-        if (val.id === file.id) {
-          val.uploaded = true;
-          stateFiles[key] = val;
-        }
-      });
-      self.setState({files: stateFiles}, () => {
-        self.removeFile(file.id);
-      });
-    });
-
-    this.uploader.bind('Error', (up, err) => {
-      if (_.isUndefined(err.file) !== true) {
-        const stateFiles = self.state.files;
-        _.map(stateFiles, (val, key) => {
-          if (val.id === err.file.id) {
-            val.error = err;
-            stateFiles[key] = val;
-          }
-        });
-        self.setState({files: stateFiles});
-      }
-    });
-
-    this.uploader.bind('UploadProgress', (up, file) => {
-      const stateProgress = self.state.progress;
-      stateProgress[file.id] = file.percent;
-      self.setState({progress: stateProgress});
-    });
-  }
-
   componentDidMount() {
-    const self = this;
     if (this.checkUploader()) {
       this.runUploader();
     } else {
-      setTimeout(function () {
-        if (self.checkUploader()) {
-          self.runUploader();
+      setTimeout(() => {
+        if (this.checkUploader()) {
+          this.runUploader();
         } else {
           console.warn('Plupload has not initialized');
         }
@@ -135,7 +61,103 @@ class Plupload extends React.Component {
   }
 
   getComponentId() {
-    return this.props.id || 'react_plupload_' + this.id;
+    return this.props.id || `react_plupload_${this.id}`;
+  }
+
+  runUploader() {
+    this.initUploader();
+    this.uploader.init();
+
+    EVENTS.forEach(event => {
+      const handler = this.props[`on${event}`];
+      if (typeof handler === 'function') {
+        this.uploader.bind(event, handler);
+      }
+    });
+
+    // Put the selected files into the current state
+    this.uploader.bind('FilesAdded', (up, files) => {
+      if (_.get(this.props, 'multi_selection') === false) {
+        this.clearAllFiles();
+      } else {
+        this.clearFailedFiles();
+      }
+
+      this.setState(
+        prevState => {
+          const stateFiles = prevState.files;
+          _.map(files, file => {
+            stateFiles.push(file);
+          });
+          return { files: stateFiles };
+        },
+        () => {
+          if (this.props.autoUpload === true) {
+            this.uploader.start();
+          }
+        },
+      );
+    });
+
+    /*this.uploader.bind('FilesRemoved', (up, rmFiles) => {
+    });*/
+
+    this.uploader.bind('StateChanged', up => {
+      if (
+        up.state === window.plupload.STARTED &&
+        this.state.uploadState === false
+      ) {
+        this.setState({ uploadState: true });
+      }
+      if (
+        up.state !== window.plupload.STARTED &&
+        this.state.uploadState === true
+      ) {
+        this.setState({ uploadState: false });
+      }
+    });
+
+    this.uploader.bind('FileUploaded', (up, file) => {
+      this.setState(prevState => {
+        const stateFiles = prevState.files;
+        _.map(stateFiles, (val, key) => {
+          if (val.id === file.id) {
+            val.uploaded = true;
+            stateFiles[key] = val;
+          }
+        });
+        this.removeFile(file.id);
+        return { files: stateFiles };
+      });
+    });
+
+    this.uploader.bind('Error', (up, err) => {
+      if (_.isUndefined(err.file) !== true) {
+        this.setState(prevState => {
+          const stateFiles = prevState.files;
+          _.map(stateFiles, (val, key) => {
+            if (val.id === err.file.id) {
+              val.error = err;
+              stateFiles[key] = val;
+              stateFiles[key] = val;
+            }
+          });
+          return { files: stateFiles };
+        });
+      }
+    });
+
+    this.uploader.bind('UploadProgress', (up, file) => {
+      this.setState(prevState => {
+        const stateProgress = prevState.progress;
+        stateProgress[file.id] = file.percent;
+        return { progress: stateProgress };
+      });
+    });
+  }
+
+  checkUploader() {
+    return window.plupload !== undefined;
   }
 
   refresh() {
@@ -144,50 +166,73 @@ class Plupload extends React.Component {
   }
 
   initUploader() {
-    this.uploader = new window.plupload.Uploader(_.extend({
-      container: `plupload_${this.props.id}`,
-      runtimes: 'html5',
-      multipart: true,
-      chunk_size: '1mb',
-      browse_button: this.getComponentId(),
-      url: '/upload',
-    }, this.props));
+    this.uploader = new window.plupload.Uploader(
+      _.extend(
+        {
+          container: `plupload_${this.props.id}`,
+          runtimes: 'html5',
+          multipart: true,
+          chunk_size: '1mb',
+          browse_button: this.getComponentId(),
+          url: '/upload',
+        },
+        this.props,
+      ),
+    );
   }
 
   // Display selected files
   list() {
-    const self = this;
-    return _.map(this.state.files, (val) => {
-
-      const removeFile = (e) => {
+    return _.map(this.state.files, val => {
+      const removeFile = e => {
         e.preventDefault();
-        self.removeFile(val.id);
+        this.removeFile(val.id);
       };
       let delButton = '';
-      if (self.state.uploadState === false && val.uploaded !== true) {
-        delButton = React.createElement('button', {onClick: removeFile, className: 'pull-right'}, 'X');
+      if (this.state.uploadState === false && val.uploaded !== true) {
+        delButton = (
+          <button type="button" onClick={removeFile} className="float-right">
+            X
+          </button>
+        );
       }
 
       let progressBar = '';
-      if (self.state.uploadState === true && val.uploaded !== true && _.isUndefined(val.error)) {
-        const percent = self.state.progress[val.id] || 0;
-        progressBar = React.createElement('div', {className: 'progress'},
-          React.createElement('div', {
+      if (
+        this.state.uploadState === true &&
+        val.uploaded !== true &&
+        _.isUndefined(val.error)
+      ) {
+        const percent = this.state.progress[val.id] || 0;
+        progressBar = React.createElement(
+          'div',
+          { className: 'progress' },
+          React.createElement(
+            'div',
+            {
               className: 'progress-bar',
               role: 'progressbar',
               'aria-valuenow': percent,
               'aria-valuemin': 0,
               'aria-valuemax': 100,
-              style: {width: percent + '%'}
+              style: { width: `${percent}%` },
             },
-            React.createElement('span', {className: 'sr-only'}, percent + 'complete')
-          )
+            React.createElement(
+              'span',
+              { className: 'sr-only' },
+              `${percent}complete`,
+            ),
+          ),
         );
       }
 
       let errorDiv = '';
       if (!_.isUndefined(val.error)) {
-        errorDiv = React.createElement('div', {className: 'alert alert-danger'}, 'Error: ' + val.error.code + ', Message: ' + val.error.message);
+        errorDiv = React.createElement(
+          'div',
+          { className: 'alert alert-danger' },
+          `Error: ${val.error.code}, Message: ${val.error.message}`,
+        );
       }
 
       let bgSuccess = '';
@@ -195,35 +240,49 @@ class Plupload extends React.Component {
         bgSuccess = 'bg-success';
       }
 
-      return React.createElement('li', {key: val.id},
-        React.createElement('p', {className: bgSuccess}, val.name, ' ', delButton), progressBar, errorDiv
+      return React.createElement(
+        'li',
+        { key: val.id },
+        React.createElement(
+          'p',
+          { className: bgSuccess },
+          val.name,
+          ' ',
+          delButton,
+        ),
+        progressBar,
+        errorDiv,
       );
     });
   }
 
   clearAllFiles() {
-    const state = _.filter(this.state.files, (file) => {
-      this.uploader.removeFile(file.id);
+    this.setState(prevState => {
+      const stateFiles = _.filter(prevState.files, file => {
+        this.uploader.removeFile(file.id);
+      });
+      return { files: stateFiles };
     });
-    this.setState({files: state});
   }
 
   clearFailedFiles() {
-    const state = _.filter(this.state.files, (file) => {
-      if (file.error) {
-        this.uploader.removeFile(file.id);
-      }
-      return !file.error;
+    this.setState(prevState => {
+      const stateFiles = _.filter(prevState.files, file => {
+        if (file.error) {
+          this.uploader.removeFile(file.id);
+        }
+        return !file.error;
+      });
+      return { files: stateFiles };
     });
-    this.setState({files: state});
   }
 
   removeFile(id) {
-    this.uploader.removeFile(id);
-    const state = _.filter(this.state.files, (file) => {
-      return file.id !== id;
+    this.setState(prevState => {
+      this.uploader.removeFile(id);
+      const stateFiles = _.filter(prevState.files, file => file.id !== id);
+      return { files: stateFiles };
     });
-    this.setState({files: state});
   }
 
   doUpload(e) {
@@ -235,23 +294,28 @@ class Plupload extends React.Component {
     const propsSelect = {
       id: this.getComponentId(),
       type: 'button',
-      content: this.props.buttonSelect || 'Browse'
+      content: this.props.buttonSelect || 'Browse',
     };
 
     const propsUpload = {
       onClick: this.doUpload,
       type: 'button',
-      content: this.props.buttonUpload || 'Upload'
+      content: this.props.buttonUpload || 'Upload',
     };
     if (this.state.files.length === 0) propsUpload.disabled = 'disabled';
 
     const list = this.list();
 
     return (
-      <div id={`plupload_${this.props.id}`} className={'my-list'} ref={ref => (this.container = ref)}>
-        <ul className={'list-unstyled'}>
-          {list}
-        </ul>
+      <div
+        id={`plupload_${this.props.id}`}
+        className="my-list"
+        ref={ref => {
+          this.container = ref;
+          return null;
+        }}
+      >
+        <ul className="list-unstyled">{list}</ul>
         <BrowseButton {...propsSelect} />
         <UploadButton {...propsUpload} />
       </div>
@@ -260,26 +324,26 @@ class Plupload extends React.Component {
 }
 
 Plupload.propTypes = {
-  'onPostInit': PropTypes.func,
-  'onBrowse': PropTypes.func,
-  'onRefresh': PropTypes.func,
-  'onStateChanged': PropTypes.func,
-  'onQueueChanged': PropTypes.func,
-  'onOptionChanged': PropTypes.func,
-  'onBeforeUpload': PropTypes.func,
-  'onUploadProgress': PropTypes.func,
-  'onFileFiltered': PropTypes.func,
-  'onFilesAdded': PropTypes.func,
-  'onFilesRemoved': PropTypes.func,
-  'onFileUploaded': PropTypes.func,
-  'onChunkUploaded': PropTypes.func,
-  'onUploadComplete': PropTypes.func,
-  'onDestroy': PropTypes.func,
-  'onError': PropTypes.func,
-  'id': PropTypes.string.isRequired,
-  'buttonSelect': PropTypes.string,
-  'buttonUpload': PropTypes.string,
-  'autoUpload': PropTypes.bool
+  onPostInit: PropTypes.func,
+  onBrowse: PropTypes.func,
+  onRefresh: PropTypes.func,
+  onStateChanged: PropTypes.func,
+  onQueueChanged: PropTypes.func,
+  onOptionChanged: PropTypes.func,
+  onBeforeUpload: PropTypes.func,
+  onUploadProgress: PropTypes.func,
+  onFileFiltered: PropTypes.func,
+  onFilesAdded: PropTypes.func,
+  onFilesRemoved: PropTypes.func,
+  onFileUploaded: PropTypes.func,
+  onChunkUploaded: PropTypes.func,
+  onUploadComplete: PropTypes.func,
+  onDestroy: PropTypes.func,
+  onError: PropTypes.func,
+  id: PropTypes.string.isRequired,
+  buttonSelect: PropTypes.string,
+  buttonUpload: PropTypes.string,
+  autoUpload: PropTypes.bool,
 };
 
 export default Plupload;

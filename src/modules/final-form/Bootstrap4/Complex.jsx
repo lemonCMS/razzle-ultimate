@@ -7,14 +7,13 @@ import Card from 'react-bootstrap/lib/Card';
 import Button from 'react-bootstrap/lib/Button';
 import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
-import ButtonToolbar from 'react-bootstrap/lib/ButtonToolbar';
-import ControlLabel from 'react-bootstrap/lib/ControlLabel';
+import ButtonGroup from 'react-bootstrap/lib/ButtonGroup';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import _isFunction from 'lodash/isFunction';
 import _pick from 'lodash/pick';
-import _compact from 'lodash/compact';
+
 
 class Complex extends React.Component {
-
   constructor() {
     super();
     this.renderComplex = this.renderComplex.bind(this);
@@ -35,7 +34,7 @@ class Complex extends React.Component {
   renderChildren(name, count, remove, move, complexIndex, staticField, disabled) {
     const buttons = () => {
       const returnButtons = [];
-      const extra = _compact(_pick(this.props.moveBtn, ['className', 'title', 'variant','size']));
+      const extra = _pick(this.props.moveBtn, ['className', 'title', 'variant','size']);
       if (staticField !== true) {
         if (complexIndex > 0 && count > 1) {
           returnButtons.push(
@@ -46,7 +45,7 @@ class Complex extends React.Component {
               type="button"
               {...extra}
             >
-              <i className="fa fa-chevron-up" />
+              <FontAwesomeIcon icon="chevron-up" />
             </Button>
           );
         }
@@ -59,13 +58,13 @@ class Complex extends React.Component {
               type="button"
               {...extra}
             >
-              <i className="fa fa-chevron-down" />
+              <FontAwesomeIcon icon="chevron-down" />
             </Button>
           );
         }
 
         if ((this.props.mandatory && count > 1) || (!this.props.mandatory && count > 0)) {
-          const extraRm = _compact(_pick(this.props.removeBtn, ['className', 'title', 'variant','size']));
+          const extraRm = _pick(this.props.removeBtn, ['className', 'title', 'variant','size']);
 
           returnButtons.push(
             <Button
@@ -75,7 +74,7 @@ class Complex extends React.Component {
               type="button"
               {...extraRm}
             >
-              <i className="fa fa-trash" />
+              <FontAwesomeIcon icon="trash" />
             </Button>
           );
         }
@@ -85,9 +84,9 @@ class Complex extends React.Component {
 
     const {header, footer} = _get(this.props, 'card', {});
     const headerDiv = (<div className="clearfix">
-      <ButtonToolbar>
+      <ButtonGroup>
         {buttons()}
-      </ButtonToolbar>
+      </ButtonGroup>
       {header}
     </div>);
 
@@ -114,10 +113,12 @@ class Complex extends React.Component {
     }
 
     return (
-      <Card className="rfg-cmplx-btn-flds">
-        <Card.Title>
-          {headerDiv}
-        </Card.Title>
+      <Card className="rfg-cmplx-btn-flds mb-2">
+        <Card.Header>
+          <div className={'float-right'}>
+            {headerDiv}
+          </div>
+        </Card.Header>
         <Card.Body>
           {component()}
         </Card.Body>
@@ -165,7 +166,7 @@ class Complex extends React.Component {
     if (this.props.label) {
       if (this.state.collapsed === true || (this.state.collapsed === null && this.props.collapsed && this.props.collapsed === true)) {
         return (
-          <Row className="rfg-cmplx rfg-cmplx-collapsed">
+          <Row className="rfg-cmplx rfg-cmplx-collapsed form-group">
             <Col {...labelSize()}>
               <Button type="button" onClick={toggle} variant="link" {...thisSize()}>
                 {'+ '}
@@ -207,7 +208,7 @@ class Complex extends React.Component {
     };
 
     return (
-      <Row className="rfg-cmplx rfg-cmplx-collapsed">
+      <Row className="rfg-cmplx rfg-cmplx-collapsed form-group">
         {this.props.label &&
         <Col {...labelSize()}>
           <Button type="button" onClick={toggle} variant="link" {...thisSize()}>

@@ -3,18 +3,21 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 class BrowseButton extends React.Component {
+  static propTypes = {
+    content: PropTypes.string,
+  };
 
   shouldComponentUpdate() {
     return false;
   }
 
   render() {
-    return React.createElement('button', _omit(this.props, 'content'), this.props.content);
+    return (
+      <button type="button" {..._omit(this.props, 'content')}>
+        {this.props.content}
+      </button>
+    );
   }
 }
-
-BrowseButton.propTypes = {
-  'content': PropTypes.string
-};
 
 export default BrowseButton;

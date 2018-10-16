@@ -4,6 +4,12 @@ import React from 'react';
 import {Form as FinalForm, FormSpy} from 'react-final-form';
 import _omit from 'lodash/omit';
 import _isFunction from 'lodash/isFunction';
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faTrash,faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons'
+
+library.add(faTrash);
+library.add(faChevronDown);
+library.add(faChevronUp);
 
 const onSubmit = async (values) => {
   console.warn('Implement onSubmit handler');
