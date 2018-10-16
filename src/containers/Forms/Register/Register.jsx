@@ -30,11 +30,19 @@ class Register extends Component {
     return (
       <div>
         <h2>
-          Login Form
+          Registration Form
         </h2>
+        <p>
+          This form demonstrates a form with field arrays.
+          here you can add multiple domestic pets and children.
+        </p>
         <Form debug>
           <Input label="Username" placeholder="email" name={'username'} type={'text'} {...size} />
           <Input label="Password" placeholder="password" name={'password'} type={'password'} {...size} />
+
+          <Input label="Firstname" placeholder="Firstname" name={'firstname'} type={'text'} {...size} />
+          <Input label="Lastname" placeholder="Lastname" name={'lastname'} type={'text'} {...size} />
+
           <Select label="Favorite Color"  name={'color'} {...size} >
             <option value={'1'}>White</option>
             <option value={'2'}>Black</option>
@@ -44,25 +52,22 @@ class Register extends Component {
             <option value={'6'}>Brown</option>
             <option value={'7'}>Grey</option>
           </Select>
-          <Checkbox label="Favorite Color" name={'colorCB'} {...size} >
-            <option value={'1'}>White</option>
-            <option value={'2'}>Black</option>
-            <option value={'3'}>Red</option>
-            <option value={'4'}>Pink</option>
-            <option value={'5'}>Green</option>
-            <option value={'6'}>Brown</option>
-            <option value={'7'}>Grey</option>
+          <Checkbox label="Favorite food" name={'colorCB'} {...size} >
+            <option value={'1'}>pizza</option>
+            <option value={'2'}>patat</option>
+            <option value={'3'}>pasta</option>
+            <option value={'4'}>steak</option>
+            <option value={'5'}>burger</option>
+            <option value={'6'}>chicken</option>
+            <option value={'7'}>fish</option>
           </Checkbox>
-          <Radio label="Favorite Color" name={'colorRadio'} {...size} >
-            <option value={'1'}>White</option>
-            <option value={'2'}>Black</option>
-            <option value={'3'}>Red</option>
-            <option value={'4'}>Pink</option>
-            <option value={'5'}>Green</option>
-            <option value={'6'}>Brown</option>
-            <option value={'7'}>Grey</option>
+          <Radio label="Favorite season" name={'colorRadio'} {...size} >
+            <option value={'1'}>Winter</option>
+            <option value={'2'}>Spring</option>
+            <option value={'3'}>Summer</option>
+            <option value={'4'}>Fall</option>
           </Radio>
-          <DateTime label="Start" name={'date-time'} {...size}/>
+          <DateTime label="Date of birth" name={'date-time'} {...size}/>
           <Dropdown label="Drop down" name={'dropdown'} {...size}>
             <option value={'1'} selected>White</option>
             <option value={'2'}>Black</option>
@@ -73,9 +78,9 @@ class Register extends Component {
             <option value={'7'}>Grey</option>
           </Dropdown>
           <Plupload name="plupload" label={'Upload'} {...size} conf={{id: 'plupload'}}/>
-          <h2 className={'mb-1'}>Complex Row</h2>
+          <h2 className={'mb-1'}>Do you have pets?</h2>
           <ComplexRow
-            label={'Kinderen'}
+            label={'Domestic pets'}
             name={"kids"}
             {...size}
             left={{ xs: 9 }}
@@ -104,9 +109,9 @@ class Register extends Component {
             )}
           />
 
-          <h2 className={'mb-1'}>Complex</h2>
+          <h2 className={'mb-1'}>Do you have children?</h2>
           <Complex
-            label={'Kinderen'}
+            label={'Children'}
             name={"something-else"}
             {...size}
             left={{ xs: 9 }}
