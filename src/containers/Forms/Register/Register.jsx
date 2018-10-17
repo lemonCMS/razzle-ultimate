@@ -13,6 +13,7 @@ import Plupload from '../../../modules/final-form/Bootstrap4/Plupload';
 import TinyMce from '../../../modules/final-form/Bootstrap4/TinyMce';
 import ComplexRow from '../../../modules/final-form/Bootstrap4/ComplexRow';
 import Complex from '../../../modules/final-form/Bootstrap4/Complex';
+import Show from '../../../modules/final-form/Bootstrap4/Show';
 // import PropTypes from 'prop-types';
 
 class Register extends Component {
@@ -69,7 +70,8 @@ class Register extends Component {
           </Radio>
           <DateTime label="Date of birth" name={'date-time'} {...size}/>
           <Dropdown label="Drop down" name={'dropdown'} {...size}>
-            <option value={'1'} selected>White</option>
+            <option value={''} selected>-- choose --</option>
+            <option value={'1'}>White</option>
             <option value={'2'}>Black</option>
             <option value={'3'}>Red</option>
             <option value={'4'}>Pink</option>
@@ -78,10 +80,10 @@ class Register extends Component {
             <option value={'7'}>Grey</option>
           </Dropdown>
           <Plupload name="plupload" label={'Upload'} {...size} conf={{id: 'plupload'}}/>
-          <h2 className={'mb-1'}>Do you have pets?</h2>
+          <h4 className={'mb-1'}>Do you have pets?</h4>
           <ComplexRow
             label={'Domestic pets'}
-            name={"kids"}
+            name={"pets"}
             {...size}
             left={{ xs: 9 }}
             right={{ xs: 3 }}
@@ -109,38 +111,49 @@ class Register extends Component {
             )}
           />
 
-          <h2 className={'mb-1'}>Do you have children?</h2>
-          <Complex
-            label={'Children'}
-            name={"something-else"}
-            {...size}
-            left={{ xs: 9 }}
-            right={{ xs: 3 }}
-            moveBtn={{variant: 'secondary', size: 'sm'}}
-            removeBtn={{variant: 'danger', size: 'sm'}}
-            render={name => (
-              <Row>
-                <Col xs={6}>
-                  <Input
-                    placeholder="Name"
-                    name={`${name}.name`}
-                    type={"text"}
-                    {...sizeComplex}
-                  />
-                </Col>
-                <Col xs={6}>
-                  <Input
-                    placeholder="Age"
-                    name={`${name}.age`}
-                    type={"number"}
-                    {...sizeComplex}
-                  />
-                </Col>
-              </Row>
-            )}
-          />
+          <h4 className={'mb-1'}>Do you have children?</h4>
 
-          <TinyMce name={'tiny'} label={'tiny'} {...size} />
+          <Radio label="Children" name={'hasChildren'} {...size} >
+            <option value={'0'}>No</option>
+            <option value={'1'}>Yes</option>
+          </Radio>
+          <Show show={(data) => {
+            if (data.hasChildren && data.hasChildren === '1') {
+              return true;
+            }
+            return false;
+          }}>
+            <Complex
+              label={'Children'}
+              name={"children"}
+              {...size}
+              left={{ xs: 9 }}
+              right={{ xs: 3 }}
+              moveBtn={{variant: 'secondary', size: 'sm'}}
+              removeBtn={{variant: 'danger', size: 'sm'}}
+              render={name => (
+                <Row>
+                  <Col xs={6}>
+                    <Input
+                      placeholder="Name"
+                      name={`${name}.name`}
+                      type={"text"}
+                      {...sizeComplex}
+                    />
+                  </Col>
+                  <Col xs={6}>
+                    <Input
+                      placeholder="Age"
+                      name={`${name}.age`}
+                      type={"number"}
+                      {...sizeComplex}
+                    />
+                  </Col>
+                </Row>
+              )}
+            />
+          </Show>
+          <TinyMce name={'about'} label={'About you'} {...size} help={'Tell us something about yourself.'}/>
           <Button type={'button'}>Send</Button>
         </Form>
       </div>
