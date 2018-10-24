@@ -60,7 +60,7 @@ class Wrap extends React.Component {
       }
 
       if (item.props.selected) {
-        menuItem.push(<Divider/>);
+        menuItem.push(<Divider key={`divider-${key}`}/>);
       }
 
 

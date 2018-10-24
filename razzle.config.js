@@ -1,6 +1,6 @@
-const UltimateReactLoadable = require('@wicked_query/ultimatejs/lib/ultimate-react-loadable');
-const sassLoader = require('@wicked_query/ultimatejs/lib/ultimate-sass');
-const DLLLoader = require('@wicked_query/ultimatejs/lib/ultimate-webpack-dll');
+const UltimateReactLoadable = require('./src/packages/ultimate-react-loadable');
+const sassLoader = require('./src/packages/ultimate-sass');
+const DLLLoader = require('./src/packages/ultimate-webpack-dll');
 
 module.exports = {
   modify: (baseConfig, {dev, target}) => {
@@ -21,7 +21,7 @@ module.exports = {
         'final-form',
         'final-form-arrays',
         'react-dom',
-        'react-bootstrap',
+        // 'react-bootstrap',
         'react-datetime',
         'react-final-form',
         'react-final-form-arrays',

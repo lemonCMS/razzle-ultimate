@@ -3,7 +3,6 @@ import Card from 'react-bootstrap/lib/Card';
 import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
 
-
 class Home extends React.Component {
   render() {
     return (

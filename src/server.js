@@ -1,9 +1,7 @@
-import server, {render} from '@wicked_query/ultimatejs/lib/ultimate/server';
+import server, {render} from './packages/ultimate/server';
 import {CookieStorage, NodeCookiesWrapper} from 'redux-persist-cookie-storage';
-const paths = require('razzle/config/paths');
 import PersistServer from './reduxPersist/PersistServer';
 import Cookies from 'cookies';
-import express from 'express';
 import initializeStore from './redux/store';
 import routes from './routes';
 import stats from '../build/react-loadable.json';

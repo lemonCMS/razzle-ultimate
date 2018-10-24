@@ -1,6 +1,6 @@
 import {createStore as _createStore, applyMiddleware, compose, combineReducers} from 'redux';
 import {composeWithDevTools} from 'redux-devtools-extension'
-import clientMiddleware from '@wicked_query/ultimatejs/lib/redux/middleware';
+import clientMiddleware from '../packages/redux/middleware';
 import thunkMiddleware from 'redux-thunk'
 import createReducers from './store/reducer';
 

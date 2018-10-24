@@ -38,6 +38,7 @@ class Register extends Component {
           here you can add multiple domestic pets and children.
         </p>
         <Form debug>
+
           <Input label="Username" placeholder="email" name={'username'} type={'text'} {...size} />
           <Input label="Password" placeholder="password" name={'password'} type={'password'} {...size} />
 

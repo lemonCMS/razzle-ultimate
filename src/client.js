@@ -7,7 +7,7 @@ import localForage from 'localforage';
 import {saveAndRestoreCookie, saveAndRestoreLocal} from './redux/store/counter';
 import CookiesJS from 'cookies-js';
 import initializeStore from './redux/store';
-import client, {trigger} from '@wicked_query/ultimatejs/lib/ultimate/client';
+import client, {trigger} from './packages/ultimate/client';
 import routes from './routes';
 
 const cookiesStorage = new CookieStorage(CookiesJS, {
