@@ -11,11 +11,8 @@ const modPageFn = function(Page) {
   return (props) => <Page {...props} />;
 };
 
-export async function render(options) {
-
-
+export default async function render(options) {
   const { req, res, routes, assets, document, customRenderer, store, client, history, ...rest } = options;
-
   const Doc = document || DefaultDoc;
   const context = {};
   const renderPage = async (fn = modPageFn) => {

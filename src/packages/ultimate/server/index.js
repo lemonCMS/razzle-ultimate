@@ -7,7 +7,7 @@ import { renderToString } from 'react-dom/server';
 import { Provider } from 'react-redux';
 import fs from 'fs-extra';
 import apiClient from '../apiClient';
-import { render as ultimateRender } from '../render';
+import ultimateRender from '../render';
 
 const paths = require('razzle/config/paths');
 // eslint-disable-next-line
@@ -25,7 +25,7 @@ if (process.env.RAZZLE_VENDOR_MANIFEST) {
   if (fs.pathExistsSync(vendorFile)) {
     vendorAssets = fs.readJsonSync(vendorFile);
   } else {
-    console.log('vendor.json does not exists: ', vendorFile)
+    console.log('vendor.json does not exists: ', vendorFile);
   }
 }
 

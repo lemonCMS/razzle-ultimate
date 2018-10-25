@@ -38,6 +38,7 @@ class Plupload extends React.Component {
     this.removeFile = this.removeFile.bind(this);
     this.doUpload = this.doUpload.bind(this);
     this.container = null;
+    this.uploader = null;
   }
 
   componentDidMount() {
@@ -55,9 +56,15 @@ class Plupload extends React.Component {
   }
 
   componentDidUpdate() {
-    if (this.checkUploader()) {
+    if (this.checkUploader() && this.uploader !== null) {
       this.refresh();
     }
+  }
+
+  componentWillUnmount() {
+    this.uploader.destroy();
+    this.uploader = null;
+    window.plupload.removeAllEvents(this.container);
   }
 
   getComponentId() {

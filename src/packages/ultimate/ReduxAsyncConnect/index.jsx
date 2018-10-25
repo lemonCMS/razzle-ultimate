@@ -1,8 +1,9 @@
+/* eslint react/no-unused-state: "off" */
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {withRouter, Route, Redirect} from 'react-router';
-import {authorize, trigger} from '../../redial';
 import NProgress from 'nprogress';
+import {authorize, trigger} from '../../redial';
 import asyncMap from '../asyncMap';
 import asyncMatchRoutes from '../asyncMatchRoutes';
 
@@ -12,7 +13,10 @@ class ReduxAsyncConnect extends Component {
   static propTypes = {
     children: PropTypes.node.isRequired,
     history: PropTypes.objectOf(PropTypes.any).isRequired,
-    location: PropTypes.objectOf(PropTypes.any).isRequired
+    location: PropTypes.objectOf(PropTypes.any).isRequired,
+    routes: PropTypes.objectOf(PropTypes.any).isRequired,
+    store: PropTypes.objectOf(PropTypes.any).isRequired,
+    helpers: PropTypes.objectOf(PropTypes.any).isRequired
   };
 
   constructor() {
@@ -25,7 +29,6 @@ class ReduxAsyncConnect extends Component {
     renderLocation: null,
     authorized: true
   };
-
 
   static getDerivedStateFromProps(props, state) {
 
@@ -59,7 +62,7 @@ class ReduxAsyncConnect extends Component {
   }
 
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps) {
     const {
       history, location, routes, store, helpers
     } = prevProps;

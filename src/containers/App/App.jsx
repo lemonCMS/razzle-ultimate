@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
 import {Switch} from 'react-router';
 import {renderRoutes} from 'react-router-config';
@@ -31,5 +32,9 @@ class App extends React.Component {
     );
   }
 }
+
+App.propTypes = {
+  route: PropTypes.instanceOf(Object)
+};
 
 export default App;

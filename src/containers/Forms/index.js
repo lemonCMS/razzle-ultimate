@@ -5,5 +5,5 @@ import Register from './Register/Loadable';
 module.exports = {
   default: Form,
   login: Login,
-  register: Register
+  register: Register,
 };

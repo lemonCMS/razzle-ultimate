@@ -43,7 +43,7 @@ class ContextBinder extends React.Component {
 
     const newProps = _omitBy(this.props.input, ['value', 'onChange', 'onBlur', 'onFocus']);
     newProps.onChange = (value) => {
-      this.setState({value: value}, () => {
+      this.setState({value}, () => {
         this.props.input.onChange(value);
       });
     };
@@ -65,8 +65,13 @@ ContextBinder.contextTypes = {
   isStatic: PropTypes.bool
 };
 
-export default ({input, field}) => {
-  return (
-    <ContextBinder input={input} field={field} />
-  );
+const Binded = ({input, field}) =>
+  (<ContextBinder input={input}
+    field={field} />);
+
+Binded.propTypes = {
+  field: PropTypes.object,
+  input: PropTypes.object
 };
+
+export default Binded;

@@ -1,19 +1,19 @@
 import React, {Component} from 'react';
 import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
-import Form from '../../../modules/final-form/Form';
-import Button from '../../../modules/final-form/Bootstrap4/Button';
-import Input from '../../../modules/final-form/Bootstrap4/Input';
-import Select from '../../../modules/final-form/Bootstrap4/Select';
-import Radio from '../../../modules/final-form/Bootstrap4/Radio';
-import Checkbox from '../../../modules/final-form/Bootstrap4/Checkbox';
-import DateTime from '../../../modules/final-form/Bootstrap4/DateTime';
-import Dropdown from '../../../modules/final-form/Bootstrap4/Dropdown';
-import Plupload from '../../../modules/final-form/Bootstrap4/Plupload';
-import TinyMce from '../../../modules/final-form/Bootstrap4/TinyMce';
-import ComplexRow from '../../../modules/final-form/Bootstrap4/ComplexRow';
-import Complex from '../../../modules/final-form/Bootstrap4/Complex';
-import Show from '../../../modules/final-form/Bootstrap4/Show';
+import Form from '../../../packages/final-form/Form';
+import Button from '../../../packages/final-form/Bootstrap4/Button';
+import Input from '../../../packages/final-form/Bootstrap4/Input';
+import Select from '../../../packages/final-form/Bootstrap4/Select';
+import Radio from '../../../packages/final-form/Bootstrap4/Radio';
+import Checkbox from '../../../packages/final-form/Bootstrap4/Checkbox';
+import DateTime from '../../../packages/final-form/Bootstrap4/DateTime';
+import Dropdown from '../../../packages/final-form/Bootstrap4/Dropdown';
+import Plupload from '../../../packages/final-form/Bootstrap4/Plupload';
+import TinyMce from '../../../packages/final-form/Bootstrap4/TinyMce';
+import ComplexRow from '../../../packages/final-form/Bootstrap4/ComplexRow';
+import Complex from '../../../packages/final-form/Bootstrap4/Complex';
+import Show from '../../../packages/final-form/Bootstrap4/Show';
 // import PropTypes from 'prop-types';
 
 class Register extends Component {

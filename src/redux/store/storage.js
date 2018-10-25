@@ -8,14 +8,14 @@ export function save(key, values) {
   return {
     type: STORAGE_SAVE,
     key,
-    values
+    values,
   };
 }
 
 export function purge(key) {
   return {
     type: STORAGE_PURGE,
-    key
+    key,
   };
 }
 

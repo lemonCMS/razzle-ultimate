@@ -9,12 +9,13 @@ export default function(initModules) {
         if (stringed !== lastState) {
           storage.setItem(key, stringed);
         }
+        return stringed;
       }
-      return true;
+      return null;
     },
-    restore: ({ result, dispatch, ...rest }) => {
+    restore: ({ result, dispatch }) => {
       if (restore) {
-        restore({ result, dispatch, ...rest });
+        restore({ result, dispatch });
       } else {
         dispatch({
           type: `@@redux-persist-component/${key}`,

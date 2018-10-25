@@ -4,6 +4,7 @@ import prepare from './prepare';
 
 const asyncMap = (arr, mapper) => {
   let q = Promise.resolve();
+  /* eslint-disable-next-line */
   return Promise.all(arr.map(v => (q = q.then(() => mapper(v)))));
 };
 

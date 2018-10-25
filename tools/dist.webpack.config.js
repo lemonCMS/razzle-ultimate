@@ -3,10 +3,10 @@ module.exports = (distRoot, optimize) => ({
   optimization: {
     minimize: !!optimize,
   },
-  entry: './src/index.js',
+  entry: './src/packages/index.js',
   output: {
     path: distRoot,
-    filename: optimize ? 'react-bootstrap.min.js' : 'react-bootstrap.js',
+    filename: optimize ? 'ultimate.min.js' : 'ultimate.js',
     library: 'ReactBootstrap',
     libraryTarget: 'umd',
   },

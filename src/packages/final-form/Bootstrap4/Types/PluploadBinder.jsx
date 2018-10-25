@@ -1,69 +1,45 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Plupload from '../../plupload/Plupload';
 import Button from 'react-bootstrap/lib/Button';
 import Table from 'react-bootstrap/lib/Table';
 import _clone from 'lodash/clone';
 import _get from 'lodash/get';
 import _map from 'lodash/map';
 import _filter from 'lodash/filter';
+import Plupload from '../../plupload/Plupload';
 
 class PluploadBinder extends React.Component {
 
   constructor() {
     super();
     this.renderTable = this.renderTable.bind(this);
-    this.addedFiles = this.addedFiles.bind(this);
     this.editRender = this.editRender.bind(this);
     this.fileDelete = this.fileDelete.bind(this);
     this.fileUploaded = this.fileUploaded.bind(this);
-    this.stateChange = this.stateChange.bind(this);
     this.staticRender = this.staticRender.bind(this);
     this.allFiles = [];
-  }
-
-  stateChange(plupload) {
-    if (plupload.state === 2) { // Starting with uploading
-      this.setState({pending: true});
-      return true;
-    }
-
-    this.setState({pending: false});
-  }
-
-  addedFiles(plupload, files) {
-    const fileList = [];
-    _map(files, (file) => {
-      fileList.push(file.name);
-    });
   }
 
   fileUploaded(plupload, file, response) {
     const uploadResponse = JSON.parse(response.response);
     if (_get(this.props.field.config, 'multi_selection', true) === false) {
       this.allFiles = [uploadResponse.result];
-      this.setState({changed: Date.now()}, () => {
-        this.props.input.onChange(this.allFiles);
-      });
+      this.props.input.onChange(this.allFiles);
     } else {
       const files = _clone(this.allFiles);
       files.push(uploadResponse.result);
       this.allFiles = files;
-      this.setState({changed: Date.now()}, () => {
-        this.props.input.onBlur();
-        this.props.input.onChange(this.allFiles);
-      });
+      this.props.input.onBlur();
+      this.props.input.onChange(this.allFiles);
     }
   }
 
   fileDelete(index) {
     this.allFiles = this.props.input.value;
     this.allFiles[index].deleted = 1;
-    this.setState({changed: Date.now()}, () => {
-      this.props.input.onBlur();
-      this.props.input.onChange(this.allFiles);
-      this.forceUpdate();
-    });
+    this.props.input.onBlur();
+    this.props.input.onChange(this.allFiles);
+    this.forceUpdate();
   }
 
   editRender(files) {
@@ -91,6 +67,7 @@ class PluploadBinder extends React.Component {
         </Table>
       );
     }
+    return null;
   }
 
   staticRender(files) {
@@ -112,21 +89,16 @@ class PluploadBinder extends React.Component {
         </Table>
       );
     }
+    return null;
   }
 
   renderTable() {
     const staticForm = _get(this.props, 'static', false);
-    let files = [];
-    if (Array.isArray(this.props.input.value) && this.props.input.value.length > 0) {
-      files = this.props.input.value;
-    }
-
-    files = _filter(this.props.input.value, (file) => {
-      return !file.deleted;
-    });
+    const files = _filter(this.props.input.value, (file) => !file.deleted);
     if (files.length > 0) {
       return staticForm ? this.staticRender(files) : this.editRender(files);
     }
+    return null;
   }
 
   render() {
@@ -149,5 +121,11 @@ PluploadBinder.propTypes = {
   input: PropTypes.object
 };
 
-export default ({input, field}) => (<PluploadBinder input={input} field={field} />);
+const Binded = ({input, field}) => (<PluploadBinder input={input} field={field} />);
+Binded.propTypes = {
+  field: PropTypes.object,
+  input: PropTypes.object
+};
+
+export default Binded;
 

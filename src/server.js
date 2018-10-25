@@ -1,12 +1,14 @@
-import server, {render} from './packages/ultimate/server';
-import {CookieStorage, NodeCookiesWrapper} from 'redux-persist-cookie-storage';
-import PersistServer from './reduxPersist/PersistServer';
+import {
+  CookieStorage,
+  NodeCookiesWrapper,
+} from 'redux-persist-cookie-storage';
 import Cookies from 'cookies';
+import server, { render } from './packages/ultimate/server';
+import PersistServer from './reduxPersist/PersistServer';
 import initializeStore from './redux/store';
 import routes from './routes';
 import stats from '../build/react-loadable.json';
-import {saveAndRestoreCookie} from './redux/store/counter';
-
+import { saveAndRestoreCookie } from './redux/store/counter';
 
 server.use(Cookies.express());
 // server.use(express.static(paths.appPublic));
@@ -21,55 +23,59 @@ const devProxy = {
     changeOrigin: true,
     onProxyReq: (proxyReq, req) => {
       if (req.cookies && req.cookies.get('token')) {
-        proxyReq.setHeader('authorization', `Bearer ${req.cookies.get('token')}`);
+        proxyReq.setHeader(
+          'authorization',
+          `Bearer ${req.cookies.get('token')}`,
+        );
       }
-    }
-  }
+    },
+  },
 };
 if (dev && devProxy) {
+  /* eslint-disable-next-line */
   const proxyMiddleware = require('http-proxy-middleware');
-  Object.keys(devProxy).forEach(function (context) {
-    server.use(proxyMiddleware(context, devProxy[context]))
-  })
+  Object.keys(devProxy).forEach(context => {
+    server.use(proxyMiddleware(context, devProxy[context]));
+  });
 }
 
-server.use((req, res, next) => {
-  next();
-}).get('/*',  async (req, res) => {
-
-
-
-  const cookies = new Cookies(req, res);
-  const cookieJar = new NodeCookiesWrapper(cookies);
-  const cookiesStorage = new CookieStorage(cookieJar, {
-    setCookieOptions: {
-      path: '/'
-    }
-  });
-  const providers = {
-    cookies: cookiesStorage
-  };
-
-  const wrapper = (node) => node;
-  const awaitRender = ({store}) => {
-    const promise = [];
-
-    const sleep = (ms) => {
-      return new Promise(resolve => setTimeout(resolve, ms));
+server
+  .use((req, res, next) => {
+    next();
+  })
+  .get('/*', async (req, res) => {
+    const cookies = new Cookies(req, res);
+    const cookieJar = new NodeCookiesWrapper(cookies);
+    const cookiesStorage = new CookieStorage(cookieJar, {
+      setCookieOptions: {
+        path: '/',
+      },
+    });
+    const providers = {
+      cookies: cookiesStorage,
     };
-    // promise.push(sleep(5000));
 
-    promise.push(PersistServer({
-      store,
-      storage: cookiesStorage,
-      modules: ['auth', {counters: saveAndRestoreCookie()}]
-    }));
+    const wrapper = node => node;
+    const awaitRender = ({ store }) => {
+      const promise = [];
+      promise.push(
+        PersistServer({
+          store,
+          storage: cookiesStorage,
+          modules: ['auth', { counters: saveAndRestoreCookie() }],
+        }),
+      );
 
-    return Promise.all(promise);
-  };
-  render({req, res}, stats, routes, {initializeStore, providers}, wrapper, awaitRender);
-
-});
+      return Promise.all(promise);
+    };
+    render(
+      { req, res },
+      stats,
+      routes,
+      { initializeStore, providers },
+      wrapper,
+      awaitRender,
+    );
+  });
 
 export default server;
-

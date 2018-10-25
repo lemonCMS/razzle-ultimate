@@ -1,7 +1,6 @@
-export Ultimate from './Ultimate';
-export render from './render';
-export utiles from './utils';
-export Document from './Document';
-export server from './server';
-export client from './client';
-export apiClient from './apiClient';
+export { default as Ultimate } from './Ultimate';
+export { default as render } from './render';
+export { default as Document } from './Document';
+export { default as server } from './server';
+export { default as client } from './client';
+export { default as apiClient } from './apiClient';

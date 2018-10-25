@@ -3,7 +3,7 @@ import Loadable from 'react-loadable';
 
 const constLoadable = Loadable({
   loader: () => import('./Login'),
-  loading: () => <div>Loading</div>
+  loading: () => <div>Loading</div>,
 });
 
 export default constLoadable;

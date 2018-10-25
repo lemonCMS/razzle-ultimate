@@ -23,12 +23,12 @@ class PersistComponent extends React.Component {
 
   componentDidMount() {
     if (this.state.mounted === false) {
-      this.setState({mounted: true}, () => this.append(this.props));
+      this.setState({mounted: true}, () => this.append());
     }
   }
 
-  append(props) {
-    const {storage, modules} = props;
+  append() {
+    const {storage, modules} = this.props;
     const preparedModules = prepare(modules);
     this.context.store.subscribe(() => {
       const state = this.context.store.getState();

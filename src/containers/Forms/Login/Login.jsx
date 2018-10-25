@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
-import Form from '../../../modules/final-form/Form';
-import Button from '../../../modules/final-form/Bootstrap4/Button';
-import Input from '../../../modules/final-form/Bootstrap4/Input';
-import Message from '../../../modules/final-form/Bootstrap4/Message';
+import Form from '../../../packages/final-form/Form';
+import Button from '../../../packages/final-form/Bootstrap4/Button';
+import Input from '../../../packages/final-form/Bootstrap4/Input';
+import Message from '../../../packages/final-form/Bootstrap4/Message';
 // import PropTypes from 'prop-types';
 
 class Login extends Component {

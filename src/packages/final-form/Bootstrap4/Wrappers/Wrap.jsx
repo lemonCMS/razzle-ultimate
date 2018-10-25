@@ -39,6 +39,7 @@ class Wrap extends React.Component {
     if (props.type === 'select') {
       return this.props.children;
     }
+    return null;
   }
 
   dropDown(props) {
@@ -60,7 +61,7 @@ class Wrap extends React.Component {
       }
 
       if (item.props.selected) {
-        menuItem.push(<Divider/>);
+        menuItem.push(<Divider key={`divider-${key}`}/>);
       }
 
 
@@ -74,8 +75,9 @@ class Wrap extends React.Component {
     const size = _get(props.field, 'size', this.props.size);
     const thisSize = () => {
       if (size !== 'medium') {
-        return ({size: size});
+        return ({size});
       }
+      return null;
     };
 
     let disabled = false;
@@ -94,14 +96,14 @@ class Wrap extends React.Component {
         }}
         {...thisSize()}
         title={dropDownTitle || _get(props.field, 'placeholder')}
-        id={'input-dropdown-addon' + this.input.name}>
+        id={`input-dropdown-addon-${this.input.name}`}>
         {menuItem}
       </DropdownButton>
     );
   }
 
   renderField(props) {
-    const {input, help, meta: {touched, error, submitError, submitFailed, valid}, ...custom} = props;
+    const {input, meta: {touched, error, submitError, submitFailed, valid}, ...custom} = props;
     this.input = input;
     const size = _get(props.field, 'size', this.props.size);
     if (props.field && props.field.hidden && _isFunction(props.field.hidden)) {
@@ -116,20 +118,23 @@ class Wrap extends React.Component {
 
     const thisSize = () => {
       if (size !== 'medium') {
-        return ({size: size});
+        return ({size});
       }
+      return null;
     };
 
     const labelSize = () => {
       if (_has(props.field, 'labelSize')) {
         return props.field.labelSize;
       }
+      return null;
     };
 
     const fieldSize = () => {
       if (_has(props.field, 'fieldSize')) {
         return props.field.fieldSize;
       }
+      return null;
     };
 
     const validationState = () => {
@@ -140,6 +145,7 @@ class Wrap extends React.Component {
       if (touched && valid) {
         return false;
       }
+      return null;
     };
 
 
@@ -177,9 +183,9 @@ class Wrap extends React.Component {
       if (this.context.isStatic === true || _get(props.field, 'static', false) === true) {
         const value = () => {
           if (props.field.type === 'select') {
-            return _map(_filter(props.field.options, {value: this.input.value}), (item, key) => {
-              return (<span key={key}>{item.desc}</span>);
-            });
+            return _map(_filter(props.field.options, ['value', this.input.value]), (item, key) =>
+              (<span key={key}>{item.desc}</span>)
+            );
           }
           return this.input.value;
         };
@@ -220,24 +226,28 @@ class Wrap extends React.Component {
       if (_has(props.field, 'buttonBefore')) {
         return (<InputGroup.Prepand>{props.field.buttonBefore()}</InputGroup.Prepand>);
       }
+      return null;
     };
 
     const buttonAfter = () => {
       if (_has(props.field, 'buttonAfter')) {
         return (<InputGroup.Append>{props.field.buttonAfter()}</InputGroup.Append>);
       }
+      return null;
     };
 
     const addonBefore = () => {
       if (_has(props.field, 'addonBefore')) {
         return (<InputGroup.Prepend>{_get(props.field, 'addonBefore')}</InputGroup.Prepend>);
       }
+      return null;
     };
 
     const addonAfter = () => {
       if (_has(props.field, 'addonAfter')) {
         return (<InputGroup.Append>{_get(props.field, 'addonAfter')}</InputGroup.Append>);
       }
+      return null;
     };
 
     const getField = () => {
@@ -273,6 +283,7 @@ class Wrap extends React.Component {
           </FormLabel>
         );
       }
+      return null;
     };
     const rendered = (<FormGroup
       as={Row}

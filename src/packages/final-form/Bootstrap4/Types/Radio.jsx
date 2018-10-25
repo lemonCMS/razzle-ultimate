@@ -21,7 +21,7 @@ class RadioBinder extends React.Component {
     this.searchBox = this.searchBox.bind(this);
     this.radioButtons = this.radioButtons.bind(this);
     this.radioButtonList = this.radioButtonList.bind(this);
-    this.filtered= this.filtered.bind(this);
+    this.filtered = this.filtered.bind(this);
     this.state = {
       value: ''
     };
@@ -61,7 +61,9 @@ class RadioBinder extends React.Component {
     const staticField = this.context.isStatic || _get(this.props.field, 'static', false);
     return _map(list, (option, key) => {
       if (staticField === true) {
-        return (<FormControl plaintext readOnly defaultValue={option.children} />);
+        return (<FormControl plaintext
+          readOnly
+          defaultValue={option.children} />);
       }
 
       let disabled = false;
@@ -79,7 +81,7 @@ class RadioBinder extends React.Component {
           checked={String(this.props.input.value) === String(option.props.value)}
           onChange={(event) => {
             if (event.target.checked) {
-              return this.props.input.onChange(option.props.value);
+              this.props.input.onChange(option.props.value);
             }
           }}
           label={option.props.children}
@@ -102,13 +104,14 @@ class RadioBinder extends React.Component {
       const split = Math.ceil(filtered.length / field.chunks);
       const chunks = () => {
         const chunkData = _chunk(filtered, split);
-        return _map(chunkData, (chunk, key) => {
-          return (
-            <Col key={key} md={Math.round(12 / field.chunks)} >
+        return _map(chunkData, (chunk, key) =>
+          (
+            <Col key={key}
+              md={Math.round(12 / field.chunks)}>
               {this.radioButtonList(chunk)}
             </Col>
-          );
-        });
+          )
+        );
       };
       return (<Row>{chunks()}</Row>);
     }
@@ -134,6 +137,7 @@ class RadioBinder extends React.Component {
         className="form-control"
       />);
     }
+    return null;
   }
 
   render() {
@@ -155,5 +159,11 @@ RadioBinder.contextTypes = {
   isStatic: PropTypes.bool
 };
 
-export default ({input, field}) => (<RadioBinder input={input} field={field} />);
+const Binded = ({input, field}) => (<RadioBinder input={input}
+  field={field} />);
+Binded.propTypes = {
+  field: PropTypes.object,
+  input: PropTypes.object
+};
+export default Binded;
 
