@@ -29,8 +29,9 @@ class ContextBinder extends React.Component {
     if (this.context.isStatic || this.props.field.static) {
       return (
         <div
-          className={'rte-readonly'}
-          dangerouslySetInnerHTML={{__html: this.state.value ? this.state.value.format() : ''}} />
+          className={'rte-readonly'}>
+          {this.state.value ? this.state.value.format() : ''}
+        </div>
       );
     }
 
@@ -67,7 +68,7 @@ ContextBinder.contextTypes = {
 
 const Binded = ({input, field}) =>
   (<ContextBinder input={input}
-    field={field} />);
+                  field={field} />);
 
 Binded.propTypes = {
   field: PropTypes.object,

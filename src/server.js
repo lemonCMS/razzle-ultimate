@@ -4,7 +4,7 @@ import {
 } from 'redux-persist-cookie-storage';
 import Cookies from 'cookies';
 import server, { render } from './packages/ultimate/server';
-import PersistServer from './reduxPersist/PersistServer';
+import PersistServer from './packages/persist-component/PersistServer';
 import initializeStore from './redux/store';
 import routes from './routes';
 import stats from '../build/react-loadable.json';

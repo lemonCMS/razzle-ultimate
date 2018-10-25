@@ -163,7 +163,15 @@ Resourcebinder.contextTypes = {
   checkCondition: PropTypes.func,
   isStatic: PropTypes.bool
 };
-export default ({input, field}) => (<Resourcebinder
+
+const Binder =  ({input, field}) => (<Resourcebinder
   input={input}
   field={field} />);
+
+Binder.propTypes = {
+  field: PropTypes.object,
+  input: PropTypes.object,
+};
+
+export default Binder;
 

@@ -1,4 +1,3 @@
-import React from 'react';
 import Wrap from './Wrappers/Wrap';
 import decorator from '../utils/decorator';
 

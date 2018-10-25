@@ -109,19 +109,12 @@ class TinyMCEInput extends React.Component {
     this.onTinyMCEDrop = this.onTinyMCEDrop.bind(this);
     this.onTextareaChange = this.onTextareaChange.bind(this);
     this.getContainerID = this.getContainerID.bind(this);
+    this.setRef = this.setRef.bind(this);
     this.state = {
       id: uuid()
     };
     this.component = null;
     this.componentId = null;
-  }
-
-  getComponentID() {
-    return (this.componentId || (this.componentId = this.component.getAttribute('id')));
-  }
-
-  getContainerID() {
-    return this.props.id || this.state.id;
   }
 
   componentDidMount() {
@@ -155,6 +148,54 @@ class TinyMCEInput extends React.Component {
     }
   }
 
+  onTinyMCEChange(tinyMCEEvent) {
+    this.syncChange(tinyMCEEvent.target.getContent());
+  }
+
+  onTinyMCEBlur(tinyMCEEvent) {
+    this.triggerEventHandler(this.props.onBlur, tinyMCEEvent);
+    if (this.props.ignoreUpdatesWhenFocused) {
+      // if we have been ignoring updates while focused (to preserve cursor position)
+      // sync them now that we no longer have focus.
+      tinyMCEEvent.target.setContent(this.state.value);
+    }
+  }
+
+  onTinyMCEUndo(tinyMCEEvent) {
+    this.triggerEventHandler(this.props.onUndo, tinyMCEEvent);
+    this.syncChange(tinyMCEEvent.target.getContent());
+  }
+
+  onTinyMCERedo(tinyMCEEvent) {
+    this.triggerEventHandler(this.props.onRedo, tinyMCEEvent);
+    this.syncChange(tinyMCEEvent.target.getContent());
+  }
+
+  onTinyMCEDrop() {
+    // We want to process updates just after a drop, even if processUpdatesWhenFocused
+    // is false. The processUpdatesWhenFocused flag exists to keep the cursor from
+    // jumping around, and we do not cares so much if the cursor jumps after dropping
+    // an image because that is a mouse event. However, ignoring updates right after a
+    // drop means that anything that relies on knowing the content has changed is
+    // won't actually know.
+    this.flagDropOverride();
+  }
+
+  onTextareaChange(e) {
+    // should only be called when tinymce failed to load and we are getting changes directly in the textarea (fallback mode?)
+    this.syncChange(e.target.value);
+  }
+
+  getComponentID() {
+    /* eslint-disable-next-line */
+    return (this.componentId || (this.componentId = this.component.getAttribute('id')));
+  }
+
+  getContainerID() {
+    return this.props.id || this.state.id;
+  }
+
+  /* eslint-disable-next-line */
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.value !== this.state.value) {
       if (typeof tinymce !== 'undefined') {
@@ -169,42 +210,6 @@ class TinyMCEInput extends React.Component {
         this.setState({value: nextProps.value});
       }
     }
-  }
-
-  setupPassthroughEvents(editor) {
-    DIRECT_PASSTHROUGH_EVENTS.map((event) => {
-      editor.on(event.toLowerCase(), (tinyMCEEvent) => {
-        const handler = this.props['on' + event];
-        if (typeof handler === 'function') {
-          handler(tinyMCEEvent);
-        }
-      });
-      return null;
-    });
-
-    const handlers = this.props.otherEventHandlers;
-    Object.keys(handlers).map((key, index) => {
-      editor.on(index, key);
-      return null;
-    });
-  }
-
-  setupEditor(editor) {
-    editor.on('change', this.onTinyMCEChange);
-    editor.on('blur', this.onTinyMCEBlur);
-    editor.on('drop', this.onTinyMCEDrop);
-    editor.on('undo', this.onTinyMCEUndo);
-    editor.on('redo', this.onTinyMCERedo);
-    this.setupPassthroughEvents(editor);
-
-    if (this.props.onSetupEditor) {
-      this.props.onSetupEditor(editor);
-    }
-
-    if (this.props.focus) {
-      editor.focus();
-    }
-    this.initTimeout = undefined;
   }
 
   createMCEContextForComponent() {
@@ -280,48 +285,51 @@ class TinyMCEInput extends React.Component {
     }
   }
 
-  onTinyMCEChange(tinyMCEEvent) {
-    this.syncChange(tinyMCEEvent.target.getContent());
+  setupPassthroughEvents(editor) {
+    DIRECT_PASSTHROUGH_EVENTS.map((event) => {
+      editor.on(event.toLowerCase(), (tinyMCEEvent) => {
+        const handler = this.props[`on${event}`];
+        if (typeof handler === 'function') {
+          handler(tinyMCEEvent);
+        }
+      });
+      return null;
+    });
+
+    const handlers = this.props.otherEventHandlers;
+    Object.keys(handlers).map((key, index) => {
+      editor.on(index, key);
+      return null;
+    });
   }
 
-  onTinyMCEBlur(tinyMCEEvent) {
-    this.triggerEventHandler(this.props.onBlur, tinyMCEEvent);
-    if (this.props.ignoreUpdatesWhenFocused) {
-      // if we have been ignoring updates while focused (to preserve cursor position)
-      // sync them now that we no longer have focus.
-      tinyMCEEvent.target.setContent(this.state.value);
+  setupEditor(editor) {
+    editor.on('change', this.onTinyMCEChange);
+    editor.on('blur', this.onTinyMCEBlur);
+    editor.on('drop', this.onTinyMCEDrop);
+    editor.on('undo', this.onTinyMCEUndo);
+    editor.on('redo', this.onTinyMCERedo);
+    this.setupPassthroughEvents(editor);
+
+    if (this.props.onSetupEditor) {
+      this.props.onSetupEditor(editor);
     }
+
+    if (this.props.focus) {
+      editor.focus();
+    }
+    this.initTimeout = undefined;
   }
 
-  onTinyMCEUndo(tinyMCEEvent) {
-    this.triggerEventHandler(this.props.onUndo, tinyMCEEvent);
-    this.syncChange(tinyMCEEvent.target.getContent());
-  }
-
-  onTinyMCERedo(tinyMCEEvent) {
-    this.triggerEventHandler(this.props.onRedo, tinyMCEEvent);
-    this.syncChange(tinyMCEEvent.target.getContent());
-  }
-
-  onTinyMCEDrop() {
-    // We want to process updates just after a drop, even if processUpdatesWhenFocused
-    // is false. The processUpdatesWhenFocused flag exists to keep the cursor from
-    // jumping around, and we do not cares so much if the cursor jumps after dropping
-    // an image because that is a mouse event. However, ignoring updates right after a
-    // drop means that anything that relies on knowing the content has changed is
-    // won't actually know.
-    this.flagDropOverride();
-  }
-
-  onTextareaChange(e) {
-    // should only be called when tinymce failed to load and we are getting changes directly in the textarea (fallback mode?)
-    this.syncChange(e.target.value);
+  setRef(ref) {
+    this.component = ref;
   }
 
   render() {
     // the textarea is controlled by tinymce... and react, neither of which agree on the value
     // solution: keep a separate input element, controlled by just react, that will actually be submitted
     const Component = this.props.component;
+
     return (
       <div className={this.props.className} style={this.props.style}>
         <input key={0} type="hidden" name={this.props.name} defaultValue={this.state.value} readOnly />
@@ -333,7 +341,7 @@ class TinyMCEInput extends React.Component {
           rows={this.props.rows}
           style={this.props.tinymceConfig.inline ? {} : PSEUDO_HIDDEN}
           {...this.props.textareaProps}
-          ref={ref => (this.component = ref)}
+          ref={this.setRef}
         />
       </div>
     );

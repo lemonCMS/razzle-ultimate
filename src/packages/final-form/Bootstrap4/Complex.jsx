@@ -138,18 +138,21 @@ class Complex extends React.Component {
       if (this.props.size !== 'medium') {
         return ({size: this.props.size});
       }
+      return null;
     };
 
     const labelSize = () => {
       if (_has(this.props, 'labelSize')) {
         return this.props.labelSize;
       }
+      return null;
     };
 
     const fieldSize = () => {
       if (_has(this.props, 'fieldSize')) {
         return this.props.fieldSize;
       }
+      return null;
     };
 
     const toggle = () => {
@@ -188,6 +191,7 @@ class Complex extends React.Component {
           if (_get(this.props.addBtn, 'variant') && _get(this.props.addBtn, 'variant') !== 'default') {
             return ({variant: _get(this.props.addBtn, 'variant')});
           }
+          return null;
         };
         return (
           <div className="rfg-cmplx-btn-add">
@@ -205,6 +209,7 @@ class Complex extends React.Component {
           </div>
         );
       }
+      return null;
     };
 
     return (
@@ -217,13 +222,11 @@ class Complex extends React.Component {
           </Button>
         </Col>}
         <Col {...fieldSize()}>
-          {fields.map((field, key) => {
-            return (
-              <div key={key} className="rfg-cmplx-fields">
-                {this.renderChildren(field, fields.length, fields.remove, fields.move, key, staticField, disabled, this.props.mandatory)}
-              </div>
-            );
-          })}
+          {fields.map((field, key) =>
+            (<div key={key} className="rfg-cmplx-fields">
+              {this.renderChildren(field, fields.length, fields.remove, fields.move, key, staticField, disabled, this.props.mandatory)}
+            </div>)
+          )}
           {renderAddButton()}
         </Col>
       </Row>

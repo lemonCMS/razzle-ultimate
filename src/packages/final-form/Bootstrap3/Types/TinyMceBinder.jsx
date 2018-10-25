@@ -27,8 +27,12 @@ ContextBinder.contextTypes = {
   isStatic: PropTypes.bool
 };
 
-export default ({input, field}) => {
-  return (
-    <ContextBinder input={input} field={field} />
-  );
+const Binder = ({input, field}) =>
+  (<ContextBinder input={input} field={field} />);
+
+Binder.propTypes = {
+  field: PropTypes.object,
+  input: PropTypes.object
 };
+
+export default Binder;

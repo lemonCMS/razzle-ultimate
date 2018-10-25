@@ -1,3 +1,4 @@
+/* eslint react/no-danger: "off" */
 import React from 'react';
 import PropTypes from 'prop-types';
 import TinyMceInput from './TinyMceInput';
@@ -34,6 +35,5 @@ Binder.propTypes = {
   field: PropTypes.object,
   input: PropTypes.object
 };
-
 
 export default Binder;

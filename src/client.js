@@ -3,8 +3,8 @@ import { CookieStorage } from 'redux-persist-cookie-storage';
 import localForage from 'localforage';
 import CookiesJS from 'cookies-js';
 import { authRestore } from './redux/store/auth';
-import PersistServer from './reduxPersist/PersistServer';
-import PersistComponent from './reduxPersist/PersistComponent';
+import PersistServer from './packages/persist-component/PersistServer';
+import PersistComponent from './packages/persist-component/PersistComponent';
 import {
   saveAndRestoreCookie,
   saveAndRestoreLocal,

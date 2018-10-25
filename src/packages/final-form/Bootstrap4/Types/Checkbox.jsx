@@ -179,6 +179,4 @@ Binder.propTypes = {
   input: PropTypes.object,
 };
 
-
 export default Binder;
-

@@ -41,15 +41,14 @@ class Resourcebinder extends React.Component {
         list = field.list;
       } else if (props.field.children) {
 
-        list = _map(_isArray(props.field.children) ? props.field.children : [props.field.children], (option) => {
-          return ({value: option.props.value, desc: option.props.children});
-        });
+        list = _map(_isArray(props.field.children) ? props.field.children : [props.field.children], (option) =>
+          ({value: option.props.value, desc: option.props.children}));
       }
     } else {
       list = this.state.list;
     }
 
-    this.setState({list: list});
+    this.setState({list});
   }
 
   options() {
@@ -65,6 +64,7 @@ class Resourcebinder extends React.Component {
             </p>
           );
         }
+        return null;
       });
     } else {
       options = _map(this.state.list, (option, key) => {
@@ -77,6 +77,7 @@ class Resourcebinder extends React.Component {
             </p>
           );
         }
+        return null;
       });
     }
 
@@ -89,7 +90,7 @@ class Resourcebinder extends React.Component {
 
   callBack(values, list) {
     this.setState({
-      list: list
+      list
     }, () => {
 
       if (_get(this.props.field, 'multiple', true) === true) {
@@ -120,6 +121,7 @@ class Resourcebinder extends React.Component {
         return (<button type='button' onClick={this.openResource}
           disabled={disabled}>{_get(this.props, 'field.buttonResource', 'open')}</button>);
       }
+      return null;
     };
 
     const clonedValues = () => {
@@ -128,9 +130,8 @@ class Resourcebinder extends React.Component {
           return [];
         }
         return _clone(this.props.input.value);
-      } else {
-        return this.props.input.value;
       }
+      return this.props.input.value;
     };
 
     const resourceProps = {
@@ -156,14 +157,20 @@ class Resourcebinder extends React.Component {
 Resourcebinder.propTypes = {
   field: PropTypes.object,
   input: PropTypes.object,
-  mango: PropTypes.object,
 };
 
 Resourcebinder.contextTypes = {
   checkCondition: PropTypes.func,
   isStatic: PropTypes.bool
 };
-export default ({input, field}) => (<Resourcebinder
+
+const Binder =  ({input, field}) => (<Resourcebinder
   input={input}
   field={field} />);
 
+Binder.propTypes = {
+  field: PropTypes.object,
+  input: PropTypes.object,
+};
+
+export default Binder;

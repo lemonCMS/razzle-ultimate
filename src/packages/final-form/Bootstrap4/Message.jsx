@@ -11,6 +11,9 @@ export default class Message extends Component {
   };
 
   static propTypes = {
+    hidden: PropTypes.func,
+    show: PropTypes.func,
+    type: PropTypes.string,
     children: PropTypes.oneOfType([PropTypes.array, PropTypes.object, PropTypes.string])
   };
 
@@ -19,7 +22,7 @@ export default class Message extends Component {
 
     if (this.props.hidden && _isFunction(this.props.hidden)) {
       if (this.context.checkCondition(this.props.hidden) === true) {
-        return;
+        return null;
       }
     } else if (this.props.show && _isFunction(this.props.show)) {
       if (this.context.checkCondition(this.props.show) !== true) {

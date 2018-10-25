@@ -9,7 +9,8 @@ class CounterItem extends Component {
   static propTypes = {
     index: PropTypes.number.isRequired,
     increase: PropTypes.func.isRequired,
-    decrease: PropTypes.func.isRequired
+    decrease: PropTypes.func.isRequired,
+    counter: PropTypes.number
   };
 
   static defaultProps = {
@@ -17,21 +18,21 @@ class CounterItem extends Component {
   };
 
   render() {
-    const {counter, index, increase, decrease} = this.props;
+    const {counter, index} = this.props;
     return (
       <div className={'col-sm'}>
         <div className="card">
           <div className="card-body">
             <h5 className="card-title">Counter: {counter}</h5>
             <p className="card-text">Some quick example text to build on the card title and make up the bulk of the
-              card's content.</p>
+              cards content.</p>
             <button type={'button'}
               className={'btn'}
-              onClick={() => increase(index)}>+
+              onClick={() => this.props.increase(index)}>+
             </button>
             <button type={'button'}
               className={'btn'}
-              onClick={() => decrease(index)}>-
+              onClick={() => this.props.decrease(index)}>-
             </button>
           </div>
         </div>

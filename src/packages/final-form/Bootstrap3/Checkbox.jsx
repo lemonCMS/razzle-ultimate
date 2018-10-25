@@ -1,4 +1,3 @@
-import React from 'react';
 import Wrap from './Wrappers/Wrap';
 import Checkbox from './Types/Checkbox';
 import decorator from '../utils/decorator';

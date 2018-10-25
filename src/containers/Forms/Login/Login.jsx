@@ -20,9 +20,9 @@ class Login extends Component {
       return errors;
     };
 
-    const handleSubmit = () => {
-      return ({username: 'Oopsie, serverside error'});
-    };
+    const handleSubmit = () =>
+       ({username: 'Oopsie, serverside error'});
+
 
     return (
       <div>

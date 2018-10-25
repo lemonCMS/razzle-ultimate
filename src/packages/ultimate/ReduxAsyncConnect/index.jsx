@@ -14,7 +14,7 @@ class ReduxAsyncConnect extends Component {
     children: PropTypes.node.isRequired,
     history: PropTypes.objectOf(PropTypes.any).isRequired,
     location: PropTypes.objectOf(PropTypes.any).isRequired,
-    routes: PropTypes.objectOf(PropTypes.any).isRequired,
+    routes: PropTypes.oneOfType([PropTypes.array, PropTypes.object]).isRequired,
     store: PropTypes.objectOf(PropTypes.any).isRequired,
     helpers: PropTypes.objectOf(PropTypes.any).isRequired
   };
@@ -117,7 +117,6 @@ class ReduxAsyncConnect extends Component {
     this.setState({previousLocation: this.props.location, renderLocation: null});
     NProgress.done();
   }
-
 
   render() {
     const {children, location} = this.props;

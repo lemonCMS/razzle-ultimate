@@ -149,5 +149,11 @@ PluploadBinder.propTypes = {
   input: PropTypes.object
 };
 
-export default ({input, field}) => (<PluploadBinder input={input} field={field} />);
+const Binded = ({input, field}) => (<PluploadBinder input={input} field={field} />);
+Binded.propTypes = {
+  field: PropTypes.object,
+  input: PropTypes.object
+};
+
+export default Binded;
 

@@ -13,9 +13,9 @@ export default function(initModules) {
       }
       return null;
     },
-    restore: ({ result, dispatch }) => {
+    restore: ({ result, dispatch, ...rest }) => {
       if (restore) {
-        restore({ result, dispatch });
+        restore({ result, dispatch, ...rest });
       } else {
         dispatch({
           type: `@@redux-persist-component/${key}`,

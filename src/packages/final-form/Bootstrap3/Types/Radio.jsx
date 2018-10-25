@@ -154,5 +154,10 @@ RadioBinder.contextTypes = {
   isStatic: PropTypes.bool
 };
 
-export default ({input, field}) => (<RadioBinder input={input} field={field} />);
-
+const Binded = ({input, field}) => (<RadioBinder input={input}
+                                                 field={field} />);
+Binded.propTypes = {
+  field: PropTypes.object,
+  input: PropTypes.object
+};
+export default Binded;
