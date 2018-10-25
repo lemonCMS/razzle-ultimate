@@ -146,7 +146,7 @@ class TinyMCEInput extends React.Component {
   }
 
   componentWillUnmount() {
-    if (typeof tinymce === 'undefined') {
+    if (typeof tinymce !== 'undefined') {
       tinymce.remove(this.getComponentID());
       clearTimeout(this.initTimeout);
       clearInterval(this.updateInterval);

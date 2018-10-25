@@ -38,7 +38,7 @@ class Login extends Component {
           <Input label="Username" placeholder="email" name={'username'} type={'text'} {...size} />
           <Input label="Password" placeholder="password" name={'password'} type={'password'} {...size} />
 
-          <Message type={'error'}>Oopsie, we ould not verify your account.</Message>
+          <Message type={'error'}>Oopsie, we could not verify your account.</Message>
           <Message type={'success'}>Welcome, we will redirect you shortly.</Message>
           <Button type={'submit'}>Send</Button>
         </Form>

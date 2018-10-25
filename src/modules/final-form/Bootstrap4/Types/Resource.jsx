@@ -25,12 +25,12 @@ class Resourcebinder extends React.Component {
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.getList(this.props);
   }
 
-  componentWillReceiveProps(nextProps) {
-    this.getList(nextProps);
+  componentDidUpdate() {
+    this.getList(this.props);
   }
 
   getList(props) {

@@ -1,1 +1,0 @@
-export const ROUTER_STORE_STATE = 'ROUTER_STORE_STATE';

@@ -2,7 +2,6 @@ import React from 'react';
 import CounterItem from '../../components/CounterItem/CounterItem';
 
 class Counters extends React.Component {
-
   render() {
     return (
       <React.Fragment>
