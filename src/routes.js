@@ -3,8 +3,6 @@ import Home from './containers/Home/Loadable';
 import Counters from './containers/Counters/Loadable';
 import Forms from './containers/Forms';
 
-
-
 const routes = [{
   component: App,
   routes: [
