@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Helmet from 'react-helmet';
 import {Switch} from 'react-router';
 import {renderRoutes} from 'react-router-config';
 import {NavLink} from 'react-router-dom';
@@ -11,11 +10,6 @@ class App extends React.Component {
     const {route: {routes}} = this.props;
     return (
       <div className={'container'}>
-        <Helmet>
-          <script type={"text/javascript"} src={'/js/plupload-2.1.9/plupload.full.min.js'} />
-          <script type={"text/javascript"} src={'/js/tinymce/js/tinymce/tinymce.min.js'} />
-        </Helmet>
-
         <ul className="nav">
           <li className="nav-item">
             <NavLink exact className="nav-link" to={'/'} activeClassName={'active'}>Home</NavLink>

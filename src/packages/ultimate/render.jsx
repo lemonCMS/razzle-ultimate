@@ -40,20 +40,20 @@ export default async function render(options) {
     history
   };
 
-  return await authorizeWait('authorized', components, locals).then(async () => {
+   return authorizeWait('authorized', components, locals).then(async () => {
     const triggers = triggerWait('fetch', components, locals);
     await triggers;
 
     if (!match) {
       res.status(404);
-      return;
+      return null;
     }
 
     if (match.path === '**') {
       res.status(404);
     } else if (match && match.redirectTo && match.path) {
       res.redirect(301, req.originalUrl.replace(match.path, match.redirectTo));
-      return;
+      return null;
     }
 
     const { html, ...docProps } = await Doc.getInitialProps({
@@ -73,7 +73,6 @@ export default async function render(options) {
   })
   .catch((error) => {
     res.status(401);
-    return (`<!doctype html><html><body>Access denied. ${error}</body></html>`);
+    return (`<!doctype html><html><body><strong>Server error</strong><br /><pre>${error}</pre></body></html>`);
   });
-
 }

@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import Helmet from 'react-helmet';
 import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
 import Form from '../../../packages/final-form/Form';
@@ -30,6 +31,12 @@ class Register extends Component {
 
     return (
       <div>
+        <Helmet
+          script={[
+            {type: 'text/javascript', src: '/js/plupload-2.1.9/plupload.full.min.js'},
+            {type: 'text/javascript', src: '/js/tinymce/js/tinymce/tinymce.min.js'}
+          ]}
+        />
         <h2>
           Registration Form
         </h2>

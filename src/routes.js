@@ -1,5 +1,6 @@
 import App from './containers/App/App';
 import Home from './containers/Home/Loadable';
+import Dogs from './containers/Dogs/Loadable';
 import Counters from './containers/Counters/Loadable';
 import Forms from './containers/Forms';
 
@@ -15,6 +16,10 @@ const routes = [
       {
         component: Counters,
         path: '/counters',
+      },
+      {
+        component: Dogs,
+        path: '/dogs',
       },
       {
         component: Forms.default,

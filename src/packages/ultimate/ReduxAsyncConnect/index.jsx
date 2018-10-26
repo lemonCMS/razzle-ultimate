@@ -1,11 +1,17 @@
 /* eslint react/no-unused-state: "off" */
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {withRouter, Route, Redirect} from 'react-router';
+import {withRouter, Route} from 'react-router';
+import NProgress from "nprogress";
+import asyncMatchRoutes from "../asyncMatchRoutes";
+import asyncMap from "../asyncMap";
+import {authorize, trigger} from "../../redial";
+/*
 import NProgress from 'nprogress';
 import {authorize, trigger} from '../../redial';
 import asyncMap from '../asyncMap';
 import asyncMatchRoutes from '../asyncMatchRoutes';
+*/
 
 // require('./nprogress.css');
 
@@ -13,121 +19,124 @@ class ReduxAsyncConnect extends Component {
   static propTypes = {
     children: PropTypes.node.isRequired,
     history: PropTypes.objectOf(PropTypes.any).isRequired,
-    location: PropTypes.objectOf(PropTypes.any).isRequired,
-    routes: PropTypes.oneOfType([PropTypes.array, PropTypes.object]).isRequired,
+    routes: PropTypes.array.isRequired,
     store: PropTypes.objectOf(PropTypes.any).isRequired,
-    helpers: PropTypes.objectOf(PropTypes.any).isRequired
+    helpers: PropTypes.objectOf(PropTypes.any).isRequired,
+    location: PropTypes.objectOf(PropTypes.any).isRequired,
   };
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.getAsyncData = this.getAsyncData.bind(this);
+    this.state = {
+      location: props.location,
+      nextLocation: {
+        pathname: '',
+        search: ''
+      },
+      inTransition: false
+    };
   }
 
-  state = {
-    previousLocation: null,
-    renderLocation: null,
-    authorized: true
-  };
-
   static getDerivedStateFromProps(props, state) {
-
-    if (state.previousLocation === props.location) {
+    if (props.location.pathname === state.nextLocation.pathname &&
+      props.location.search === state.nextLocation.search
+    ) {
       return null;
     }
 
-    if(state.previousLocation === null && state.renderLocation === null) {
+    if (props.location.pathname !== state.location.pathname ||
+      props.location.search !== state.location.search
+    ) {
       return {
-        previousLocation: props.location,
-        renderLocation: props.location,
-        authorized: true
-      }
+        nextLocation: Object.assign({}, props.location)
+      };
     }
-
-    if (state.previousLocation !== props.location && state.renderLocation === null) {
-      return {
-        renderLocation: state.previousLocation,
-        authorized: true
-      }
-    }
-    return null;
+    return false;
   }
 
   componentDidMount() {
-    NProgress.configure({trickleSpeed: 200});
     const {
       history, location, routes, store, helpers
     } = this.props;
-    this.getAsyncData(history, location, routes, store, helpers);
+    this.getAsyncData(history, location, routes, store, helpers, false);
   }
 
-
-  componentDidUpdate(prevProps) {
-    const {
-      history, location, routes, store, helpers
-    } = prevProps;
-    const navigated = this.props.location !== location;
-    if (navigated) {
-      this.getAsyncData(history, location, routes, store, helpers);
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.inTransition === false) {
+      if (prevState.nextLocation.pathname !== this.state.nextLocation.pathname ||
+        prevState.nextLocation.search !== this.state.nextLocation.search
+      ) {
+        const {
+          history, location, routes, store, helpers
+        } = this.props;
+        this.getAsyncData(history, location, routes, store, helpers, true);
+      }
     }
   }
 
-  async getAsyncData(history, location, routes, store, helpers) {
+  async getAsyncData(history, location, routes, store, helpers, isUpdate) {
     // save the location so we can render the old screen
     NProgress.start();
-
+    this.setState({inTransition: true});
     // load data while the old screen remains
-    const {components, match, params} = await asyncMatchRoutes(routes, this.props.location.pathname);
+    const {components, match, params} = await asyncMatchRoutes(routes, location.pathname);
     await asyncMap(components, component => authorize('authorized', component, {
       ...helpers,
       store,
       match,
       params,
       history,
-      location: this.props.location
+      location
     })).then(async () => {
-      const fetchers = async () => {
-        await trigger('fetch', components, {
-          ...helpers,
-          store,
-          match,
-          params,
-          history,
-          location: this.props.location
-        });
-      };
+      if (isUpdate === false) {
+        const fetchers = async () => {
+          await trigger('fetch', components, {
+            ...helpers,
+            store,
+            match,
+            params,
+            history,
+            location
+          });
+        };
 
-      if (process.env.BUILD_TARGET === 'client') {
-        trigger('defer', components, {
-          ...helpers,
-          store,
-          match,
-          params,
-          history,
-          location: this.props.location
-        });
-      }
-      await fetchers();
+        if (process.env.BUILD_TARGET === 'client') {
+          trigger('defer', components, {
+            ...helpers,
+            store,
+            match,
+            params,
+            history,
+            location
+          });
+        }
+        await fetchers();
+      } else
+        if (process.env.BUILD_TARGET === 'client') {
+          trigger('defer', components, {
+            ...helpers,
+            store,
+            match,
+            params,
+            history,
+            location
+          });
+        }
+
       this.setState({authorized: true});
     }).catch(() => {
       this.setState({authorized: false});
     });
 
     // clear previousLocation so the next screen renders
-    this.setState({previousLocation: this.props.location, renderLocation: null});
+    this.setState({inTransition: false, location});
     NProgress.done();
   }
 
   render() {
-    const {children, location} = this.props;
-    const {renderLocation} = this.state;
-    if (this.state.authorized === false) {
-      return <Redirect to="/" />;
-    }
-
-    // use a controlled <Route> to trick all descendants into
-    // rendering the old location
-    return <Route location={renderLocation || location}
+    const {children} = this.props;
+    return <Route location={this.state.location}
                   render={() => children} />;
   }
 }
