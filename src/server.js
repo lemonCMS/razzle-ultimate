@@ -12,9 +12,7 @@ import { saveAndRestoreCookie } from './redux/store/counter';
 
 server.use(Cookies.express());
 // server.use(express.static(paths.appPublic));
-const dev = process.env.NODE_ENV === 'development';
-
-console.log(process.env.NODE_ENV === 'production');
+// const dev = process.env.NODE_ENV === 'development';
 
 const devProxy = {
   '/api': {
@@ -31,7 +29,7 @@ const devProxy = {
     },
   },
 };
-if (dev && devProxy) {
+if (devProxy) {
   /* eslint-disable-next-line */
   const proxyMiddleware = require('http-proxy-middleware');
   Object.keys(devProxy).forEach(context => {

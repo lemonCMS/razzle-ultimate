@@ -1,10 +1,11 @@
 import React from 'react';
+import Container from 'react-bootstrap/lib/Container';
 import CounterItem from '../../components/CounterItem/CounterItem';
 
 class Counters extends React.Component {
   render() {
     return (
-      <React.Fragment>
+      <Container>
         <div className={'row mt-5'}>
           <div className={'col-md-12'}>
             <h2>Counters stored in cookies</h2>
@@ -30,8 +31,7 @@ class Counters extends React.Component {
           <CounterItem index={2} as={'counterLocalStorage'} />
           <CounterItem index={3} as={'counterLocalStorage'} />
         </div>
-
-      </React.Fragment>
+      </Container>
     );
   }
 }

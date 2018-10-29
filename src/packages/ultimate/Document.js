@@ -1,7 +1,7 @@
 import React from 'react';
 
 const AfterRoot = () => (
-  <div id="root">DO_NOT_DELETE_THIS_YOU_WILL_BREAK_YOUR_APP</div>
+  <div id="root" className={'toggled'}>DO_NOT_DELETE_THIS_YOU_WILL_BREAK_YOUR_APP</div>
 );
 
 class Document extends React.PureComponent {

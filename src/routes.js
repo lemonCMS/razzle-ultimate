@@ -2,6 +2,9 @@ import App from './containers/App/App';
 import Home from './containers/Home/Loadable';
 import Counters from './containers/Counters/Loadable';
 import Forms from './containers/Forms';
+import CookieBar from './containers/CookieBar';
+import CookieBarCompact from './containers/CookieBar/Compact';
+import CookieBarFullScreen from './containers/CookieBar/FullScreen';
 
 const routes = [
   {
@@ -15,6 +18,20 @@ const routes = [
       {
         component: Counters,
         path: '/counters',
+      },
+      {
+        component: CookieBar,
+        path: '/cookiebar',
+        routes: [
+          {
+            path: '/cookiebar/compact',
+            component: CookieBarCompact
+          },
+          {
+            path: '/cookiebar/fullscreen',
+            component: CookieBarFullScreen
+          }
+        ]
       },
       {
         component: Forms.default,
