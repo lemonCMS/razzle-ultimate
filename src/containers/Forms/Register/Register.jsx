@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Helmet from 'react-helmet';
-import Row from 'react-bootstrap/lib/Row';
-import Col from 'react-bootstrap/lib/Col';
+// import Row from 'react-bootstrap/lib/Row';
+// import Col from 'react-bootstrap/lib/Col';
 import Form from '../../../packages/final-form/Form';
 import Button from '../../../packages/final-form/Bootstrap4/Button';
 import Input from '../../../packages/final-form/Bootstrap4/Input';
@@ -10,11 +10,11 @@ import Radio from '../../../packages/final-form/Bootstrap4/Radio';
 import Checkbox from '../../../packages/final-form/Bootstrap4/Checkbox';
 import DateTime from '../../../packages/final-form/Bootstrap4/DateTime';
 import Dropdown from '../../../packages/final-form/Bootstrap4/Dropdown';
-import Plupload from '../../../packages/final-form/Bootstrap4/Plupload';
-import TinyMce from '../../../packages/final-form/Bootstrap4/TinyMce';
-import ComplexRow from '../../../packages/final-form/Bootstrap4/ComplexRow';
-import Complex from '../../../packages/final-form/Bootstrap4/Complex';
-import Show from '../../../packages/final-form/Bootstrap4/Show';
+// import Plupload from '../../../packages/final-form/Bootstrap4/Plupload';
+// import TinyMce from '../../../packages/final-form/Bootstrap4/TinyMce';
+// import ComplexRow from '../../../packages/final-form/Bootstrap4/ComplexRow';
+// import Complex from '../../../packages/final-form/Bootstrap4/Complex';
+// import Show from '../../../packages/final-form/Bootstrap4/Show';
 // import PropTypes from 'prop-types';
 
 class Register extends Component {
@@ -25,9 +25,9 @@ class Register extends Component {
       fieldSize: {xs: 9}
     };
 
-    const sizeComplex = {
+    /* const sizeComplex = {
       fieldSize: { xs: 12 }
-    };
+    }; */
 
     return (
       <div>
@@ -87,37 +87,8 @@ class Register extends Component {
             <option value={'6'}>Brown</option>
             <option value={'7'}>Grey</option>
           </Dropdown>
-          <Plupload name="plupload" label={'Upload'} {...size} conf={{id: 'plupload'}}/>
+          {/* <Plupload name="plupload" label={'Upload'} {...size} conf={{id: 'plupload'}}/> */}
           <h4 className={'mb-1'}>Do you have pets?</h4>
-          <ComplexRow
-            label={'Domestic pets'}
-            name={"pets"}
-            {...size}
-            left={{ xs: 9 }}
-            right={{ xs: 3 }}
-            moveBtn={{variant: 'secondary'}}
-            removeBtn={{variant: 'danger'}}
-            render={name => (
-              <Row>
-                <Col xs={6}>
-                  <Input
-                    placeholder="Name"
-                    name={`${name}.name`}
-                    type={"text"}
-                    {...sizeComplex}
-                  />
-                </Col>
-                <Col xs={6}>
-                  <Input
-                    placeholder="Age"
-                    name={`${name}.age`}
-                    type={"number"}
-                    {...sizeComplex}
-                  />
-                </Col>
-              </Row>
-            )}
-          />
 
           <h4 className={'mb-1'}>Do you have children?</h4>
 
@@ -125,43 +96,8 @@ class Register extends Component {
             <option value={'0'}>No</option>
             <option value={'1'}>Yes</option>
           </Radio>
-          <Show show={(data) => {
-            if (data.hasChildren && data.hasChildren === '1') {
-              return true;
-            }
-            return false;
-          }}>
-            <Complex
-              label={'Children'}
-              name={"children"}
-              {...size}
-              left={{ xs: 9 }}
-              right={{ xs: 3 }}
-              moveBtn={{variant: 'secondary', size: 'sm'}}
-              removeBtn={{variant: 'danger', size: 'sm'}}
-              render={name => (
-                <Row>
-                  <Col xs={6}>
-                    <Input
-                      placeholder="Name"
-                      name={`${name}.name`}
-                      type={"text"}
-                      {...sizeComplex}
-                    />
-                  </Col>
-                  <Col xs={6}>
-                    <Input
-                      placeholder="Age"
-                      name={`${name}.age`}
-                      type={"number"}
-                      {...sizeComplex}
-                    />
-                  </Col>
-                </Row>
-              )}
-            />
-          </Show>
-          <TinyMce name={'about'} label={'About you'} {...size} help={'Tell us something about yourself.'}/>
+
+          {/* <TinyMce name={'about'} label={'About you'} {...size} help={'Tell us something about yourself.'}/> */}
           <Button type={'button'}>Send</Button>
         </Form>
       </div>
