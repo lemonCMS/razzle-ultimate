@@ -13,7 +13,6 @@ module.exports = {
     appConfig = RawLoader(appConfig, {dev, target});
 
 
-    console.log(appConfig.module.rules);
     appConfig = DLLLoader(appConfig, {dev, target},
       [
 

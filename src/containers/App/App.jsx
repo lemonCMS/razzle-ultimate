@@ -7,13 +7,8 @@ import Menu from '../../packages/admin/Menu/Menu';
 import menu from '../../menu';
 import './app.scss';
 
-const txt = require('./bla.txt');
-
 class App extends React.Component {
-
   render() {
-
-
     const {route: {routes}} = this.props;
     return (
       <React.Fragment>
@@ -24,13 +19,9 @@ class App extends React.Component {
           ]}
         />
         <div id="sidebar-wrapper">
-
           <Menu menu={menu} className={'sidebar-nav'}/>
-
         </div>
-
         <div id={'page-content-wrapper'}>
-          {txt}
           <Switch>{renderRoutes(routes)}</Switch>
         </div>
       </React.Fragment>

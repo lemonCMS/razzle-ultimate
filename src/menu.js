@@ -20,13 +20,13 @@ module.exports = [
     ]
   },
   {
-    'desc': 'Counters',
+    'desc': 'Persistent storage',
     'to': '/counters',
     icon: 'fa-building-o',
     children: [
       {
         desc: 'Cookies',
-        to: '/counters/cookies'
+        to: '/counters/cookie'
       },
       {
         desc: 'Localstorage',
@@ -74,10 +74,6 @@ module.exports = [
   },
   {
     desc: 'Sticky component',
-    to: '/sticky',
-  },
-  {
-    desc: 'Persist component',
     to: '/sticky',
   }
 ];

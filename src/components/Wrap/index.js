@@ -2,7 +2,7 @@ import React from 'react';
 import Loadable from 'react-loadable';
 
 export default Loadable({
-  loader: () => import('./Local'),
+  loader: () => import('./Wrap'),
   loading: () => <div>Loading</div>,
 });
 
