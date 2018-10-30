@@ -1,4 +1,5 @@
 import React from 'react';
+import Container from 'react-bootstrap/lib/Container';
 import Card from 'react-bootstrap/lib/Card';
 import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
@@ -6,7 +7,7 @@ import Col from 'react-bootstrap/lib/Col';
 class Home extends React.Component {
   render() {
     return (
-      <div>
+      <Container>
         <div className="jumbotron">
           <h1 className="display-4">Welcome to @Wicked_query/UltimateJS</h1>
           <p className="lead">This is your starterboilerplate. We have implemented some helpful features that will get you ready into makeng your own React application.
@@ -55,7 +56,7 @@ class Home extends React.Component {
             </Card>
           </Col>
         </Row>
-      </div>
+      </Container>
     );
   }
 }

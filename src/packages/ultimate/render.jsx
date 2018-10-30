@@ -40,7 +40,7 @@ export default async function render(options) {
     history
   };
 
-   return authorizeWait('authorized', components, locals).then(async () => {
+  return authorizeWait('authorized', components, locals).then(async () => {
     const triggers = triggerWait('fetch', components, locals);
     await triggers;
 
@@ -73,6 +73,7 @@ export default async function render(options) {
   })
   .catch((error) => {
     res.status(401);
-    return (`<!doctype html><html><body><strong>Server error</strong><br /><pre>${error}</pre></body></html>`);
+    return (`<!doctype html><html><body>Access denied. ${error}</body></html>`);
   });
+
 }

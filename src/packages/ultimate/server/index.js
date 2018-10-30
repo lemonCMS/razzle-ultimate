@@ -93,7 +93,7 @@ export const render = (
       });
       res.send(html);
     } catch (error) {
-      console.log('MOUNT ERROR', error);
+      console.trace('MOUNT ERROR', error);
       res.json(error);
     }
   })();
