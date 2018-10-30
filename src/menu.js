@@ -75,5 +75,11 @@ module.exports = [
   {
     desc: 'Sticky component',
     to: '/sticky',
+    children: [
+      {
+        to: '/sticky/stack',
+        desc: 'Stacked'
+      }
+    ]
   }
 ];

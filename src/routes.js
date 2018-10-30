@@ -10,6 +10,7 @@ import CookieBar from './containers/CookieBar';
 import CookieBarCompact from './containers/CookieBar/Compact';
 import CookieBarFullScreen from './containers/CookieBar/FullScreen';
 import Sticky from './containers/Sticky';
+import StickyStacked from './containers/Sticky/Stack';
 
 const routes = [
   {
@@ -55,8 +56,17 @@ const routes = [
         ]
       },
       {
-        component: Sticky,
         path: '/sticky',
+        component: Wrap,
+        routes: [
+          {
+            path: '/sticky/stack',
+            component: StickyStacked
+          },
+          {
+            component: Sticky
+          }
+        ]
       },
       {
         component: Forms.default,
