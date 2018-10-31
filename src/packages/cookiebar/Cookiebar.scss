@@ -1,0 +1,302 @@
+$color-primary: #0082c8;
+$color-secondary: #b1b1b1;
+
+.cookiebar {
+  margin: 0px;
+  padding: 10px ;
+  position: fixed;
+  height: auto;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  text-align: center;
+  z-index: 1010;
+  font-family:  inherit;
+  color: #0082c8;
+  font-size: inherit;
+  background-color: #f6f9fa;
+  box-shadow: 0px 0px 6px rgba(23, 26, 66, 0.4);
+  border-radius: 2px 2px 0px 0px;
+  line-height: 1.4em;
+
+  [class*="col-"]:first-child {
+      padding-top:10px;
+      padding-bottom:10px;
+  }
+
+  .cbRow {
+
+    .cbLeft {
+
+    }
+
+    .cbRight {
+
+    }
+  }
+
+
+  .cbButtonBar {
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom:5px;
+
+    .cbSettings {
+      background-color: $color-secondary;
+      border: none;
+      color: white;
+      padding: 0px 20px;
+      line-height: 2.5em;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: inherit;
+      font-weight: bold;
+      border-radius: 3px;
+      text-transform: uppercase;
+      font-size:85%;
+      margin-bottom:5px;
+    }
+
+    .cbSettings:hover, .cbSettings:active {
+      background-color: $color-secondary;
+    }
+
+    .cbButton {
+      background-color: $color-primary;
+      border: none;
+      color: white;
+      padding: 0px 20px;
+      line-height: 2.5em;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: inherit;
+      font-weight: bold;
+      border-radius: 3px;
+      text-transform: uppercase;
+      font-size:90%;
+      margin-bottom:5px;
+    }
+
+    .cbButton:hover {
+      background-color: $color-primary;
+    }
+  }
+  a {
+    color: $color-primary;
+    text-decoration: underline;
+  }
+
+}
+
+
+/*
+.gdpr-legacy {
+  min-width: 300px;
+  min-height:200px;
+  position:relative;
+}
+*/
+
+
+.react-gdr-page-overlay {
+  position: fixed;
+  top: 0px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  background-color: rgb(000, 000, 000);
+  opacity: 0.5;
+  color: #454545;
+  z-index: 2020;
+}
+
+.react-gdr-page-modal-container {
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  z-index: 2021;
+}
+
+.react-gdr-page-modal {
+  position: relative;
+  background-color: #fff;
+  min-height: 104px;
+  max-width: 600px;
+  z-index: 1022;
+  padding:0;
+  margin: 0 auto;
+  margin-top: 30px;
+  font-family:  inherit;
+  border-radius: 3px;
+
+  .header {
+    background-color: transparent;
+    color: inherit;
+    padding: 30px 30px 0 30px;
+    font-size: 1.2em;
+    font-weight: bold;
+    text-align: center;
+    width: auto;
+  }
+
+  .body {
+    padding: 10px 30px 30px 30px;
+    color: #454545;
+    font-size: inherit;
+    line-height: inherit;
+  }
+
+  .info {
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  .level {
+    border: 2px solid rgba($color-primary, .2);
+    padding: 5px 13px 8px 13px;
+    display: flex;
+    margin-bottom: 15px;
+  }
+
+  .level:hover {
+    border-color: $color-primary;
+  }
+
+  .level.active, .level:hover.active {
+    background: none;
+    border-color: $color-primary;
+    background-color: rgba($color-primary, .08);
+  }
+
+  .level::after, .buttonBar::after {
+    content: "";
+    clear: both;
+    display: table;
+  }
+
+  .level h4 {
+    font-size:100%;
+    font-weight: bold;
+    display: inline;
+  }
+  .levelTxt {
+    padding: 10px;
+  }
+
+  .buttonBar {
+    text-align: center;
+    padding-top:10px;
+  }
+
+  .button {
+    background-color: $color-primary;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: inherit;
+    font-weight: bold;
+    border-radius: 3px;
+  }
+
+  .button:hover {
+    background-color: $color-primary;
+  }
+
+  .button[disabled], .button[disabled]:hover {
+    background-color: rgba($color-primary, .2);
+  }
+
+  .buttonCancel {
+    background-color: $color-secondary;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: inherit;
+    font-weight: bold;
+    border-radius: 3px;
+  }
+
+  .buttonCancel:hover {
+    background-color: $color-secondary;
+  }
+
+  .buttonCancel[disabled], .buttonCancel[disabled]:hover {
+    background-color: rgba($color-secondary, .2);
+  }
+
+
+  a {
+    color: $color-primary;
+    text-decoration: underline;
+  }
+
+}
+
+
+
+@media only screen and (max-width: 600px) {
+  .react-gdr-page-modal {
+    .icon {
+      display: none;
+    }
+    .levelTxt {
+      width: 100%;
+    }
+  }
+}
+
+/*
+.gdpr-legacy {
+  position: relative;
+  min-width: 100px;
+  min-height: 100px;
+}
+*/
+
+.changeSettings {
+  color: #9e9e9e;
+  background:#eeeeee;
+  font-size:85%;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  position: absolute;
+  text-align: center;
+
+  a {
+    color: $color-primary;
+  }
+
+  div {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    text-align: center;
+    line-height: 1.35em;
+  }
+
+  .mooidingetje {
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    font-size: 2.2em;
+    color: #9e9e9e;
+    padding-bottom: 5px;
+  }
+
+}
+
+
+
