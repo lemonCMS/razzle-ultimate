@@ -73,6 +73,7 @@ export default async function render(options) {
   })
   .catch((error) => {
     res.status(401);
+    console.log(error);
     return (`<!doctype html><html><body>Access denied. ${error}</body></html>`);
   });
 
