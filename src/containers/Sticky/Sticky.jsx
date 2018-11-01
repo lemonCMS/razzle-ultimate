@@ -46,7 +46,7 @@ class Sticky extends React.Component {
               '' +
               '/>'}
             </SyntaxHighlighter>
-            <Table condensed striped>
+            <Table size={'sm'} striped>
               <thead>
                 <tr>
                   <th>Attribute</th>

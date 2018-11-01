@@ -23,7 +23,7 @@ class Home extends React.Component {
 
         <Row>
           <Col md={4}>
-            <Card bg="light">
+            <Card bg="light" className={'mb-2'}>
               <Card.Header>Works great with laravel</Card.Header>
               <Card.Body>
                 <Card.Title>Laravel</Card.Title>
@@ -34,7 +34,7 @@ class Home extends React.Component {
             </Card>
           </Col>
           <Col md={4}>
-            <Card bg="secondary" text="white" >
+            <Card bg="secondary" text="white" className={'mb-2'}>
               <Card.Header>Universal webapp out of the box</Card.Header>
               <Card.Body>
                 <Card.Title>Universal</Card.Title>
@@ -45,7 +45,7 @@ class Home extends React.Component {
             </Card>
           </Col>
           <Col md={4}>
-            <Card bg="light">
+            <Card bg="light" className={'mb-2'}>
               <Card.Header>Webpack hot reloading</Card.Header>
               <Card.Body>
                 <Card.Title>Hot reloading, LESS and SASS</Card.Title>
