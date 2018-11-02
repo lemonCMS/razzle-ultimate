@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import {hot} from 'react-hot-loader';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import styles from './Cookiebar.scss';
 
@@ -18,6 +17,7 @@ class Level extends Component {
         role={'button'}
         tabIndex={0}
       >
+        {/* eslint-disable-next-line */}
         <div className={styles.levelTxt} dangerouslySetInnerHTML={{__html: this.props.children}} />
         {this.props.icon && <div className={styles.icon}>
           <FontAwesomeIcon icon={this.props.icon} fixedWidth size="6x" />
@@ -38,4 +38,4 @@ Level.defaultProps = {
   active: false
 };
 
-export default hot(module)(Level);
+export default Level;

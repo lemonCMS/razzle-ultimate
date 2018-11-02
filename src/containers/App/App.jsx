@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import Helmet from 'react-helmet';
 import {Switch} from 'react-router';
 import {renderRoutes} from 'react-router-config';
+import FontAwesome from './FontAwesome';
 import Menu from '../../packages/admin/Menu/Menu';
 import menu from '../../menu';
 import './app.scss';
@@ -16,7 +17,7 @@ class App extends React.Component {
   render() {
     const {route: {routes}} = this.props;
     return (
-      <React.Fragment>
+      <FontAwesome>
         <Helmet
           script={[
             {type: 'text/javascript', src: '/js/plupload-2.1.9/plupload.full.min.js'},
@@ -59,7 +60,7 @@ class App extends React.Component {
             <Switch>{renderRoutes(routes)}</Switch>
           </div>
         </div>
-      </React.Fragment>
+      </FontAwesome>
     );
   }
 }

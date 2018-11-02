@@ -1,23 +1,13 @@
+/* eslint react/no-danger: "off" */
 import React from 'react';
 import PropTypes from 'prop-types';
-import {hot} from 'react-hot-loader';
-//import faDesktop from '@fortawesome/fontawesome-free-solid/faDesktop';
-//import faChartBar from '@fortawesome/fontawesome-free-solid/faChartBar';
-//import faUsers from '@fortawesome/fontawesome-free-solid/faUsers';
+// import faDesktop from '@fortawesome/fontawesome-free-solid/faDesktop';
+// import faChartBar from '@fortawesome/fontawesome-free-solid/faChartBar';
+// import faUsers from '@fortawesome/fontawesome-free-solid/faUsers';
 import styles from './Cookiebar.scss';
 import Level from './Level';
 
 class CookieBarCompact extends React.Component {
-
-  constructor(props, context) {
-    super();
-    const level = context.cookieConsent();
-    this.state = {
-      disabled: level === null,
-      level: level,
-      modal: false
-    };
-  }
 
   static contextTypes = {
     'toggleCookieSettings': PropTypes.func.isRequired,
@@ -26,6 +16,15 @@ class CookieBarCompact extends React.Component {
     'cookieConsent': PropTypes.func,
     'config': PropTypes.object
   };
+
+  constructor(props, context) {
+    super();
+    const level = context.cookieConsent();
+    this.state = {
+      disabled: level === null,
+      level,
+    };
+  }
 
   componentDidMount() {
     if (this.context.config.ignoreUserAgent === false && this.context.config.whitelist === false) {
@@ -98,13 +97,17 @@ class CookieBarCompact extends React.Component {
 
               <div className={styles.buttonBar}>
                 {data.buttonCancel !== null && <button
+                  type={'button'}
                   className={styles.buttonCancel}
-                  onClick={() => {this.refModal.style.display = 'none';}}
+                  onClick={() => {
+                    this.refModal.style.display = 'none';
+                  }}
                 >
                   {data.buttonCancel}
                 </button>}
                 {' '}
                 <button
+                  type={'button'}
                   className={styles.button}
                   disabled={this.state.disabled}
                   onClick={save}
@@ -134,6 +137,7 @@ class CookieBarCompact extends React.Component {
             <div className="col-sm-5">
               <div className={styles.cbButtonBar}>
                 <button className={styles.cbSettings}
+                  type={'button'}
                   onClick={() => {
                     window.scrollTo(0, 0);
                     this.refModal.style.display = 'block';
@@ -142,6 +146,7 @@ class CookieBarCompact extends React.Component {
                 </button>
                 {' '}
                 <button className={styles.cbButton}
+                  type={'button'}
                   onClick={() => this.context.saveCookieConsent(3)}>
                   {data.button}
                 </button>
@@ -163,4 +168,4 @@ CookieBarCompact.defaultProps = {
   open: false
 };
 
-export default hot(module)(CookieBarCompact);
+export default CookieBarCompact;

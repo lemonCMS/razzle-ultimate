@@ -42,7 +42,7 @@ const routes = [
         path: '/dogs',
       },
       {
-        component: CookieBar,
+        component: Wrap,
         path: '/cookiebar',
         routes: [
           {
@@ -52,6 +52,9 @@ const routes = [
           {
             path: '/cookiebar/fullscreen',
             component: CookieBarFullScreen
+          },
+          {
+            component: CookieBar
           }
         ]
       },

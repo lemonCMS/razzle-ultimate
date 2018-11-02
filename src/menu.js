@@ -1,14 +1,12 @@
 module.exports = [
   {
-    'desc': 'Home',
-    'to': '/',
-    icon: 'fa-home'
+    desc: 'Home',
+    to: '/',
   },
   {
-    'desc': 'Forms',
-    'to': '/forms',
-    icon: 'fa-dollar',
-    'children': [
+    desc: 'Forms',
+    to: '/forms',
+    children: [
       {
         desc: 'Login',
         to: '/forms/login'
@@ -20,9 +18,8 @@ module.exports = [
     ]
   },
   {
-    'desc': 'Persistent storage',
-    'to': '/counters',
-    icon: 'fa-building-o',
+    desc: 'Persistent storage',
+    to: '/counters',
     children: [
       {
         desc: 'Cookies',
@@ -35,9 +32,8 @@ module.exports = [
     ]
   },
   {
-    'desc': 'Cookiebar',
-    'to': '/cookiebar',
-    icon: 'fa-building-o',
+    desc: 'Cookiebar',
+    to: '/cookiebar',
     children: [
       {
         desc: 'Fullscreen',
@@ -52,7 +48,6 @@ module.exports = [
   {
     desc: 'Data fetcher',
     to: '/data',
-    icon: 'fa-cog',
     children: [
       {
         desc: 'Fetch',

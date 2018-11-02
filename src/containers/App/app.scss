@@ -283,11 +283,6 @@ a:focus {
   margin: 40px 0;
 }
 
-i,
-span {
-  display: inline-block;
-}
-
 /* ---------------------------------------------------
     SIDEBAR STYLE
     Source: https://bootstrapious.com/tutorial/sidebar/index4.html
@@ -527,4 +522,9 @@ a.article:hover {
   #sidebarCollapse span {
     display: none;
   }
+}
+
+
+nav.active ul li svg {
+  display: none;
 }

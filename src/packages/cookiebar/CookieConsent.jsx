@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDomServer from 'react-dom/server';
 import PropTypes from 'prop-types';
-import {hot} from 'react-hot-loader';
 import CookiesJS from 'universal-cookie';
 import uniqid from 'uniqid';
 import CookieBar from './CookieBar';
@@ -21,23 +20,32 @@ class CookieConsent extends React.Component {
     button: 'Accepteren',
     buttonCancel: null,
     buttonSettings: 'Instellingen',
-    level1: null,
-    level2: null,
-    level3: null,
-    /*level1: '<h4>Strikt:</h4> Cookies zonder video&#39;s en zonder aanbiedingen. Deze zijn nodig om onze website te kunnen bezoeken en\n' +
+    level1: '<h4>Strikt:</h4> Cookies zonder video&#39;s en zonder aanbiedingen. Deze zijn nodig om onze website te kunnen bezoeken en\n' +
     '                in te kunnen loggen. Je bezoek en gegevens worden niet bijgehouden.',
     level2: '<h4>Statistieken:</h4> Cookies met video&#39;s maar zonder aanbiedingen. Met deze cookies kun je de website bezoeken,\n' +
     '                inloggen en video&#39;s bekijken. Je bezoek en gegevens worden bijgehouden.',
     level3: '<h4>Extern:</h4> Cookies met video&#39;s en aanbiedingen. Met deze cookies werkt de website optimaal. Je bezoek wordt\n' +
-    '                bijgehouden zodat we onze website kunnen verbeteren en je aanbiedingen kunnen doen.',*/
+    '                bijgehouden zodat we onze website kunnen verbeteren en je aanbiedingen kunnen doen.',
     iFrameBlob: ReactDomServer.renderToStaticMarkup(<BlockResource />),
   };
+
   cookies = null;
+
   cookieOptions = {
     path: '/',
-    expires: new Date(new Date().getTime() + (60 * 60 * 1000 * 24 * (365 * 1))) //1 year
+    expires: new Date(new Date().getTime() + (60 * 60 * 1000 * 24 * 365)) // 1 year
   };
+
   iFrameBlobData = null;
+
+
+  static childContextTypes = {
+    cookieConsent: PropTypes.func.isRequired,
+    toggleCookieSettings: PropTypes.func.isRequired,
+    saveCookieConsent: PropTypes.func.isRequired,
+    cookies: PropTypes.object,
+    config: PropTypes.object
+  };
 
   constructor() {
     super();
@@ -52,28 +60,12 @@ class CookieConsent extends React.Component {
     this.init = this.init.bind(this);
     this.state = {
       showCookieSettings: false,
-      showCookieBar: true,
       openedByHash: false,
     };
     this.position = 0;
     if (typeof window !== 'undefined') {
       this.cookies = new CookiesJS();
     }
-  }
-
-  static childContextTypes = {
-    cookieConsent: PropTypes.func.isRequired,
-    toggleCookieSettings: PropTypes.func.isRequired,
-    saveCookieConsent: PropTypes.func.isRequired,
-    cookies: PropTypes.object,
-    config: PropTypes.object
-  };
-
-  cookieConsentLvl() {
-    if (this.config.ignoreUserAgent === true) {
-      return 3;
-    }
-    return Number((this.cookies && this.cookies.get('cookieConsent'))) || null;
   }
 
   getChildContext() {
@@ -86,54 +78,6 @@ class CookieConsent extends React.Component {
     };
   }
 
-  getDomainName() {
-    let i = 0;
-    let domain = document.domain;
-    const p = domain.split('.');
-    const s = '_gd' + (new Date()).getTime();
-
-    while (i < (p.length - 1) && document.cookie.indexOf(s + '=' + s) === -1) {
-      domain = p.slice(-1 - (i += 1)).join('.');
-      document.cookie = s + '=' + s + ';domain=' + domain + ';';
-    }
-    document.cookie = s + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;domain=' + domain + ';';
-    return domain;
-
-  }
-
-
-  saveCookieConsent(level) {
-    this.cookieOptions.domain = this.getDomainName(window.location.host);
-    this.cookies.set('cookieConsent', level, this.cookieOptions);
-    this.cookies.set('cookieAccepted', 'true', this.cookieOptions);
-    this.setState({openedByHash: false, showCookieBar: false});
-    if (this.config.reload === false) {
-      this.updateDoc();
-      if (typeof window.history !== 'undefined' && typeof window.history.pushState !== 'undefined') {
-        window.history.pushState(null, null, window.location.href.split('#')[0]);
-      } else {
-        window.location.hash = '';
-      }
-
-      window.scrollTo(0, this.position);
-    } else {
-      window.location.reload(true);
-    }
-  }
-
-  toggleCookieSettings() {
-    this.setState({showCookieSettings: !this.state.showCookieSettings});
-  }
-
-  iframeBlob() {
-    if (this.iFrameBlobData) {
-      return this.iFrameBlobData;
-    }
-    const blob = new Blob([this.config.iFrameBlob], {type: 'text/html'});
-    this.iFrameBlobData = URL.createObjectURL(blob);
-    return this.iFrameBlobData;
-  }
-
   componentWillMount() {
     if (
       typeof window !== 'undefined' &&
@@ -142,8 +86,7 @@ class CookieConsent extends React.Component {
       window.location.hash === '#gdprSettings'
     ) {
       this.setState({
-        openedByHash: true,
-        showCookieBar: true
+        openedByHash: true
       });
     }
     this.init();
@@ -153,18 +96,47 @@ class CookieConsent extends React.Component {
     this.init();
   }
 
-  init() {
-    if (typeof window !== 'undefined') {
-      this.cookies = new CookiesJS();
+  getDomainName() {
+    let i = 0;
+    let domain = document.domain;
+    const p = domain.split('.');
+    const s = `_gd${(new Date()).getTime()}`;
 
-      if (typeof window !== 'undefined' && typeof window.reactGpdrSettings !== 'undefined') {
-        this.config = Object.assign({}, this.config, window.reactGpdrSettings);
-      }
-
-      window.addEventListener('hashchange', this.listener);
-      window.addEventListener('scroll', this.scroller);
-      this.updateDoc();
+    while (i < (p.length - 1) && document.cookie.indexOf(`${s}=${s}`) === -1) {
+      domain = p.slice(-1 - (i += 1)).join('.');
+      document.cookie = `${s}=${s};domain=${domain};`;
     }
+    document.cookie = `${s}=;expires=Thu, 01 Jan 1970 00:00:01 GMT;domain=${domain};`;
+    return domain;
+
+  }
+
+  getElements(attrib) {
+    return document.querySelectorAll(`[${attrib}]`);
+  }
+
+  listener(event) {
+    if (
+      typeof event !== 'undefined' &&
+      typeof event.target !== 'undefined' &&
+      typeof event.target.window !== 'undefined' &&
+      typeof event.target.window.location !== 'undefined' &&
+      typeof event.target.window.location.hash !== 'undefined' &&
+      event.target.window.location.hash === '#gdprSettings'
+    ) {
+      this.setState({
+        openedByHash: true,
+      });
+    }
+  }
+
+  scroller() {
+    const doc = document.documentElement;
+    const currPos = (window.pageYOffset || doc.scrollTop) - (doc.clientTop || 0);
+    if (!this.state.openedByHash && currPos > 0) {
+      this.position = currPos;
+    }
+
   }
 
   updateDoc() {
@@ -220,34 +192,58 @@ class CookieConsent extends React.Component {
     }
   }
 
+  init() {
+    if (typeof window !== 'undefined') {
+      this.cookies = new CookiesJS();
 
-  scroller() {
-    const doc = document.documentElement;
-    const currPos = (window.pageYOffset || doc.scrollTop) - (doc.clientTop || 0);
-    if (!this.state.openedByHash && currPos > 0) {
-      this.position = currPos;
-    }
+      if (typeof window !== 'undefined' && typeof window.reactGpdrSettings !== 'undefined') {
+        this.config = Object.assign({}, this.config, window.reactGpdrSettings);
+      }
 
-  }
-
-  listener(event) {
-    if (
-      typeof event !== 'undefined' &&
-      typeof event.target !== 'undefined' &&
-      typeof event.target.window !== 'undefined' &&
-      typeof event.target.window.location !== 'undefined' &&
-      typeof event.target.window.location.hash !== 'undefined' &&
-      event.target.window.location.hash === '#gdprSettings'
-    ) {
-      this.setState({
-        openedByHash: true,
-        showCookieBar: true
-      });
+      window.addEventListener('hashchange', this.listener);
+      window.addEventListener('scroll', this.scroller);
+      this.updateDoc();
     }
   }
 
-  getElements(attrib) {
-    return document.querySelectorAll('[' + attrib + ']');
+  iframeBlob() {
+    if (this.iFrameBlobData) {
+      return this.iFrameBlobData;
+    }
+    const blob = new Blob([this.config.iFrameBlob], {type: 'text/html'});
+    this.iFrameBlobData = URL.createObjectURL(blob);
+    return this.iFrameBlobData;
+  }
+
+  toggleCookieSettings() {
+    const {showCookieSettings} = this.state;
+    this.setState({showCookieSettings: !showCookieSettings});
+  }
+
+  saveCookieConsent(level) {
+    this.cookieOptions.domain = this.getDomainName(window.location.host);
+    this.cookies.set('cookieConsent', level, this.cookieOptions);
+    this.cookies.set('cookieAccepted', 'true', this.cookieOptions);
+    this.setState({openedByHash: false});
+    if (this.config.reload === false) {
+      this.updateDoc();
+      if (typeof window.history !== 'undefined' && typeof window.history.pushState !== 'undefined') {
+        window.history.pushState(null, null, window.location.href.split('#')[0]);
+      } else {
+        window.location.hash = '';
+      }
+
+      window.scrollTo(0, this.position);
+    } else {
+      window.location.reload(true);
+    }
+  }
+
+  cookieConsentLvl() {
+    if (this.config.ignoreUserAgent === true) {
+      return 3;
+    }
+    return Number((this.cookies && this.cookies.get('cookieConsent'))) || null;
   }
 
   render() {
@@ -262,4 +258,4 @@ class CookieConsent extends React.Component {
 CookieConsent.propTypes = {};
 CookieConsent.defaultProps = {};
 
-export default hot(module)(CookieConsent);
+export default CookieConsent;

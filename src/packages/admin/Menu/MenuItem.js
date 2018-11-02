@@ -5,6 +5,7 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import classNames from 'classnames';
 import {matchPath} from 'react-router';
 import {NavLink as Link} from 'react-router-dom';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 
 class MenuItem extends Component {
 
@@ -27,7 +28,8 @@ class MenuItem extends Component {
   content() {
     const {item} = this.props;
     if (_.has(item, 'to')) {
-      return (<Link to={item.to} activeClassName="active">{this.icon()} {item.desc} {this.openClose()}</Link>);
+      return (<Link to={item.to}
+        activeClassName="active">{this.icon()} {item.desc} {this.openClose()}</Link>);
     }
     return (<span>{this.icon()} {item.desc}</span>);
   }
@@ -45,21 +47,24 @@ class MenuItem extends Component {
     if (_.has(item, 'children')) {
       if (this.state.active === true) {
         return (
-          <b className="collapse-sign"><em className="fa fa-minus-square-o" /></b>
+          <FontAwesomeIcon icon={['far', 'minus-square']} className={'float-right'} fixedWidth />
         );
       }
 
       return (
-        <b className="collapse-sign"><em className="fa fa-plus-square-o" /></b>
+        <FontAwesomeIcon icon={['far', 'plus-square']}  className={'float-right'} fixedWidth />
       );
     }
     return null;
   }
 
   children() {
-    if (_.has(this.props.item, 'children') && ( this.state.active === true)) {
+    if (_.has(this.props.item, 'children') && (this.state.active === true)) {
       return _.map(_.get(this.props.item, 'children'), (item, key) =>
-        (<MenuItem key={key} item={item} location={this.props.location} match={this.props.match}/>));
+        (<MenuItem key={key}
+          item={item}
+          location={this.props.location}
+          match={this.props.match} />));
     }
     return null;
   }
@@ -69,9 +74,9 @@ class MenuItem extends Component {
       <li className={classNames({'active': this.state.active, 'open': this.state.active})}>
         {this.content()}
         <ReactCSSTransitionGroup component="ul"
-                                 transitionName={{enter: 'animated', enterActive: 'slideInLeft', leave: 'animatedOut', leaveActive: 'slideOutLeft'}}
-                                 transitionEnterTimeout={500}
-                                 transitionLeaveTimeout={500}>
+          transitionName={{enter: 'animated', enterActive: 'slideInLeft', leave: 'animatedOut', leaveActive: 'slideOutLeft'}}
+          transitionEnterTimeout={500}
+          transitionLeaveTimeout={500}>
           {this.children()}
         </ReactCSSTransitionGroup>
       </li>

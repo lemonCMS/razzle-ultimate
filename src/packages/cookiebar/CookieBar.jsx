@@ -1,23 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {hot} from 'react-hot-loader';
-//import faDesktop from '@fortawesome/fontawesome-free-solid/faDesktop';
-//import faChartBar from '@fortawesome/fontawesome-free-solid/faChartBar';
-//import faUsers from '@fortawesome/fontawesome-free-solid/faUsers';
+// import faDesktop from '@fortawesome/fontawesome-free-solid/faDesktop';
+// import faChartBar from '@fortawesome/fontawesome-free-solid/faChartBar';
+// import faUsers from '@fortawesome/fontawesome-free-solid/faUsers';
 import styles from './Cookiebar.scss';
 import Level from './Level';
 
 class CookieBar extends React.Component {
-
-
-  constructor(props, context) {
-    super();
-    const level = context.cookieConsent();
-    this.state = {
-      disabled: level === null,
-      level: level
-    };
-  }
 
   static contextTypes = {
     'toggleCookieSettings': PropTypes.func.isRequired,
@@ -26,6 +15,15 @@ class CookieBar extends React.Component {
     'cookieConsent': PropTypes.func,
     'config': PropTypes.object
   };
+
+  constructor(props, context) {
+    super();
+    const level = context.cookieConsent();
+    this.state = {
+      disabled: level === null,
+      level
+    };
+  }
 
   componentDidMount() {
     if (this.context.config.ignoreUserAgent === false && this.context.config.whitelist === false) {
@@ -41,7 +39,6 @@ class CookieBar extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    // if (this.context.config.ignoreUserAgent === false && this.context.config.whitelist === false) {
     if (
       nextProps.open === true
     ) {
@@ -50,7 +47,6 @@ class CookieBar extends React.Component {
     } else if (nextProps.open === false) {
       this.ref.style.display = 'none';
     }
-    // }
   }
 
   render() {
@@ -73,8 +69,10 @@ class CookieBar extends React.Component {
         <div className={styles['react-gdr-page-overlay']} />
         <div className={styles['react-gdr-page-modal-container']}>
           <div className={styles['react-gdr-page-modal']}>
+            {/* eslint-disable-next-line */}
             <div className={styles.header} dangerouslySetInnerHTML={{__html: data.title}} />
             <div className={styles.body}>
+              {/* eslint-disable-next-line */}
               <div className={styles.info} dangerouslySetInnerHTML={{__html: data.intro}} />
               {data.level3 !== null &&
               <Level onClick={() => levelClick(3)} active={this.state.level === 3}>
@@ -94,6 +92,7 @@ class CookieBar extends React.Component {
 
               <div className={styles.buttonBar}>
                 <button
+                  type={'button'}
                   className={styles.button}
                   disabled={this.state.disabled}
                   onClick={save}
@@ -116,4 +115,4 @@ CookieBar.defaultProps = {
   open: false
 };
 
-export default hot(module)(CookieBar);
+export default CookieBar;

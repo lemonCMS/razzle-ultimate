@@ -1,19 +1,23 @@
 import React from 'react';
-import faEyeSlash from '@fortawesome/fontawesome-free-solid/faEyeSlash';
-import FontAwesomeIcon from '@fortawesome/react-fontawesome';
-import {hot} from 'react-hot-loader';
 import styles from './Cookiebar.scss';
 
 class BlockResource extends React.Component {
   render() {
     return (
-      <div className={styles.changeSettings} onClick={(event) => { event.stopPropagation(); event.preventDefault(); return false;}}>
+      <div className={styles.changeSettings}
+        onClick={(event) => {
+          event.stopPropagation();
+          event.preventDefault();
+          return false;
+        }}
+        role={'button'}
+        tabIndex={0}
+      >
         <div>
-          <FontAwesomeIcon icon={faEyeSlash} className={styles.mooidingetje} />
           {' '}
           Om deze resource te kunnen zien moet u de
           {' '}
-          <a href={(typeof navigator !== 'undefined' ? window.location.href.split('#')[0] : '' ) + '#gdprSettings'}>cookie instellingen</a>
+          <a href={`${(typeof navigator !== 'undefined' ? window.location.href.split('#')[0] : '')}#gdprSettings`}>cookie instellingen</a>
           {' '}
           op <strong>optimaal</strong> zetten.
         </div>
@@ -25,4 +29,4 @@ class BlockResource extends React.Component {
 BlockResource.propTypes = {};
 BlockResource.defaultProps = {};
 
-export default hot(module)(BlockResource);
+export default BlockResource;
