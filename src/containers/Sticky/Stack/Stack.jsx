@@ -3,9 +3,9 @@ import Container from 'react-bootstrap/lib/Container';
 import Row from 'react-bootstrap/lib/Row';
 import Alert from 'react-bootstrap/lib/Alert';
 import Col from 'react-bootstrap/lib/Col';
-import SyntaxHighlighter, { registerLanguage } from 'react-syntax-highlighter/prism-light';
-import jsx from 'react-syntax-highlighter/languages/prism/jsx';
-import prism from 'react-syntax-highlighter/styles/prism/prism';
+import SyntaxHighlighter, { registerLanguage } from 'react-syntax-highlighter/dist/prism-light';
+import jsx from 'react-syntax-highlighter/dist/languages/prism/jsx';
+import prism from 'react-syntax-highlighter/dist/styles/prism/prism';
 import Sticky from '../../../packages/sticky';
 
 registerLanguage('jsx', jsx);

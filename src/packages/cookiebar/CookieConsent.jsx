@@ -96,6 +96,11 @@ class CookieConsent extends React.Component {
     this.init();
   }
 
+  componentWillUnmount() {
+    window.removeEventListener('hashchange', this.listener);
+    window.removeEventListener('scroll', this.scroller);
+  }
+
   getDomainName() {
     let i = 0;
     let domain = document.domain;

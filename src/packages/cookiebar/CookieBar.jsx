@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 // import faDesktop from '@fortawesome/fontawesome-free-solid/faDesktop';
 // import faChartBar from '@fortawesome/fontawesome-free-solid/faChartBar';
 // import faUsers from '@fortawesome/fontawesome-free-solid/faUsers';
-import styles from './Cookiebar.scss';
+// import styles from './Cookiebar.scss';
 import Level from './Level';
 
 class CookieBar extends React.Component {
@@ -66,14 +66,14 @@ class CookieBar extends React.Component {
           this.ref = ref;
         }}>
 
-        <div className={styles['react-gdr-page-overlay']} />
-        <div className={styles['react-gdr-page-modal-container']}>
-          <div className={styles['react-gdr-page-modal']}>
+        <div className={'react-gdr-page-overlay'} />
+        <div className={'react-gdr-page-modal-container'}>
+          <div className={'react-gdr-page-modal'}>
             {/* eslint-disable-next-line */}
-            <div className={styles.header} dangerouslySetInnerHTML={{__html: data.title}} />
-            <div className={styles.body}>
+            <div className={'header'} dangerouslySetInnerHTML={{__html: data.title}} />
+            <div className={'body'}>
               {/* eslint-disable-next-line */}
-              <div className={styles.info} dangerouslySetInnerHTML={{__html: data.intro}} />
+              <div className={'info'} dangerouslySetInnerHTML={{__html: data.intro}} />
               {data.level3 !== null &&
               <Level onClick={() => levelClick(3)} active={this.state.level === 3}>
                 {data.level3}
@@ -90,10 +90,10 @@ class CookieBar extends React.Component {
               </Level>
               }
 
-              <div className={styles.buttonBar}>
+              <div className={'buttonBar'}>
                 <button
                   type={'button'}
-                  className={styles.button}
+                  className={'button'}
                   disabled={this.state.disabled}
                   onClick={save}
                 >

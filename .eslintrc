@@ -9,6 +9,7 @@
   "parser": "babel-eslint",
   "plugins": ["react", "prettier"],
   "rules": {
+    "react/no-did-update-set-state" : "off",
     "react/jsx-curly-brace-presence": "off",
     "no-console": "off",
     "max-len": "off",

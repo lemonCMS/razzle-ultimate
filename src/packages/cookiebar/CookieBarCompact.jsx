@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 // import faDesktop from '@fortawesome/fontawesome-free-solid/faDesktop';
 // import faChartBar from '@fortawesome/fontawesome-free-solid/faChartBar';
 // import faUsers from '@fortawesome/fontawesome-free-solid/faUsers';
-import styles from './Cookiebar.scss';
+// import styles from './Cookiebar.scss';
 import Level from './Level';
 
 class CookieBarCompact extends React.Component {
@@ -17,37 +17,46 @@ class CookieBarCompact extends React.Component {
     'config': PropTypes.object
   };
 
-  constructor(props, context) {
+  constructor() {
     super();
-    const level = context.cookieConsent();
     this.state = {
-      disabled: level === null,
-      level,
+      disabled: true,
+      level: null
     };
   }
 
   componentDidMount() {
-    if (this.context.config.ignoreUserAgent === false && this.context.config.whitelist === false) {
-      if (
-        (window &&
-          this.context.cookies.get('cookieAccepted') !== 'true') ||
-        this.props.open === true
+    const ctxLevel = this.context.cookieConsent();
+    if (this.state.level !== ctxLevel) {
+      this.setState({level: ctxLevel, disabled: false});
+    }
 
-      ) {
-        this.ref.style.display = 'block';
+    if (this.context.config.ignoreUserAgent === false && this.context.config.whitelist === false) {
+      if ((window && this.context.cookies.get('cookieAccepted') !== 'true') || this.props.open === true) {
+        if (this.context.cookies.get('cookieAccepted') !== 'true') {
+          this.ref.style.display = 'block';
+        } else {
+          this.refModal.style.display = 'block';
+        }
       }
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (
-      nextProps.open === true
-    ) {
-      this.refModal.style.display = 'block';
-      this.setState({level: this.context.cookieConsent(), disabled: false});
-    } else if (nextProps.open === false) {
-      this.refModal.style.display = 'none';
-      this.ref.style.display = 'none';
+  componentDidUpdate(prevProps) {
+    const ctxLevel = this.context.cookieConsent();
+    if (this.state.level === null && ctxLevel !== null) {
+      this.setState({level: ctxLevel, disabled: false});
+    }
+
+    if (prevProps.open !== this.props.open) {
+      if (this.props.open === true) {
+        this.refModal.style.display = 'block';
+        this.setState({level: this.context.cookieConsent(), disabled: false});
+
+      } else {
+        this.refModal.style.display = 'none';
+        this.ref.style.display = 'none';
+      }
     }
   }
 
@@ -59,6 +68,8 @@ class CookieBarCompact extends React.Component {
 
     const save = () => {
       this.context.saveCookieConsent(this.state.level);
+      this.refModal.style.display = 'none';
+      this.ref.style.display = 'none';
     };
 
     const choose = (
@@ -68,13 +79,13 @@ class CookieBarCompact extends React.Component {
           this.refModal = ref;
         }}>
 
-        <div className={styles['react-gdr-page-overlay']} />
-        <div className={styles['react-gdr-page-modal-container']}>
-          <div className={styles['react-gdr-page-modal']}>
-            <div className={styles.header}
+        <div className={'react-gdr-page-overlay'} />
+        <div className={'react-gdr-page-modal-container'}>
+          <div className={'react-gdr-page-modal'}>
+            <div className={'header'}
               dangerouslySetInnerHTML={{__html: data.title}} />
-            <div className={styles.body}>
-              <div className={styles.info}
+            <div className={'body'}>
+              <div className={'info'}
                 dangerouslySetInnerHTML={{__html: data.intro}} />
               {data.level3 !== null &&
               <Level onClick={() => levelClick(3)}
@@ -94,11 +105,10 @@ class CookieBarCompact extends React.Component {
                 {data.level1}
               </Level>
               }
-
-              <div className={styles.buttonBar}>
+              <div className={'buttonBar'}>
                 {data.buttonCancel !== null && <button
                   type={'button'}
-                  className={styles.buttonCancel}
+                  className={'buttonCancel'}
                   onClick={() => {
                     this.refModal.style.display = 'none';
                   }}
@@ -108,7 +118,7 @@ class CookieBarCompact extends React.Component {
                 {' '}
                 <button
                   type={'button'}
-                  className={styles.button}
+                  className={'button'}
                   disabled={this.state.disabled}
                   onClick={save}
                 >
@@ -124,7 +134,7 @@ class CookieBarCompact extends React.Component {
 
     const bar = (
       <div
-        className={styles.cookiebar}
+        className={'cookiebar'}
         style={{display: 'none'}}
         ref={(ref) => {
           this.ref = ref;
@@ -135,8 +145,8 @@ class CookieBarCompact extends React.Component {
             <div className="col-sm-7"
               dangerouslySetInnerHTML={{__html: data.cookieBar}} />
             <div className="col-sm-5">
-              <div className={styles.cbButtonBar}>
-                <button className={styles.cbSettings}
+              <div className={'cbButtonBar'}>
+                <button className={'cbSettings'}
                   type={'button'}
                   onClick={() => {
                     window.scrollTo(0, 0);
@@ -145,16 +155,18 @@ class CookieBarCompact extends React.Component {
                   {data.buttonSettings}
                 </button>
                 {' '}
-                <button className={styles.cbButton}
+                <button className={'cbButton'}
                   type={'button'}
-                  onClick={() => this.context.saveCookieConsent(3)}>
+                  onClick={() => {
+                    this.context.saveCookieConsent(3);
+                    this.ref.style.display = 'none';
+                  }}>
                   {data.button}
                 </button>
               </div>
             </div>
           </div>
         </div>
-
       </div>);
 
     return <React.Fragment>{choose}{bar}</React.Fragment>;

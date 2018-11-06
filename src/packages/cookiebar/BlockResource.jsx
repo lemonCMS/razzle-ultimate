@@ -1,11 +1,12 @@
 import React from 'react';
-import styles from './Cookiebar.scss';
+
 
 class BlockResource extends React.Component {
   render() {
     return (
-      <div className={styles.changeSettings}
+      <div className={'changeSettings'}
         onClick={(event) => {
+          window.scrollTo(0,0);
           event.stopPropagation();
           event.preventDefault();
           return false;

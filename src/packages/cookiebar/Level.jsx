@@ -2,15 +2,15 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
-import styles from './Cookiebar.scss';
+// import styles from './Cookiebar.scss';
 
 class Level extends Component {
   render() {
     return (
       <div
         className={classnames({
-          [styles.level]: true,
-          [styles.active]: this.props.active
+          'level': true,
+          'active': this.props.active
         })}
         onClick={this.props.onClick}
         onKeyDown={this.props.onClick}
@@ -18,8 +18,8 @@ class Level extends Component {
         tabIndex={0}
       >
         {/* eslint-disable-next-line */}
-        <div className={styles.levelTxt} dangerouslySetInnerHTML={{__html: this.props.children}} />
-        {this.props.icon && <div className={styles.icon}>
+        <div className={'levelTxt'} dangerouslySetInnerHTML={{__html: this.props.children}} />
+        {this.props.icon && <div className={'icon'}>
           <FontAwesomeIcon icon={this.props.icon} fixedWidth size="6x" />
         </div>}
       </div>
