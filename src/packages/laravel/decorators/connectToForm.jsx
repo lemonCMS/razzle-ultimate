@@ -22,6 +22,12 @@ export default custom => (Component) => {
 
   @withRouter
   class WrappedComponent extends React.Component {
+    static propTypes = {
+      dispatch: PropTypes.func.isRequired,
+      match: PropTypes.object.isRequired,
+      history: PropTypes.object.isRequired
+    };
+
 
     constructor(props) {
       super(props);
@@ -36,52 +42,44 @@ export default custom => (Component) => {
       };
     }
 
-    static propTypes = {
-      dispatch: PropTypes.func.isRequired,
-      match: PropTypes.object.isRequired,
-      history: PropTypes.object.isRequired
-    };
-
     static getDerivedStateFromProps(props) {
       const {history: {location: {pathname}}, match: {params}} = props;
       const edit = _has(pathname.match(/(edit|confirm|close)$/g), [0]);
       const id = edit ? params.id : null;
 
       return {
-        id: id,
-        edit: edit,
+        id,
+        edit,
         confirm: _has(pathname.match(/confirm$/g), [0]),
         close: _has(pathname.match(/close/g), [0]),
         newItem: _has(pathname.match(/new/g), [0]),
       };
     }
 
-    onSubmit = async (payload) => {
-      return new Promise((resolve) => {
-        let promise = null;
-        if (!this.state.edit) {
-          promise = this.props.dispatch(post(config.key, `${config.api}`, payload));
-        } else {
-          promise = this.props.dispatch(update(config.key, `${config.api}`, this.props.match.params.id, payload));
+    onSubmit = async (payload) => new Promise((resolve) => {
+      let promise = null;
+      if (!this.state.edit) {
+        promise = this.props.dispatch(post(config.key, `${config.api}`, payload));
+      } else {
+        promise = this.props.dispatch(update(config.key, `${config.api}`, this.props.match.params.id, payload));
+      }
+
+      promise.then((ret) => {
+        if (ret && Object.prototype.hasOwnProperty.call(ret, 'error')) {
+          resolve(ret.error);
         }
+        if (this.state.newItem) {
+          this.props.history.push(`${this.props.history.location.pathname}/${_get(ret, 'id', 'new')}/edit`);
+        }
+        resolve();
 
-        promise.then((ret) => {
-          if (ret && ret.hasOwnProperty('error')) {
-            resolve(ret.error);
-          }
-          if (this.state.newItem) {
-            this.props.history.push(`${this.props.history.location.pathname}/${_get(ret, 'id', 'new')}/edit`);
-          }
-          resolve();
-
-        }).catch((err) => {
-          if (err && err.hasOwnProperty('error')) {
-            resolve(err.error);
-          }
-          resolve(err);
-        });
+      }).catch((err) => {
+        if (err && Object.prototype.hasOwnProperty.call(err, 'error')) {
+          resolve(err.error);
+        }
+        resolve(err);
       });
-    };
+    });
 
     render() {
       const props = {

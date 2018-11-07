@@ -26,7 +26,7 @@ export default function connnectToConfirm(conf) {
       }
 
       showModal(item, action) {
-        this.setState({showModal: true, item: item, action: action});
+        this.setState({showModal: true, item, action});
       }
 
       closeModal() {
@@ -34,7 +34,7 @@ export default function connnectToConfirm(conf) {
       }
 
       confirm() {
-        const item = Object.assign({}, this.state.item);
+        const {item} = this.state;
         this.state.action(item);
         this.closeModal();
       }
@@ -50,7 +50,7 @@ export default function connnectToConfirm(conf) {
               {thisConf.message}
             </Modal.Body>
             <Modal.Footer>
-              <Button bsStyle="danger"
+              <Button variant="danger"
                 onClick={this.confirm}>{thisConf.confirm}</Button>
               <Button onClick={this.closeModal}>{thisConf.cancel}</Button>
             </Modal.Footer>

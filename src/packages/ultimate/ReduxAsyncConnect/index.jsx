@@ -39,6 +39,7 @@ class ReduxAsyncConnect extends Component {
   }
 
   static getDerivedStateFromProps(props, state) {
+    console.log('DERIVE');
     if (props.location.pathname === state.nextLocation.pathname &&
       props.location.search === state.nextLocation.search
     ) {
@@ -48,6 +49,7 @@ class ReduxAsyncConnect extends Component {
     if (props.location.pathname !== state.location.pathname ||
       props.location.search !== state.location.search
     ) {
+      console.log('NEXT LOCATION');
       return {
         nextLocation: Object.assign({}, props.location)
       };

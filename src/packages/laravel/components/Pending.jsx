@@ -4,8 +4,8 @@ import React, {Component} from 'react';
 export default class Pending extends Component {
   static propTypes = {
     state: PropTypes.shape({
-      pending: PropTypes.bool.required,
-      failed: PropTypes.bool.required
+      pending: PropTypes.bool.isRequired,
+      failed: PropTypes.bool.isRequired
     }),
     children: PropTypes.oneOfType([
       PropTypes.object.isRequired,
@@ -31,6 +31,7 @@ export default class Pending extends Component {
         </div>)
       ]);
     }
+    return null;
   }
 
   render() {

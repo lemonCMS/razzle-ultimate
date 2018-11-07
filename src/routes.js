@@ -6,6 +6,7 @@ import Counters from './containers/Counters/Loadable';
 import CountersCookie from './containers/Counters/Cookie';
 import CountersLocal from './containers/Counters/Local';
 import Forms from './containers/Forms';
+import Laravel from './containers/Laravel';
 import CookieBar from './containers/CookieBar';
 import CookieBarFullScreen from './containers/CookieBar/FullScreen';
 import Sticky from './containers/Sticky';
@@ -39,6 +40,10 @@ const routes = [
       {
         component: Dogs,
         path: '/dogs',
+      },
+      {
+        component: Laravel,
+        path: '/laravel',
       },
       {
         component: Wrap,

@@ -13,7 +13,6 @@ class UsersController extends Controller
   public function index(Request $request)
   {
     $input = $request->only('search', 'searchField');
-
     $users = Users::where(function ($query) use ($input, $request) {
       if (!empty($input['search'])) {
         return $query->where('name', 'LIKE', '%' . $input['search'] . '%')
@@ -21,10 +20,7 @@ class UsersController extends Controller
       }
     })->paginate(config('app.pagination'));
 
-
-
     return $users;
-    //return View::make('admin.users.index')->with('users', $users);
 
   }
 

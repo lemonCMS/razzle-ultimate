@@ -10,7 +10,7 @@ import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import {Alert} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
-import {provideHooks} from '@wicked_query/redial';
+import {provideHooks} from '../../redial';
 import {load, clearItem, destroyItem} from '../redux/store/actions';
 import DataTable from '../components/DataTable';
 import connectToFilter, {createAllParamsForFetch} from './connectToFilter';
@@ -24,12 +24,15 @@ export default function connnectToList(properties) {
       fetch: ({store: {dispatch, getState}, params, match, history}) => {
         const promises = [];
         const state = createAllParamsForFetch(getState(), match, history);
+        console.log('AMBER');
         const api = () => {
           if (_isFunction(properties.api)) {
             return properties.api(params);
           }
           return properties.api;
         };
+
+        console.log('STATE', state);
 
         promises.push(dispatch(load(properties.key, api(), state)));
         return Promise.all(promises);
@@ -44,18 +47,6 @@ export default function connnectToList(properties) {
         auth: state.auth,
       }))
     class Connection extends Component {
-      constructor() {
-        super();
-        this.filter = this.filter.bind(this);
-        this.show = this.show.bind(this);
-        this.edit = this.edit.bind(this);
-        this.destroy = this.destroy.bind(this);
-        this.path = this.path.bind(this);
-        this.state = {
-          forceUpdate: false,
-          path: ''
-        };
-      }
 
       static propTypes = {
         children: PropTypes.oneOfType([
@@ -76,12 +67,16 @@ export default function connnectToList(properties) {
         showModal: PropTypes.func,
       };
 
-      path() {
-        let path = properties.path;
-        if (_isFunction(properties.path)) {
-          path = properties.path(this.props.match.params);
-        }
-        this.setState({path: path});
+      constructor() {
+        super();
+        this.filter = this.filter.bind(this);
+        this.show = this.show.bind(this);
+        this.edit = this.edit.bind(this);
+        this.destroy = this.destroy.bind(this);
+        this.path = this.path.bind(this);
+        this.state = {
+          path: ''
+        };
       }
 
       componentWillMount() {
@@ -99,11 +94,20 @@ export default function connnectToList(properties) {
         }
       }
 
+      path() {
+        let {path} = properties;
+        if (_isFunction(path)) {
+          path = path(this.props.match.params);
+        }
+        this.setState({path});
+      }
+
       filter() {
         return (
           <div className="panel panel-border-tb">
             <div className="panel-heading">
-              <Link to={`${properties.path}/new`} className="pull-right"><i className="fa fa-plus" /> nieuw item
+              <Link to={`${properties.path}/new`}
+                className="pull-right"><i className="fa fa-plus" /> nieuw item
                 aanmaken</Link>
               <h4 className="panel-title">Verfijn</h4>
             </div>
@@ -149,10 +153,7 @@ export default function connnectToList(properties) {
             dropDown.dropdownButton.push({
               name: 'verwijderen',
               onClick: (item) => {
-                this.setState({forceUpdate: true}, () => {
-                  this.props.showModal(item, this.destroy);
-                });
-
+                this.props.showModal(item, this.destroy);
               }
             });
           }
@@ -183,6 +184,7 @@ export default function connnectToList(properties) {
                 }}
               />);
           }
+          return null;
         };
 
         const state = {
@@ -192,8 +194,9 @@ export default function connnectToList(properties) {
 
         const warning = () => {
           if (_has(this.props, ['data', 'item', 'error'])) {
-            return (<Alert bsStyle="danger">{_get(this.props, ['data', 'item', 'error'])}</Alert>);
+            return (<Alert variant="danger">{_get(this.props, ['data', 'item', 'error'])}</Alert>);
           }
+          return null;
         };
 
         return (

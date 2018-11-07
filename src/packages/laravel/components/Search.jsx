@@ -1,55 +1,57 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import FormGroup from 'react-bootstrap/lib/FormGroup';
-import ControlLabel from 'react-bootstrap/lib/ControlLabel';
+import FormLabel from 'react-bootstrap/lib/FormLabel';
 import FormControl from 'react-bootstrap/lib/FormControl';
 import Button from 'react-bootstrap/lib/Button';
 import InputGroup from 'react-bootstrap/lib/InputGroup';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 
 class Search extends React.Component {
+
+  static propTypes = {
+    pushSearch: PropTypes.func,
+    query: PropTypes.string
+  };
 
   constructor() {
     super();
     this.pushSearch = this.pushSearch.bind(this);
     this.clearSearch = this.clearSearch.bind(this);
     this.state = {
-      q: '',
+      search: '',
       skip: 0
     };
   }
 
-  static propTypes = {
-    'pushSearch': PropTypes.func,
-    'query': PropTypes.string
-  };
-
   componentWillMount() {
     this.setState({
-      q: this.props.query,
+      search: this.props.query,
       skip: 0
     });
   }
 
   componentWillReceiveProps(nextProps) {
     if (this.state.skip === 0) {
-      this.setState({q: nextProps.query});
+      this.setState({search: nextProps.query});
     }
 
     if (this.state.skip > 0) {
-      this.setState({skip: this.state.skip - 1});
+      const {skip} = this.state;
+      this.setState({skip: skip - 1});
     }
   }
 
   pushSearch(e) {
     const value = e.target.value;
-    this.setState({q: value, skip: 6}, () => {
+    this.setState({search: value, skip: 6}, () => {
       this.props.pushSearch(value);
     });
   }
 
   clearSearch() {
     this.setState({
-      q: ''
+      search: ''
     }, this.props.pushSearch(''));
   }
 
@@ -58,19 +60,19 @@ class Search extends React.Component {
       <FormGroup
         controlId="q"
       >
-        <ControlLabel>Zoeken</ControlLabel>
+        <FormLabel>Zoeken</FormLabel>
         <InputGroup>
           <FormControl
             type="text"
-            value={this.state.q}
+            value={this.state.search}
             placeholder="Zoeken"
             onChange={this.pushSearch}
           />
-          <InputGroup.Button>
-            <Button disabled={this.state.q === ''} onClick={this.clearSearch}>
-              <i className="fa fa-remove" />
+          <InputGroup.Append>
+            <Button disabled={this.state.search === ''} onClick={this.clearSearch}>
+              <FontAwesomeIcon icon={['fas', 'times']} fixedWidth />
             </Button>
-          </InputGroup.Button>
+          </InputGroup.Append>
         </InputGroup>
       </FormGroup>
     );

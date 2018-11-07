@@ -20,6 +20,8 @@ class UsersTableSeeder extends Seeder {
           'name' => $faker->name(),
           'email' => $faker->unique()->safeEmail,
           'password' => Hash::make('Secret1!'),
+          'active' => $faker->boolean(),
+          'picture' => $faker->imageUrl('640', '480', 'cats'),
           'created_at' => $faker->dateTime()->format("Y-m-d H:i:s"),
           'updated_at' => $faker->dateTime()->format("Y-m-d H:i:s"),
           'remember_token' => NULL,

@@ -1,3 +1,4 @@
+/* eslint-disable */
 import PropTypes from 'prop-types';
 import _get from 'lodash/get';
 import _assign from 'lodash/assign';
@@ -72,31 +73,25 @@ export default function connectToFilter(rest) {
         };
       }
 
-      stringifyFullState(state) {
-        return Qs.stringify(_omit(state, value => !value), {encode: false});
-      }
-
       componentDidMount() {
         const params = createAllParamsForFetch(this.props);
-        this.setState({form: _clone(params), mount: _clone(params)});
+        // this.setState({form: _clone(params), mount: _clone(params)});
       }
 
       componentDidUpdate(prevProps) {
-        if (this.props.match.path === prevProps.match.path) {
+        /*if (this.props.match.path === prevProps.match.path) {
           if (!_isEqual(this.state, prevProps.history.location.state)) {
             if (_isObject(prevProps.history.location.state)) {
               this.props.dispatch(storeState(prevProps.history.location.pathname, prevProps.history.location.state));
-              this.setState({form: prevProps.history.location.state});
+              // this.setState({form: prevProps.history.location.state});
             } else if (!_isEmpty(this.state.mount) && !_isEqual(this.state.mount, this.state.form)) {
               this.props.dispatch(storeState(this.props.history.location.pathname, this.state.mount));
-              this.setState({form: this.state.mount});
+              const {mount} = this.state;
+              console.log('HIER');
+              // this.setState({form: mount});
             }
           }
-        }
-      }
-
-      reset() {
-        this.setState({form: {}}, this.pushStateAttempt);
+        }*/
       }
 
       onStack(key, value) {
@@ -107,78 +102,87 @@ export default function connectToFilter(rest) {
         return createAllParamsForFetch(this.props);
       }
 
+      reset() {
+        this.setState({form: {}}, this.pushStateAttempt);
+      }
+
+      stringifyFullState(state) {
+        return Qs.stringify(_omit(state, value => !value), {encode: false});
+      }
+
       inputOnStack(key) {
         return this.state.form[key] ? this.state.form[key] : '';
       }
 
       sortOnStack(field) {
-        const state = Object.assign({}, this.state.form);
+        const {form} = this.state;
 
-        if (_has(state, 'sort')) {
-          if (_get(state, 'sort.field') === field && _get(state, 'sort.order') === 'asc') {
-            state.sort = {
+        if (_has(form, 'sort')) {
+          if (_get(form, 'sort.field') === field && _get(form, 'sort.order') === 'asc') {
+            form.sort = {
               field,
               order: 'desc'
             };
           } else {
-            state.sort = {
+            form.sort = {
               field,
               order: 'asc'
             };
           }
         } else {
-          state.sort = {
+          form.sort = {
             field,
             order: 'asc'
           };
         }
-        this.setState({form: state}, this.pushStateAttempt);
+        this.setState({form}, this.pushStateAttempt);
       }
 
       toggleOnStack(key, value) {
-        const state = Object.assign({}, this.state.form);
+        const {form} = this.state;
 
-        if (!state[key]) {
-          state[key] = [value];
+        if (!form[key]) {
+          form[key] = [value];
         } else {
-          const index = state[key].indexOf(String(value));
+          const index = form[key].indexOf(String(value));
           if (index < 0) {
-            state[key].push(value);
+            form[key].push(value);
           } else {
-            delete state[key][index];
+            delete form[key][index];
           }
         }
-        if (state.page) {
-          state.page = null;
+        if (form.page) {
+          form.page = null;
         }
-        this.setState({form: state}, this.pushStateAttempt);
+        this.setState({form}, this.pushStateAttempt);
       }
 
       removeFromState(key) {
-        const state = Object.assign({}, this.state.form);
-        delete state[key];
-        this.setState({form: state}, this.pushStateAttempt);
+        const {form} = this.state;
+        delete form[key];
+        this.setState({form}, this.pushStateAttempt);
       }
 
       mergeState(values) {
-        const state = Object.assign({}, this.state.form, values);
+        const {form} = this.state;
+        const state = Object.assign({}, form, values);
         this.setState({form: state}, this.pushStateAttempt);
       }
 
       pushOnState(key, value, clear = []) {
-        const state = Object.assign({}, this.state.form);
-        state[key] = value;
-        if (state.page) {
-          state.page = null;
+        const {form} = this.state;
+        form[key] = value;
+        if (form.page) {
+          form.page = null;
         }
 
         if (Object.keys(clear).length > 0) {
           _map(clear, (field) => {
-            state[field] = undefined;
+            form[field] = undefined;
           });
         }
 
-        this.setState({form: state}, this.pushStateAttempt);
+        this.setState({form}, this.pushStateAttempt);
       }
 
       pushStateAttempt() {
@@ -205,14 +209,14 @@ export default function connectToFilter(rest) {
       }
 
       switchPage(page) {
-        const state = Object.assign({}, this.state.form);
-        state.page = page;
-        this.setState({form: state}, this.pushStateAttempt);
+        const {form} = this.state;
+        form.page = page;
+        this.setState({form}, this.pushStateAttempt);
       }
 
       pushSearch(value) {
-        const form = this.state.form;
-        form.q = value;
+        const {form} = this.state;
+        form.search = value;
         this.setState(
           {
             form
@@ -222,7 +226,7 @@ export default function connectToFilter(rest) {
               clearTimeout(myTimeout);
             }
             myTimeout = setTimeout(() => {
-              this.pushOnState('q', value);
+              this.pushOnState('search', value);
             }, 500);
           }
         );
@@ -256,6 +260,7 @@ export default function connectToFilter(rest) {
         if (stack === item) {
           return (
             <button
+              type={'button'}
               key={key}
               className={classNames({
                 btn: true,
@@ -274,6 +279,7 @@ export default function connectToFilter(rest) {
 
         return (
           <button
+            type={'button'}
             key={key}
             className={classNames({
               btn: true,
