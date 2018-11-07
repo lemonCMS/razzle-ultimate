@@ -7,7 +7,6 @@ import CountersCookie from './containers/Counters/Cookie';
 import CountersLocal from './containers/Counters/Local';
 import Forms from './containers/Forms';
 import CookieBar from './containers/CookieBar';
-import CookieBarCompact from './containers/CookieBar/Compact';
 import CookieBarFullScreen from './containers/CookieBar/FullScreen';
 import Sticky from './containers/Sticky';
 import StickyStacked from './containers/Sticky/Stack';
@@ -45,10 +44,6 @@ const routes = [
         component: Wrap,
         path: '/cookiebar',
         routes: [
-          {
-            path: '/cookiebar/compact',
-            component: CookieBarCompact
-          },
           {
             path: '/cookiebar/fullscreen',
             component: CookieBarFullScreen

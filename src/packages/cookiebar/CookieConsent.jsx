@@ -87,6 +87,8 @@ class CookieConsent extends React.Component {
     ) {
       this.setState({
         openedByHash: true
+      }, () => {
+        window.scrollTo(0, 0);
       });
     }
     this.init();
@@ -131,6 +133,8 @@ class CookieConsent extends React.Component {
     ) {
       this.setState({
         openedByHash: true,
+      }, () => {
+        window.scrollTo(0, 0);
       });
     }
   }
@@ -205,6 +209,10 @@ class CookieConsent extends React.Component {
         this.config = Object.assign({}, this.config, window.reactGpdrSettings);
       }
 
+      if (this.props.settings) {
+        this.config = Object.assign({}, this.config, this.props.settings);
+      }
+
       window.addEventListener('hashchange', this.listener);
       window.addEventListener('scroll', this.scroller);
       this.updateDoc();
@@ -260,7 +268,9 @@ class CookieConsent extends React.Component {
   }
 }
 
-CookieConsent.propTypes = {};
+CookieConsent.propTypes = {
+  settings: PropTypes.object
+};
 CookieConsent.defaultProps = {};
 
 export default CookieConsent;

@@ -38,10 +38,6 @@ module.exports = [
       {
         desc: 'Fullscreen',
         to: '/cookiebar/fullscreen'
-      },
-      {
-        desc: 'Compact',
-        to: '/cookiebar/compact'
       }
     ]
   },

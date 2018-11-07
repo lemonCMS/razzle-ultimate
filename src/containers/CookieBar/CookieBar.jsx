@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import CookiesJS from 'universal-cookie';
 import Container from 'react-bootstrap/lib/Container';
 import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
@@ -14,6 +15,7 @@ registerLanguage('jsx', jsx);
 
 
 class CookieBarPage extends Component {
+
   render() {
     return (
       <Container fluid>
@@ -42,8 +44,8 @@ class CookieBarPage extends Component {
             <p>
               Just add the Cookiebar component in your root of your application.
             </p>
-            <SyntaxHighlighter language={'js'} showLineNumbers style={prism}>
-              {"<Cookiebar />"}
+            <SyntaxHighlighter language={'jsx'} showLineNumbers style={prism}>
+              {"<Cookiebar settings={{}} />"}
             </SyntaxHighlighter>
             <h2 className={'mt-5'}>Settings</h2>
             The following settings can be changed.
@@ -171,7 +173,23 @@ class CookieBarPage extends Component {
             </SyntaxHighlighter>
 
 
-            <h3>Live example</h3>
+            <h3 className={'mt-5'}>Live example</h3>
+            <p>
+              <button
+                type={'button'}
+                className={'btn btn-primary'}
+                onClick={() => {
+                  const cookies = new CookiesJS();
+                  cookies.remove('cookieConsent', {path: '/'});
+                  cookies.remove('cookieAccepted', {path: '/'});
+                  window.location.reload();
+                }}
+              >
+                clear cookies to try again
+              </button>
+            </p>
+
+
             <div className="embed-responsive embed-responsive-16by9">
               <iframe
                 title={'linus tech'}

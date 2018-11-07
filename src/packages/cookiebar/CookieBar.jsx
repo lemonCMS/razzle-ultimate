@@ -26,26 +26,34 @@ class CookieBar extends React.Component {
   }
 
   componentDidMount() {
-    if (this.context.config.ignoreUserAgent === false && this.context.config.whitelist === false) {
-      if (
-        (window &&
-          this.context.cookies.get('cookieAccepted') !== 'true') ||
-        this.props.open === true
+    const ctxLevel = this.context.cookieConsent();
+    if (this.state.level !== ctxLevel) {
+      this.setState({level: ctxLevel, disabled: false});
+    }
 
-      ) {
-        this.ref.style.display = 'block';
+    if (this.context.config.ignoreUserAgent === false && this.context.config.whitelist === false) {
+      if ((window && this.context.cookies.get('cookieAccepted') !== 'true') || this.props.open === true) {
+        if (this.context.cookies.get('cookieAccepted') !== 'true') {
+          this.ref.style.display = 'block';
+        }
       }
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (
-      nextProps.open === true
-    ) {
-      this.ref.style.display = 'block';
-      this.setState({level: this.context.cookieConsent(), disabled: false});
-    } else if (nextProps.open === false) {
-      this.ref.style.display = 'none';
+  componentDidUpdate(prevProps) {
+    const ctxLevel = this.context.cookieConsent();
+    if (this.state.level === null && ctxLevel !== null) {
+      this.setState({level: ctxLevel, disabled: false});
+    }
+
+    if (prevProps.open !== this.props.open) {
+      if (this.props.open === true) {
+        this.ref.style.display = 'block';
+        this.setState({level: this.context.cookieConsent(), disabled: false});
+
+      } else {
+        this.ref.style.display = 'none';
+      }
     }
   }
 
@@ -57,6 +65,7 @@ class CookieBar extends React.Component {
 
     const save = () => {
       this.context.saveCookieConsent(this.state.level);
+      this.ref.style.display = 'none';
     };
 
     return (
@@ -65,7 +74,6 @@ class CookieBar extends React.Component {
         ref={(ref) => {
           this.ref = ref;
         }}>
-
         <div className={'react-gdr-page-overlay'} />
         <div className={'react-gdr-page-modal-container'}>
           <div className={'react-gdr-page-modal'}>
@@ -89,7 +97,6 @@ class CookieBar extends React.Component {
                 {data.level1}
               </Level>
               }
-
               <div className={'buttonBar'}>
                 <button
                   type={'button'}
