@@ -11,7 +11,7 @@ import {withRouter} from 'react-router';
 import {Alert} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
 import {provideHooks} from '../../redial';
-import {load, isLoaded, clearItem, destroyItem} from '../redux/store/actions';
+import {load, isLoaded, clearItem, destroyItem} from '../../redux/store/actions';
 import DataTable from '../components/DataTable';
 import connectToFilter, {createAllParamsForFetch} from './connectToFilter';
 import connectToConfirm from './connectToConfirm';
@@ -21,10 +21,15 @@ import Pending from '../components/Pending';
 export default function connnectToList(properties) {
   return (WrappedComponent) => {
     @provideHooks({
-      fetch: ({store: {dispatch, getState}, params, match, history}) => {
+      fetch: ({store: {dispatch, getState}, params, match, history, location}) => {
         const promises = [];
+
+        console.log('params', params);
+        console.log('match', match);
+        console.log('history', history);
+        console.log('location', location);
+
         const state = createAllParamsForFetch(getState(), match, history);
-        console.log('AMBER');
         const api = () => {
           if (_isFunction(properties.api)) {
             return properties.api(params);
@@ -32,7 +37,6 @@ export default function connnectToList(properties) {
           return properties.api;
         };
 
-        console.log('STATE', state);
         if (!isLoaded(properties.key, getState(), state)) {
           promises.push(dispatch(load(properties.key, api(), state)));
         }
@@ -116,8 +120,7 @@ export default function connnectToList(properties) {
             <div className="panel-body">
               <Search
                 pushSearch={this.props.pushSearch}
-                inputOnStack={this.props.inputOnStack}
-                query={this.props.inputOnStack('q')} />
+                query={this.props.inputOnStack('search')} />
             </div>
           </div>);
       }

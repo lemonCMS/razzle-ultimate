@@ -3,7 +3,7 @@ import React from 'react';
 import _get from 'lodash/get';
 import _has from 'lodash/has';
 import {withRouter} from 'react-router';
-import {post, update} from '../redux/store/actions';
+import {post, update} from '../../redux/store/actions';
 
 export default custom => (Component) => {
 
@@ -27,7 +27,6 @@ export default custom => (Component) => {
       match: PropTypes.object.isRequired,
       history: PropTypes.object.isRequired
     };
-
 
     constructor(props) {
       super(props);

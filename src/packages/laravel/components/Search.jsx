@@ -7,11 +7,11 @@ import Button from 'react-bootstrap/lib/Button';
 import InputGroup from 'react-bootstrap/lib/InputGroup';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 
-class Search extends React.Component {
+class Search extends React.PureComponent {
 
   static propTypes = {
     pushSearch: PropTypes.func,
-    query: PropTypes.string
+    query: PropTypes.string /* eslint-disable-line */
   };
 
   constructor() {
@@ -20,31 +20,19 @@ class Search extends React.Component {
     this.clearSearch = this.clearSearch.bind(this);
     this.state = {
       search: '',
-      skip: 0
     };
   }
 
-  componentWillMount() {
-    this.setState({
-      search: this.props.query,
-      skip: 0
-    });
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (this.state.skip === 0) {
-      this.setState({search: nextProps.query});
+  static getDerivedStateFromProps(props, state) {
+    if (state.search === '' && props.query !== state.search) {
+      return {search: props.query};
     }
-
-    if (this.state.skip > 0) {
-      const {skip} = this.state;
-      this.setState({skip: skip - 1});
-    }
+    return null;
   }
 
   pushSearch(e) {
     const value = e.target.value;
-    this.setState({search: value, skip: 6}, () => {
+    this.setState({search: value}, () => {
       this.props.pushSearch(value);
     });
   }
@@ -56,6 +44,7 @@ class Search extends React.Component {
   }
 
   render() {
+    console.log('RENDER SEARCHBOX');
     return (
       <FormGroup
         controlId="q"

@@ -39,7 +39,6 @@ class ReduxAsyncConnect extends Component {
   }
 
   static getDerivedStateFromProps(props, state) {
-    console.log('DERIVE');
     if (props.location.pathname === state.nextLocation.pathname &&
       props.location.search === state.nextLocation.search
     ) {
@@ -49,7 +48,6 @@ class ReduxAsyncConnect extends Component {
     if (props.location.pathname !== state.location.pathname ||
       props.location.search !== state.location.search
     ) {
-      console.log('NEXT LOCATION');
       return {
         nextLocation: Object.assign({}, props.location)
       };
@@ -72,7 +70,7 @@ class ReduxAsyncConnect extends Component {
         const {
           history, location, routes, store, helpers
         } = this.props;
-        this.getAsyncData(history, location, routes, store, helpers, true);
+        this.getAsyncData(history, location, routes, store, helpers, false);
       }
     }
   }

@@ -1,6 +1,7 @@
 import _isEqual from 'lodash/isEqual';
 import _get from 'lodash/get';
 import _set from 'lodash/set';
+import isEqual from 'react-fast-compare';
 import * as constants from './constants';
 
 export function multiUpdate(key, path, params) {
@@ -293,8 +294,7 @@ export function isLoaded(key, globalState, params = {}) {
       ),
       10,
     ) === parseInt(_get(params, 'page', 1), 10) &&
-    JSON.stringify(params) === JSON.stringify(_get(Allparams, key, {}));
-
+    isEqual(params, _get(Allparams, key, {}));
   _set(Allparams, key, JSON.parse(JSON.stringify(params)));
   return check;
 }

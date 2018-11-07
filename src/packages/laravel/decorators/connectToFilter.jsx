@@ -4,24 +4,20 @@ import _get from 'lodash/get';
 import _assign from 'lodash/assign';
 import _omit from 'lodash/omit';
 import _has from 'lodash/has';
-import _clone from 'lodash/clone';
-import _isEqual from 'lodash/isEqual';
-import _isObject from 'lodash/isObject';
-import _isEmpty from 'lodash/isEmpty';
 import _map from 'lodash/map';
 import React, {Component} from 'react';
 import {withRouter} from 'react-router';
 import {connect} from 'react-redux';
 import classNames from 'classnames';
 import Qs from 'qs';
-import {storeState} from '../redux/routeState/actions';
+import {storeState} from '../../redux/routeState/actions';
 
 let myTimeout = null;
 
 export function createAllParamsForFetch(props, match, history) {
   const pathname = _get(history, 'location.pathname', null);
   const params = _assign(
-    _get(props, ['routesState', 'routes', pathname, 'form'], {}),
+    _get(props, ['routesState', 'routes', pathname], {}),
     Qs.parse(_get(history, 'location.search', ''), {ignoreQueryPrefix: true})
   );
 
@@ -68,30 +64,18 @@ export default function connectToFilter(rest) {
         this.alphaFilter = this.alphaFilter.bind(this);
         this.reset = this.reset.bind(this);
         this.state = {
-          form: {},
-          mount: {}
+          form: {}
         };
       }
 
-      componentDidMount() {
-        const params = createAllParamsForFetch(this.props);
-        // this.setState({form: _clone(params), mount: _clone(params)});
-      }
-
-      componentDidUpdate(prevProps) {
-        /*if (this.props.match.path === prevProps.match.path) {
-          if (!_isEqual(this.state, prevProps.history.location.state)) {
-            if (_isObject(prevProps.history.location.state)) {
-              this.props.dispatch(storeState(prevProps.history.location.pathname, prevProps.history.location.state));
-              // this.setState({form: prevProps.history.location.state});
-            } else if (!_isEmpty(this.state.mount) && !_isEqual(this.state.mount, this.state.form)) {
-              this.props.dispatch(storeState(this.props.history.location.pathname, this.state.mount));
-              const {mount} = this.state;
-              console.log('HIER');
-              // this.setState({form: mount});
-            }
-          }
-        }*/
+      static getDerivedStateFromProps(props, state) {
+        return {
+          form: Object.assign({},
+            _get(props.routesState, ['routes', [props.match.path]], {}),
+            _get(props, 'location.state.form', {}),
+            state.form
+          )
+        };
       }
 
       onStack(key, value) {

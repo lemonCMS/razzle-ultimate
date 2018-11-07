@@ -11,6 +11,7 @@ import CookieBar from './containers/CookieBar';
 import CookieBarFullScreen from './containers/CookieBar/FullScreen';
 import Sticky from './containers/Sticky';
 import StickyStacked from './containers/Sticky/Stack';
+import Data from './containers/Data';
 
 const routes = [
   {
@@ -47,6 +48,15 @@ const routes = [
       },
       {
         component: Wrap,
+        path: '/data',
+        routes: [
+          {
+            component: Data
+          }
+        ]
+      },
+      {
+        component: Wrap,
         path: '/cookiebar',
         routes: [
           {
@@ -79,7 +89,7 @@ const routes = [
             path: '/forms/register',
             component: Forms.register,
           },
-          { component: Forms.login },
+          {component: Forms.login},
         ],
       },
     ],
