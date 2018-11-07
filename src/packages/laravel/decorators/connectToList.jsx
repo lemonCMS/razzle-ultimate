@@ -11,7 +11,7 @@ import {withRouter} from 'react-router';
 import {Alert} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
 import {provideHooks} from '../../redial';
-import {load, clearItem, destroyItem} from '../redux/store/actions';
+import {load, isLoaded, clearItem, destroyItem} from '../redux/store/actions';
 import DataTable from '../components/DataTable';
 import connectToFilter, {createAllParamsForFetch} from './connectToFilter';
 import connectToConfirm from './connectToConfirm';
@@ -33,8 +33,10 @@ export default function connnectToList(properties) {
         };
 
         console.log('STATE', state);
+        if (!isLoaded(properties.key, getState(), state)) {
+          promises.push(dispatch(load(properties.key, api(), state)));
+        }
 
-        promises.push(dispatch(load(properties.key, api(), state)));
         return Promise.all(promises);
       }
     })
