@@ -7,8 +7,6 @@ import {load, isLoaded} from '../../packages/redux/store/actions';
   fetch: ({store: {dispatch, getState}, params, match, history}) => {
     const state = getState();
     const promise = [];
-    console.log('state', state);
-
     if (!isLoaded('users', state, {})) {
       promise.push(dispatch(load('users', '/users', {})));
     }

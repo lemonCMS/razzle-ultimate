@@ -44,7 +44,6 @@ class Search extends React.PureComponent {
   }
 
   render() {
-    console.log('RENDER SEARCHBOX');
     return (
       <FormGroup
         controlId="q"

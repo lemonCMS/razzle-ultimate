@@ -11,7 +11,7 @@ import {withRouter} from 'react-router';
 import {Alert} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
 import {provideHooks} from '../../redial';
-import {load, isLoaded, clearItem, destroyItem} from '../../redux/store/actions';
+import {load, isLoaded, destroyItem} from '../../redux/store/actions';
 import DataTable from '../components/DataTable';
 import connectToFilter, {createAllParamsForFetch} from './connectToFilter';
 import connectToConfirm from './connectToConfirm';
@@ -21,14 +21,8 @@ import Pending from '../components/Pending';
 export default function connnectToList(properties) {
   return (WrappedComponent) => {
     @provideHooks({
-      fetch: ({store: {dispatch, getState}, params, match, history, location}) => {
+      fetch: ({store: {dispatch, getState}, params, match, history}) => {
         const promises = [];
-
-        console.log('params', params);
-        console.log('match', match);
-        console.log('history', history);
-        console.log('location', location);
-
         const state = createAllParamsForFetch(getState(), match, history);
         const api = () => {
           if (_isFunction(properties.api)) {
@@ -93,13 +87,6 @@ export default function connnectToList(properties) {
         this.path();
       }
 
-      componentWillUpdate(nextProps) {
-        if (_get(nextProps, ['data', 'item', 'deleted'], false) === true) {
-          this.props.dispatch(clearItem(properties.key));
-          this.props.pushStateAttempt();
-        }
-      }
-
       path() {
         let {path} = properties;
         if (_isFunction(path)) {
@@ -110,14 +97,15 @@ export default function connnectToList(properties) {
 
       filter() {
         return (
-          <div className="panel panel-border-tb">
-            <div className="panel-heading">
-              <Link to={`${properties.path}/new`}
-                className="pull-right"><i className="fa fa-plus" /> nieuw item
-                aanmaken</Link>
-              <h4 className="panel-title">Verfijn</h4>
-            </div>
-            <div className="panel-body">
+          <div className="card panel-border-tb">
+            <div className="card-body">
+              <div className="card-heading">
+                <Link to={`${properties.path}/new`}
+                  className="float-right"><i className="fa fa-plus" /> nieuw item
+                  aanmaken</Link>
+                <h4 className="card-title">Verfijn</h4>
+              </div>
+
               <Search
                 pushSearch={this.props.pushSearch}
                 query={this.props.inputOnStack('search')} />
@@ -134,7 +122,9 @@ export default function connnectToList(properties) {
       }
 
       destroy(item) {
-        this.props.dispatch(destroyItem(properties.key, `${properties.api}`, item.id));
+        this.props.dispatch(destroyItem(properties.key, `${properties.api}`, item.id)).then(() => {
+          this.props.pushOnState('d', item.id);
+        });
       }
 
       render() {

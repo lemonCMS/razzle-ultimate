@@ -6,7 +6,7 @@ import connectToList from '../../packages/laravel/decorators/connectToList';
 @connectToList({
   key: 'users',
   api: '/users',
-  path: '/admin/dashboard/users',
+  path: '/laravel',
   cols: [
     {
       name: 'Status',

@@ -7,11 +7,13 @@ import CountersCookie from './containers/Counters/Cookie';
 import CountersLocal from './containers/Counters/Local';
 import Forms from './containers/Forms';
 import Laravel from './containers/Laravel';
+import LaravelItem from './containers/Laravel/Item';
 import CookieBar from './containers/CookieBar';
 import CookieBarFullScreen from './containers/CookieBar/FullScreen';
 import Sticky from './containers/Sticky';
 import StickyStacked from './containers/Sticky/Stack';
 import Data from './containers/Data';
+
 
 const routes = [
   {
@@ -43,8 +45,21 @@ const routes = [
         path: '/dogs',
       },
       {
-        component: Laravel,
+        component: Wrap,
         path: '/laravel',
+        routes: [
+          {
+            path: '/laravel/:id',
+            component: LaravelItem
+          },
+          {
+            path: '/laravel/:id/edit',
+            component: LaravelItem
+          },
+          {
+            component: Laravel
+          }
+        ]
       },
       {
         component: Wrap,

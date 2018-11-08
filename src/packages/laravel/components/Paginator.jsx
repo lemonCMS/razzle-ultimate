@@ -49,32 +49,32 @@ class Paginator extends React.Component {
   }
 
   renderPrevious() {
-    const classStr = classNames({disabled: this.props.currPage <= 1});
+    const classStr = classNames({'page-item': true, disabled: this.props.currPage <= 1});
     return (
       <li key="prev" className={classStr}>
-        <a href="#" rel="prev" onClick={this.prevPageClicked}>«</a>
+        <a href="#" className={'page-link'} rel="prev" onClick={this.prevPageClicked}>«</a>
       </li>
     );
   }
 
   renderNext() {
-    const classStr = classNames({disabled: this.props.currPage >= this.props.lastPage});
+    const classStr = classNames({'page-item': true, disabled: this.props.currPage >= this.props.lastPage});
     return (
       <li key="next" className={classStr}>
-        <a href="#" rel="next" onClick={this.nextPageClicked}>»</a>
+        <a href="#" className={'page-link'} rel="next" onClick={this.nextPageClicked}>»</a>
       </li>
     );
   }
 
   renderDots(key) {
-    return <li key={key} className="disabled"><span>...</span></li>;
+    return <li key={key} className="page-item disabled"><span>...</span></li>;
   }
 
   renderNumber(num) {
-    const classStr = classNames({active: this.props.currPage === num});
+    const classStr = classNames({'page-item': true, active: this.props.currPage === num});
     return (
       <li key={num} className={classStr}>
-        <a href="#" onClick={_partial(this.pageClicked, num)}>{num}</a>
+        <a href="#" className={'page-link'} onClick={_partial(this.pageClicked, num)}>{num}</a>
       </li>
     );
   }
