@@ -1,7 +1,11 @@
 <?php namespace App\Http\Controllers;
 
+use App\User;
 use Illuminate\Http\Request;
 use \App\User as Users;
+use Functions;
+use Validator;
+
 
 class UsersController extends Controller
 {
@@ -12,13 +16,22 @@ class UsersController extends Controller
    */
   public function index(Request $request)
   {
-    $input = $request->only('search', 'searchField');
+    $input = $request->only('search', 'searchField', 'order', 'active');
+
+    list($orderField, $orderSort) = Functions::order(['name', 'id', 'email', 'active'], isset($input['order']) ? $input['order'] : null);
+
     $users = Users::where(function ($query) use ($input, $request) {
       if (!empty($input['search'])) {
-        return $query->where('name', 'LIKE', '%' . $input['search'] . '%')
+        $query->where('name', 'LIKE', '%' . $input['search'] . '%')
             ->orWhere('email', 'LIKE', '%' . $input['search'] . '%');
       }
-    })->paginate(config('app.pagination'));
+
+      if (isset($input['active'])) {
+        $query->where('active', (int)$input['active']);
+      }
+    })
+        ->orderBy($orderField, $orderSort)
+        ->paginate(config('app.pagination'));
 
     return $users;
 
@@ -69,6 +82,18 @@ class UsersController extends Controller
     return response()->json(Users::findOrFail($id));
   }
 
+  private function inputValidator(Request $request, $id = null)
+  {
+    $validator = Validator::make($request->all(), [
+        'name' => 'required|unique:users,name' . ($id !== null ? ',' . $id : null),
+        'email' => 'required|unique:users,email' . ($id !== null ? ',' . $id : null),
+        'active' => 'boolean',
+    ]);
+
+    return $validator;
+  }
+
+
   /**
    * Update the specified resource in storage.
    *
@@ -78,6 +103,19 @@ class UsersController extends Controller
    */
   public function update(Request $request, $user_id)
   {
+    $validator = $this->inputValidator($request, $user_id);
+    if ($validator->passes()) {
+      $user = User::findOrFail($user_id);
+      $user->name = $request->get('name');
+      $user->email = $request->get('email');
+      $user->active = $request->get('active');
+      $user->save();
+
+      return response()->json($user->fresh());
+
+    } else {
+      return response()->json($validator->messages(), 400);
+    }
   }
 
   /**

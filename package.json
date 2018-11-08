@@ -77,7 +77,7 @@
     "razzle-dev-utils": "^2.4.0",
     "react": "^16.6.0",
     "react-addons-css-transition-group": "^15.6.2",
-    "react-bootstrap": "^1.0.0-beta.1",
+    "react-bootstrap": "^1.0.0-beta.2",
     "react-datetime": "^2.16.2",
     "react-dom": "^16.6.0",
     "react-fast-compare": "^2.0.2",
@@ -96,7 +96,8 @@
     "resolve-url-loader": "^3.0.0",
     "uniqid": "^5.0.3",
     "universal-cookie": "^3.0.4",
-    "uuid": "^3.3.2"
+    "uuid": "^3.3.2",
+    "validator": "^10.9.0"
   },
   "devDependencies": {
     "autodll-webpack-plugin": "^0.4.2",

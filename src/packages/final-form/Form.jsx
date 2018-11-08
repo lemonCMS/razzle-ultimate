@@ -2,6 +2,7 @@ import arrayMutators from 'final-form-arrays';
 import PropTypes from 'prop-types';
 import React from 'react';
 import {Form as FinalForm} from 'react-final-form';
+import isEqual from 'react-fast-compare';
 import _omit from 'lodash/omit';
 import {library} from '@fortawesome/fontawesome-svg-core'
 import {faTrash, faChevronDown, faChevronUp} from '@fortawesome/free-solid-svg-icons'
@@ -18,6 +19,11 @@ const onSubmit = async (values) => {
 
 class FormObj extends React.Component {
   shouldComponentUpdate(nextProps) {
+
+    if (!isEqual(nextProps.initialValues, this.props.initialValues)) {
+      return true;
+    }
+
     switch (typeof this.props.shouldComponentUpdate) {
       case 'undefined':
         return false;

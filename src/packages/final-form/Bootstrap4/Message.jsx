@@ -18,7 +18,7 @@ export default class Message extends Component {
   };
 
   render() {
-    const {submitting, valid, submitFailed, submitSucceeded} = this.context.status;
+    const {submitting, valid, submitFailed, submitSucceeded, pristine} = this.context.status;
 
     if (this.props.hidden && _isFunction(this.props.hidden)) {
       if (this.context.checkCondition(this.props.hidden) === true) {
@@ -30,7 +30,7 @@ export default class Message extends Component {
       }
     }
 
-    if (this.props.type === 'success' && !submitting) {
+    if (this.props.type === 'success' && !submitting && pristine) {
       if (valid === true && submitSucceeded === true && submitting === false) {
         return (<Alert variant="success">{this.props.children}</Alert>);
       }

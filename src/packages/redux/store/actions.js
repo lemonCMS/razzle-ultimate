@@ -4,6 +4,14 @@ import _set from 'lodash/set';
 import isEqual from 'react-fast-compare';
 import * as constants from './constants';
 
+export function updateListItem(key, params) {
+  return {
+    type: constants.STORE_UPDATE_LIST_ITEM,
+    key,
+    params
+  }
+}
+
 export function multiUpdate(key, path, params) {
   return {
     types: [

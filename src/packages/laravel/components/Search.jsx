@@ -24,7 +24,7 @@ class Search extends React.PureComponent {
   }
 
   static getDerivedStateFromProps(props, state) {
-    if (state.search === '' && props.query !== state.search) {
+    if (state.search === '' || props.query !== state.search) {
       return {search: props.query};
     }
     return null;

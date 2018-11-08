@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import _get from 'lodash/get';
+import _filter from 'lodash/filter';
 import _has from 'lodash/has';
 import _map from 'lodash/map';
 import _isEmpty from 'lodash/isEmpty';
@@ -126,19 +127,7 @@ class DataTable extends Component {
         className="data-table-static-text">{col.text}</span>);
     }
 
-    if (_has(col, 'edit')) {
-      cell.push((
-        <button
-          type={'button'}
-          className="btn btn-link"
-          key="link"
-          onClick={() => {
-            this.props.edit(record);
-          }}>
-          {_get(record, col.show, '')}
-        </button>));
-
-    } else if (_has(col, 'link') && _has(col, 'onClick')) {
+    if (_has(col, 'link') && _has(col, 'onClick')) {
       const click = (event) => {
         event.preventDefault();
         col.onClick(record, this.props.history);
@@ -180,8 +169,47 @@ class DataTable extends Component {
       });
     }
 
-    if (_has(col, 'show') && _has(col, 'onClick')) {
-      if (!_isEmpty(record, col.show, '')) {
+    if (_has(col, 'show')) {
+      let value = '';
+      if (_isString(col.show)) {
+        if (_has(col, 'translate')) {
+          value = _get(col, ['translate', _get(record, col.show, '')], '');
+        } else if (_has(col, 'append')) {
+          if (!_isEmpty(record, col.show, '')) {
+            value = _get(record, col.show, 0) + _get(col, 'append');
+          }
+        } else if (_has(col, 'filter') && col.filter === 'numeral') {
+          value = numeral(Number(_get(record, col.show, 0))).format('$0.00');
+        } else if (_has(col, 'filter') && col.filter === 'date') {
+          value = moment(_get(record, col.show, '')).format(_get(col, 'format', 'YYYY-MM-DD'));
+        } else if (_has(col, 'filter') && col.filter === 'dateTime') {
+          value = moment(_get(record, col.show, '')).format(_get(col, 'format', 'YYYY-MM-DD HH:mm'));
+        } else if (_has(col, 'filter') && col.filter === 'unixDate') {
+          value = moment.unix(_get(record, col.show, '')).format(_get(col, 'format', 'YYYY-MM-DD'));
+        } else if (_has(col, 'filter') && col.filter === 'unixDateTime') {
+          value = moment.unix(_get(record, col.show, '')).format(_get(col, 'format', 'YYYY-MM-DD HH:mm'));
+        } else {
+          value = _get(record, col.show, '');
+        }
+      } else if (_isArray(col.show)) {
+        const values = [];
+        _map(col.show, (field) => {
+          values.push(<span key="'show'">{_get(record, field, '')}</span>);
+        });
+        value = _compact(value).join(' ');
+      }
+
+      if (_has(col, 'edit')) {
+        cell.push(<button
+          type={'button'}
+          className="btn btn-link"
+          key="link"
+          onClick={() => {
+            this.props.edit(record);
+          }}>
+          {value}
+        </button>);
+      } else if(_has(col, 'onClick')) {
         const click = (event) => {
           event.preventDefault();
           col.onClick(record, this.props.history);
@@ -191,39 +219,12 @@ class DataTable extends Component {
           type={'button'}
           className="btn btn-link"
           key="showClick"
-          onClick={click}>{_get(record, col.show, '')}</button>);
-      }
-    }
+          onClick={click}>{value}</button>);
 
-    if (_has(col, 'show') && !_has(col, 'onClick') && !_has(col, 'edit')) {
-
-      if (_isString(col.show)) {
-        if (_has(col, 'translate')) {
-          cell.push(<span key="'show'">{_get(col, ['translate', _get(record, col.show, '')], '')}</span>);
-        } else if (_has(col, 'append')) {
-          if (!_isEmpty(record, col.show, '')) {
-            cell.push(<span key="'show'">{_get(record, col.show, 0) + _get(col, 'append')}</span>);
-          }
-        } else if (_has(col, 'filter') && col.filter === 'numeral') {
-          cell.push(<span key="'show'">{numeral(Number(_get(record, col.show, 0))).format('$0.00')}</span>);
-        } else if (_has(col, 'filter') && col.filter === 'date') {
-          cell.push(<span key="'show'">{moment(_get(record, col.show, '')).format(_get(col, 'format', 'YYYY-MM-DD'))}</span>);
-        } else if (_has(col, 'filter') && col.filter === 'dateTime') {
-          cell.push(<span key="'show'">{moment(_get(record, col.show, '')).format(_get(col, 'format', 'YYYY-MM-DD HH:mm'))}</span>);
-        } else if (_has(col, 'filter') && col.filter === 'unixDate') {
-          cell.push(<span key="'show'">{moment.unix(_get(record, col.show, '')).format(_get(col, 'format', 'YYYY-MM-DD'))}</span>);
-        } else if (_has(col, 'filter') && col.filter === 'unixDateTime') {
-          cell.push(<span key="'show'">{moment.unix(_get(record, col.show, '')).format(_get(col, 'format', 'YYYY-MM-DD HH:mm'))}</span>);
-        } else {
-          cell.push(<span key="'show'">{_get(record, col.show, '')}</span>);
-        }
-      } else if (_isArray(col.show)) {
-        const value = [];
-        _map(col.show, (field) => {
-          value.push(<span key="'show'">{_get(record, field, '')}</span>);
-        });
-        return cell.push(<span key="'show'">{_compact(value).join(' ')}</span>);
+      } else {
+        cell.push(<span className={'show'}>{value}</span>);
       }
+
     }
 
     if (_has(col, 'fa')) {
@@ -379,9 +380,10 @@ class DataTable extends Component {
         if (_get(col, 'filterBy', false) !== false) {
           const onStack = this.props.inputOnStack(_get(col, 'show'));
           if (onStack) {
-            return (
-              _get(col, `filterBy[${onStack}].desc`, '')
-            );
+            const result = _filter(col.filterBy, (item) => String(item.value) === String(onStack));
+            if (result) {
+              return result[0].desc;
+            }
           }
 
           if (this.state[_get(col, 'show')]) {
@@ -583,8 +585,8 @@ class DataTable extends Component {
     return (
       <div>
         <div className="table-responsive">
-          <table className="table table-bordered table-condensed table-data">
-            <thead>
+          <table className="table table-bordered table-sm table-data table-hover">
+            <thead className="thead-light">
               {rows}
             </thead>
             <tbody>

@@ -3,6 +3,7 @@ import _extend from 'lodash/extend';
 import _get from 'lodash/get';
 import _omit from 'lodash/omit';
 import _set from 'lodash/set';
+import _findIndex from 'lodash/findIndex';
 import * as constants from './constants';
 
 /*
@@ -16,6 +17,28 @@ export default function reducer(orgState = initialState, action = {}) {
   const keyState = Object.assign({}, _get(state, key));
   const status = _get(action, 'error.status', false);
   switch (action.type) {
+
+    case constants.STORE_UPDATE_LIST_ITEM: {
+      const list = _get(keyState, 'list.data', []);
+      if (list.length === 0) {
+        return state;
+      }
+
+      const index = _findIndex(list, {id: action.params.id});
+      if (index) {
+        list[index] = action.params;
+      }
+      const newState = _set(keyState, 'list.data', list);
+      return Object.assign(
+        {},
+        state,
+        _set(
+          state,
+          key,
+          Object.assign({}, newState),
+        ),
+      );
+    }
     case constants.STORE_LIST:
       return Object.assign(
         {},

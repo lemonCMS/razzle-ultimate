@@ -194,7 +194,7 @@ class Wrap extends React.Component {
           case 'dropdown':
             return this.dropdownButton(props, true);
           default: {
-            return (<FormControl plaintext readOnly defaultValue={value()} />);
+            return (<FormControl plaintext readOnly value={value()} />);
           }
         }
       }
