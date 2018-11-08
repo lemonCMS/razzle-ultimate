@@ -160,6 +160,9 @@ class Wrap extends React.Component {
     if (props.field.placeholder) {
       add.placeholder = props.field.placeholder;
     }
+    if (props.field.autocomplete) {
+      add.autocomplete = props.field.autocomplete;
+    }
     if (props.field.cols) {
       add.cols = props.field.cols;
     }

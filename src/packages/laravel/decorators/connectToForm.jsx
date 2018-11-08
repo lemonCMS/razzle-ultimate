@@ -3,7 +3,7 @@ import React from 'react';
 import _get from 'lodash/get';
 import _has from 'lodash/has';
 import {withRouter} from 'react-router';
-import {post, update} from '../../redux/store/actions';
+import {post, update, updateListItem} from '../../redux/store/actions';
 
 export default custom => (Component) => {
 
@@ -69,6 +69,9 @@ export default custom => (Component) => {
         }
         if (this.state.newItem) {
           this.props.history.push(`${this.props.history.location.pathname}/${_get(ret, 'id', 'new')}/edit`);
+        } else {
+          const record = Object.assign({}, payload, {id: parseInt(this.props.match.params.id, 10)});
+          this.props.dispatch(updateListItem(config.key, record));
         }
         resolve();
 

@@ -25,7 +25,7 @@ export default function reducer(orgState = initialState, action = {}) {
       }
 
       const index = _findIndex(list, {id: action.params.id});
-      if (index) {
+      if (index > -1) {
         list[index] = action.params;
       }
       const newState = _set(keyState, 'list.data', list);

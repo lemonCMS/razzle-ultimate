@@ -82,10 +82,9 @@ class Item extends PureComponent {
                   initialValues={this.state}
                   validate={this.validate}
                   onSubmit={this.props.onSubmit}
-                  debug
                 >
                   <Sticky>
-                    <Row className={'mb-2'}>
+                    <Row className={'mb-2 message-min-height'}>
                       <Col md={8}>
                         <Message type={'success'}>
                           Your changes have been saved.
@@ -105,6 +104,7 @@ class Item extends PureComponent {
                   </Sticky>
                   <Input label={'Name'}
                     name={'name'}
+                    autocomplete={'off'}
                     type={'text'} {...size} />
                   <Input label={'Email'}
                     name={'email'}
