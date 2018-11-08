@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use \App\User as Users;
 use Functions;
 use Validator;
+use Hash;
 
 
 class UsersController extends Controller
@@ -55,6 +56,24 @@ class UsersController extends Controller
   public function store(Request $request)
   {
 
+    $faker = \Faker\Factory::create();
+
+    $validator = $this->inputValidator($request);
+    if ($validator->passes()) {
+      $user = new User;
+      $user->name = $request->get('name');
+      $user->email = $request->get('email');
+      $user->active = $request->get('active', 0);
+      $user->password = Hash::make('Secret1!');
+      $user->picture = $faker->imageUrl('640', '480', 'cats');
+      $user->save();
+      $user->save();
+
+      return response()->json($user->fresh());
+
+    } else {
+      return response()->json($validator->messages(), 400);
+    }
   }
 
   /**

@@ -386,7 +386,7 @@ export default function reducer(orgState = initialState, action = {}) {
       return Object.assign(
         {},
         state,
-        _set(state, key, Object.assign({}, keyState, { list: {} })),
+        _set(state, key, Object.assign({}, keyState, { list: {}, success: false, pending: false, failed: false })),
       );
     case constants.STORE_ITEM_CLEAR:
       return Object.assign(

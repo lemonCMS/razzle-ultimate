@@ -3,7 +3,7 @@ import React from 'react';
 import _get from 'lodash/get';
 import _has from 'lodash/has';
 import {withRouter} from 'react-router';
-import {post, update, updateListItem} from '../../redux/store/actions';
+import {post, update, updateListItem, clearItem, clearList} from '../../redux/store/actions';
 
 export default custom => (Component) => {
 
@@ -55,9 +55,14 @@ export default custom => (Component) => {
       };
     }
 
+    componentWillUnmount() {
+      this.props.dispatch(clearItem('users'));
+    }
+
     onSubmit = async (payload) => new Promise((resolve) => {
       let promise = null;
       if (!this.state.edit) {
+        this.props.dispatch(clearList('users'));
         promise = this.props.dispatch(post(config.key, `${config.api}`, payload));
       } else {
         promise = this.props.dispatch(update(config.key, `${config.api}`, this.props.match.params.id, payload));

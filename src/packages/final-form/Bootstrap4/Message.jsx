@@ -2,15 +2,12 @@ import PropTypes from 'prop-types';
 import React, {Component} from 'react';
 import Alert from 'react-bootstrap/lib/Alert';
 import _isFunction from 'lodash/isFunction';
+import AppContext from '../context/AppContext';
 
-export default class Message extends Component {
-
-  static contextTypes = {
-    checkCondition: PropTypes.func,
-    status: PropTypes.object
-  };
+class Message extends Component {
 
   static propTypes = {
+    context: PropTypes.object,
     hidden: PropTypes.func,
     show: PropTypes.func,
     type: PropTypes.string,
@@ -18,14 +15,14 @@ export default class Message extends Component {
   };
 
   render() {
-    const {submitting, valid, submitFailed, submitSucceeded, pristine} = this.context.status;
+    const {submitting, valid, submitFailed, submitSucceeded, pristine} = this.props.context.status;
 
     if (this.props.hidden && _isFunction(this.props.hidden)) {
-      if (this.context.checkCondition(this.props.hidden) === true) {
+      if (this.props.context.checkCondition(this.props.hidden) === true) {
         return null;
       }
     } else if (this.props.show && _isFunction(this.props.show)) {
-      if (this.context.checkCondition(this.props.show) !== true) {
+      if (this.props.context.checkCondition(this.props.show) !== true) {
         return null;
       }
     }
@@ -44,5 +41,11 @@ export default class Message extends Component {
 
     return <span />;
   }
-
 }
+
+const Binder = (props) => (
+  <AppContext.Consumer>
+    {(context) => <Message context={context} {...props} />}
+  </AppContext.Consumer>);
+
+export default Binder;

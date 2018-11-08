@@ -1,24 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// import faDesktop from '@fortawesome/fontawesome-free-solid/faDesktop';
-// import faChartBar from '@fortawesome/fontawesome-free-solid/faChartBar';
-// import faUsers from '@fortawesome/fontawesome-free-solid/faUsers';
-// import styles from './Cookiebar.scss';
 import Level from './Level';
+import AppContext from "./context/AppContext";
 
 class CookieBar extends React.Component {
 
-  static contextTypes = {
-    'toggleCookieSettings': PropTypes.func.isRequired,
-    'saveCookieConsent': PropTypes.func.isRequired,
-    'cookies': PropTypes.object,
-    'cookieConsent': PropTypes.func,
-    'config': PropTypes.object
-  };
-
-  constructor(props, context) {
+  constructor(props) {
     super();
-    const level = context.cookieConsent();
+    const level = props.context.cookieConsent();
     this.state = {
       disabled: level === null,
       level
@@ -26,14 +15,14 @@ class CookieBar extends React.Component {
   }
 
   componentDidMount() {
-    const ctxLevel = this.context.cookieConsent();
+    const ctxLevel = this.props.context.cookieConsent();
     if (this.state.level !== ctxLevel) {
       this.setState({level: ctxLevel, disabled: false});
     }
 
-    if (this.context.config.ignoreUserAgent === false && this.context.config.whitelist === false) {
-      if ((window && this.context.cookies.get('cookieAccepted') !== 'true') || this.props.open === true) {
-        if (this.context.cookies.get('cookieAccepted') !== 'true') {
+    if (this.props.context.config.ignoreUserAgent === false && this.props.context.config.whitelist === false) {
+      if ((window && this.props.context.cookies.get('cookieAccepted') !== 'true') || this.props.open === true) {
+        if (this.props.context.cookies.get('cookieAccepted') !== 'true') {
           this.ref.style.display = 'block';
         }
       }
@@ -41,7 +30,7 @@ class CookieBar extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    const ctxLevel = this.context.cookieConsent();
+    const ctxLevel = this.props.context.cookieConsent();
     if (this.state.level === null && ctxLevel !== null) {
       this.setState({level: ctxLevel, disabled: false});
     }
@@ -49,7 +38,7 @@ class CookieBar extends React.Component {
     if (prevProps.open !== this.props.open) {
       if (this.props.open === true) {
         this.ref.style.display = 'block';
-        this.setState({level: this.context.cookieConsent(), disabled: false});
+        this.setState({level: this.props.context.cookieConsent(), disabled: false});
 
       } else {
         this.ref.style.display = 'none';
@@ -58,13 +47,13 @@ class CookieBar extends React.Component {
   }
 
   render() {
-    const data = this.context.config;
+    const data = this.props.context.config;
     const levelClick = (level) => {
       this.setState({level: Number(level), disabled: false});
     };
 
     const save = () => {
-      this.context.saveCookieConsent(this.state.level);
+      this.props.context.saveCookieConsent(this.state.level);
       this.ref.style.display = 'none';
     };
 
@@ -116,10 +105,18 @@ class CookieBar extends React.Component {
 }
 
 CookieBar.propTypes = {
-  open: PropTypes.bool
+  open: PropTypes.bool,
+  context: PropTypes.object
 };
 CookieBar.defaultProps = {
-  open: false
+  open: false,
+  context: {}
 };
 
-export default CookieBar;
+export default function (props) {
+  return (
+    <AppContext.Consumer>
+      {(context) => <CookieBar context={context} {...props} />}
+    </AppContext.Consumer>
+  );
+};

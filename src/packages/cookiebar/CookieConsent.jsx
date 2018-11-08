@@ -6,6 +6,7 @@ import uniqid from 'uniqid';
 import CookieBar from './CookieBar';
 import CookieBarCompact from './CookieBarCompact';
 import BlockResource from './BlockResource';
+import AppContext from './context/AppContext';
 
 class CookieConsent extends React.Component {
   config = {
@@ -38,15 +39,6 @@ class CookieConsent extends React.Component {
 
   iFrameBlobData = null;
 
-
-  static childContextTypes = {
-    cookieConsent: PropTypes.func.isRequired,
-    toggleCookieSettings: PropTypes.func.isRequired,
-    saveCookieConsent: PropTypes.func.isRequired,
-    cookies: PropTypes.object,
-    config: PropTypes.object
-  };
-
   constructor() {
     super();
     this.toggleCookieSettings = this.toggleCookieSettings.bind(this);
@@ -66,16 +58,6 @@ class CookieConsent extends React.Component {
     if (typeof window !== 'undefined') {
       this.cookies = new CookiesJS();
     }
-  }
-
-  getChildContext() {
-    return {
-      cookieConsent: this.cookieConsentLvl,
-      saveCookieConsent: this.saveCookieConsent,
-      toggleCookieSettings: this.toggleCookieSettings,
-      cookies: this.cookies,
-      config: this.config
-    };
   }
 
   componentWillMount() {
@@ -261,9 +243,18 @@ class CookieConsent extends React.Component {
 
   render() {
     return (
-      <div className={'gdpr-support'}>
-        {this.config.compact ? <CookieBarCompact open={this.state.openedByHash} /> : <CookieBar open={this.state.openedByHash} />}
-      </div>
+      <AppContext.Provider
+        value={{
+          cookieConsent: this.cookieConsentLvl,
+          saveCookieConsent: this.saveCookieConsent,
+          toggleCookieSettings: this.toggleCookieSettings,
+          cookies: this.cookies,
+          config: this.config
+        }}>
+        <div className={'gdpr-support'}>
+          {this.config.compact ? <CookieBarCompact open={this.state.openedByHash} /> : <CookieBar open={this.state.openedByHash} />}
+        </div>
+      </AppContext.Provider>
     );
   }
 }

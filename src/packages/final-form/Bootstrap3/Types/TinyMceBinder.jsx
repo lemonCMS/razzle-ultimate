@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import TinyMceInput from './TinyMceInput';
+import AppContext from '../../context/AppContext';
 
 class ContextBinder extends React.Component {
 
   render() {
-    if (this.context.isStatic || this.props.field.static) {
+    if (this.props.context.isStatic || this.props.field.static) {
       return (
         <div className={'rte-readonly'} dangerouslySetInnerHTML={{__html: this.props.input.value}} />
       );
@@ -19,16 +20,18 @@ class ContextBinder extends React.Component {
 
 ContextBinder.propTypes = {
   field: PropTypes.object,
-  input: PropTypes.object
+  input: PropTypes.object,
+  context: PropTypes.object,
 };
 
-ContextBinder.contextTypes = {
-  checkCondition: PropTypes.func,
-  isStatic: PropTypes.bool
-};
+const Binder = ({input, field}) => (
+  <AppContext.Consumer>
+    {(context) => <ContextBinder input={input}
+                                  field={field}
+                                  context={context}
+    />}
+  </AppContext.Consumer>);
 
-const Binder = ({input, field}) =>
-  (<ContextBinder input={input} field={field} />);
 
 Binder.propTypes = {
   field: PropTypes.object,

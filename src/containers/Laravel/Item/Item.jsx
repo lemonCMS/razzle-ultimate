@@ -1,6 +1,5 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
-import Button from 'react-bootstrap/lib/Button';
 import Container from 'react-bootstrap/lib/Container';
 import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
@@ -15,6 +14,7 @@ import Input from '../../../packages/final-form/Bootstrap4/Input';
 import Checkbox from '../../../packages/final-form/Bootstrap4/Checkbox';
 import Message from '../../../packages/final-form/Bootstrap4/Message';
 import validator from '../../../packages/final-form/validator';
+import Button from '../../../packages/final-form/Bootstrap4/Button';
 import Sticky from '../../../packages/sticky';
 
 const api = '/users';
@@ -64,6 +64,8 @@ class Item extends PureComponent {
       fieldSize: {md: 10},
     };
 
+    const {edit, newItem} = this.props;
+
     return (
       <Container fluid>
         <Row>
@@ -82,6 +84,7 @@ class Item extends PureComponent {
                   initialValues={this.state}
                   validate={this.validate}
                   onSubmit={this.props.onSubmit}
+                  static={!edit && !newItem}
                 >
                   <Sticky>
                     <Row className={'mb-2 message-min-height'}>
@@ -104,7 +107,7 @@ class Item extends PureComponent {
                   </Sticky>
                   <Input label={'Name'}
                     name={'name'}
-                    autocomplete={'off'}
+                     autoComplete={'off'}
                     type={'text'} {...size} />
                   <Input label={'Email'}
                     name={'email'}
@@ -133,7 +136,9 @@ class Item extends PureComponent {
 
 Item.propTypes = {
   item: PropTypes.object,
-  onSubmit: PropTypes.func
+  onSubmit: PropTypes.func,
+  edit: PropTypes.bool,
+  newItem: PropTypes.bool,
 };
 Item.defaultProps = {};
 

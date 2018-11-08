@@ -2,30 +2,27 @@ import PropTypes from 'prop-types';
 import React, {Component} from 'react';
 import Alert from 'react-bootstrap/lib/Alert';
 import _isFunction from 'lodash/isFunction';
+import AppContext from "../context/AppContext";
 
-export default class Message extends Component {
-
-  static contextTypes = {
-    checkCondition: PropTypes.func,
-    status: PropTypes.object
-  };
+class Message extends Component {
 
   static propTypes = {
     children: PropTypes.oneOfType([PropTypes.array, PropTypes.object, PropTypes.string]),
     hidden: PropTypes.func,
     show: PropTypes.func,
-    type: PropTypes.string
+    type: PropTypes.string,
+    context: PropTypes.object
   };
 
   render() {
-    const {submitting, valid, submitFailed, submitSucceeded} = this.context.status;
+    const {submitting, valid, submitFailed, submitSucceeded} = this.props.context.status;
 
     if (this.props.hidden && _isFunction(this.props.hidden)) {
-      if (this.context.checkCondition(this.props.hidden) === true) {
+      if (this.props.context.checkCondition(this.props.hidden) === true) {
         return null;
       }
     } else if (this.props.show && _isFunction(this.props.show)) {
-      if (this.context.checkCondition(this.props.show) !== true) {
+      if (this.props.context.checkCondition(this.props.show) !== true) {
         return null;
       }
     }
@@ -41,8 +38,14 @@ export default class Message extends Component {
         return (<Alert bsStyle="danger">{this.props.children}</Alert>);
       }
     }
-
     return <span />;
   }
-
 }
+
+export default function (props) {
+  return (
+    <AppContext.Consumer>
+      {(context) => <Message context={context} {...props} />}
+    </AppContext.Consumer>
+  );
+};

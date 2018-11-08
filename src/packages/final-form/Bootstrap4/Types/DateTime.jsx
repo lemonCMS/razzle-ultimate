@@ -4,6 +4,7 @@ import _isFunction from 'lodash/isFunction';
 import _omitBy from 'lodash/omitBy';
 import ReactDateTime from 'react-datetime';
 import moment from 'moment';
+import AppContext from '../../context/AppContext';
 
 class ContextBinder extends React.Component {
 
@@ -26,7 +27,7 @@ class ContextBinder extends React.Component {
   }
 
   render() {
-    if (this.context.isStatic || this.props.field.static) {
+    if (this.props.context.isStatic || this.props.field.static) {
       return (
         <div
           className={'rte-readonly'}>
@@ -39,7 +40,7 @@ class ContextBinder extends React.Component {
       disabled: false
     };
     if (this.props.field && this.props.field.disabled && _isFunction(this.props.field.disabled)) {
-      inputProps.disabled = this.context.checkCondition(this.props.field.disabled);
+      inputProps.disabled = this.props.context.checkCondition(this.props.field.disabled);
     }
 
     const newProps = _omitBy(this.props.input, ['value', 'onChange', 'onBlur', 'onFocus']);
@@ -58,21 +59,13 @@ class ContextBinder extends React.Component {
 
 ContextBinder.propTypes = {
   field: PropTypes.object,
-  input: PropTypes.object
+  input: PropTypes.object,
+  context: PropTypes.object
 };
 
-ContextBinder.contextTypes = {
-  checkCondition: PropTypes.func,
-  isStatic: PropTypes.bool
-};
+const Binder = (props) => (
+  <AppContext.Consumer>
+    {(context) => <ContextBinder context={context} {...props} />}
+  </AppContext.Consumer>);
 
-const Binded = ({input, field}) =>
-  (<ContextBinder input={input}
-                  field={field} />);
-
-Binded.propTypes = {
-  field: PropTypes.object,
-  input: PropTypes.object
-};
-
-export default Binded;
+export default Binder;

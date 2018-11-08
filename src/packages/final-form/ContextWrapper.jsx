@@ -2,15 +2,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormSpy} from 'react-final-form';
 import _isFunction from 'lodash/isFunction';
+import AppContext from './context/AppContext';
 
 class ContextWrapper extends React.Component {
-
-  static childContextTypes = {
-    checkCondition: PropTypes.func.isRequired,
-    isStatic: PropTypes.bool.isRequired,
-    debug: PropTypes.bool.isRequired,
-    status: PropTypes.object.isRequired
-  };
 
   constructor(props, context) {
     super(props, context);
@@ -19,19 +13,22 @@ class ContextWrapper extends React.Component {
     this.values = {};
   }
 
-  getChildContext() {
-    return {
-      checkCondition: this.checkCondition,
-      isStatic: this.props.static,
-      debug: this.props.debug,
-      status: this.getStatus()
-    };
-  }
-
   getStatus() {
     const {dirty, dirtySinceLastSubmit, error, errors, invalid, pristine, submitError, submitErrors, submitFailed, submitSucceeded, submitting, valid, validating} = this.props;
     return {
-      dirty, dirtySinceLastSubmit, error, errors, invalid, pristine, submitError, submitErrors, submitFailed, submitSucceeded, submitting, valid, validating
+      dirty,
+      dirtySinceLastSubmit,
+      error,
+      errors,
+      invalid,
+      pristine,
+      submitError,
+      submitErrors,
+      submitFailed,
+      submitSucceeded,
+      submitting,
+      valid,
+      validating
     };
   }
 
@@ -42,7 +39,12 @@ class ContextWrapper extends React.Component {
   render() {
     if (this.props.debug) {
       return (
-        <div>
+        <AppContext.Provider value={{
+          checkCondition: this.checkCondition,
+          isStatic: this.props.static,
+          debug: this.props.debug,
+          status: this.getStatus()
+        }}>
           {this.props.children}
           <FormSpy subscription={{values: true}}>
             {({values}) => {
@@ -57,11 +59,16 @@ class ContextWrapper extends React.Component {
               );
             }}
           </FormSpy>
-        </div>);
+        </AppContext.Provider>);
     }
 
     return (
-      <React.Fragment>
+      <AppContext.Provider value={{
+        checkCondition: this.checkCondition,
+        isStatic: this.props.static,
+        debug: this.props.debug,
+        status: this.getStatus()
+      }}>
         {this.props.children}
         {
           this.props.listen
@@ -70,9 +77,9 @@ class ContextWrapper extends React.Component {
             subscription={{values: true}}
             onChange={(props) => {
               this.props.listen(props.values);
-            }}/>
+            }} />
         }
-      </React.Fragment>
+      </AppContext.Provider>
     );
   }
 }

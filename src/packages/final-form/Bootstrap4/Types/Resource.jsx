@@ -9,6 +9,7 @@ import _map from 'lodash/map';
 import _indexOf from 'lodash/indexOf';
 import _isArray from 'lodash/isArray';
 import _uniq from 'lodash/uniq';
+import AppContext from '../../context/AppContext';
 
 class Resourcebinder extends React.Component {
 
@@ -113,11 +114,11 @@ class Resourcebinder extends React.Component {
   render() {
     let disabled = false;
     if (this.props.field && this.props.field.disabled && _isFunction(this.props.field.disabled)) {
-      disabled = this.context.checkCondition(this.props.field.disabled());
+      disabled = this.props.context.checkCondition(this.props.field.disabled());
     }
 
     const button = () => {
-      if (!this.props.field.static && !this.context.isStatic) {
+      if (!this.props.field.static && !this.props.context.isStatic) {
         return (<button type='button' onClick={this.openResource}
           disabled={disabled}>{_get(this.props, 'field.buttonResource', 'open')}</button>);
       }
@@ -157,20 +158,12 @@ class Resourcebinder extends React.Component {
 Resourcebinder.propTypes = {
   field: PropTypes.object,
   input: PropTypes.object,
+  context: PropTypes.object,
 };
 
-Resourcebinder.contextTypes = {
-  checkCondition: PropTypes.func,
-  isStatic: PropTypes.bool
-};
-
-const Binder =  ({input, field}) => (<Resourcebinder
-  input={input}
-  field={field} />);
-
-Binder.propTypes = {
-  field: PropTypes.object,
-  input: PropTypes.object,
-};
+const Binder = (props) => (
+  <AppContext.Consumer>
+    {(context) => <Resourcebinder context={context} {...props} />}
+  </AppContext.Consumer>);
 
 export default Binder;

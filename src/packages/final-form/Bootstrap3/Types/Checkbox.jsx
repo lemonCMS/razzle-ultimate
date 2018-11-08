@@ -12,6 +12,7 @@ import _chunk from 'lodash/chunk';
 import _filter from 'lodash/filter';
 import _includes from 'lodash/includes';
 import _isArray from 'lodash/isArray';
+import AppContext from '../../context/AppContext';
 
 class RadioBinder extends React.Component {
 
@@ -58,7 +59,7 @@ class RadioBinder extends React.Component {
   }
 
   radioButtonList(list) {
-    const staticField = this.context.isStatic || _get(this.props.field, 'static', false);
+    const staticField = this.props.context.isStatic || _get(this.props.field, 'static', false);
     const multiple = _isArray(this.props.field.children);
 
     let clone = [];
@@ -74,7 +75,7 @@ class RadioBinder extends React.Component {
 
       let disabled = false;
       if (this.props.field && this.props.field.disabled && _isFunction(this.props.field.disabled)) {
-        disabled = this.context.checkCondition(this.props.field.disabled(), _get(this.props.field, 'parent'));
+        disabled = this.props.context.checkCondition(this.props.field.disabled(), _get(this.props.field, 'parent'));
       }
       const name = (multiple ? `${this.props.input.name}[${key}]` : this.props.input.name);
       const checked = (multiple && clone.indexOf(option.props.value) !== -1) || (!multiple && (this.props.input.value === true || parseInt(this.props.input.value, 10) === 1));
@@ -134,10 +135,10 @@ class RadioBinder extends React.Component {
   searchBox() {
     let disabled = false;
     if (this.props.field && this.props.field.disabled && _isFunction(this.props.field.disabled)) {
-      disabled = this.context.checkCondition(this.props.field.disabled());
+      disabled = this.props.context.checkCondition(this.props.field.disabled());
     }
 
-    if ((this.props.field.searchable || this.props.field.filter) && !this.props.field.static && !this.context.isStatic) {
+    if ((this.props.field.searchable || this.props.field.filter) && !this.props.field.static && !this.props.context.isStatic) {
       return (<input
         type="text"
         disabled={disabled}
@@ -164,13 +165,15 @@ class RadioBinder extends React.Component {
 RadioBinder.propTypes = {
   field: PropTypes.object,
   input: PropTypes.object,
-};
-RadioBinder.contextTypes = {
-  checkCondition: PropTypes.func,
-  isStatic: PropTypes.bool
+  context: PropTypes.object
 };
 
-const Binder = ({input, field}) => (<RadioBinder input={input} field={field} />);
+
+const Binder = ({input, field}) => (
+  <AppContext.Consumer>
+    {(context) => <RadioBinder input={input} field={field} context={context} />}
+  </AppContext.Consumer>
+);
 
 Binder.propTypes = {
   field: PropTypes.object,

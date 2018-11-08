@@ -9,6 +9,7 @@ import _map from 'lodash/map';
 import _indexOf from 'lodash/indexOf';
 import _isArray from 'lodash/isArray';
 import _uniq from 'lodash/uniq';
+import AppContext from '../../context/AppContext';
 
 class Resourcebinder extends React.Component {
 
@@ -59,7 +60,8 @@ class Resourcebinder extends React.Component {
         if (_indexOf(this.props.input.value, option.value) > -1) {
           return (
             <p className="form-control-static" key={key}>
-              {_indexOf(this.props.input.value, option.value) > -1 ? <i className="fa fa-check-square-o" /> : <i className="fa fa-square-o" />}
+              {_indexOf(this.props.input.value, option.value) > -1 ? <i className="fa fa-check-square-o" /> :
+                <i className="fa fa-square-o" />}
               {' '}
               {option.desc}
             </p>
@@ -112,13 +114,13 @@ class Resourcebinder extends React.Component {
   render() {
     let disabled = false;
     if (this.props.field && this.props.field.disabled && _isFunction(this.props.field.disabled)) {
-      disabled = this.context.checkCondition(this.props.field.disabled());
+      disabled = this.props.context.checkCondition(this.props.field.disabled());
     }
 
     const button = () => {
-      if (!this.props.field.static && !this.context.isStatic) {
+      if (!this.props.field.static && !this.props.context.isStatic) {
         return (<button type='button' onClick={this.openResource}
-          disabled={disabled}>{_get(this.props, 'field.buttonResource', 'open')}</button>);
+                        disabled={disabled}>{_get(this.props, 'field.buttonResource', 'open')}</button>);
       }
     };
 
@@ -156,17 +158,16 @@ class Resourcebinder extends React.Component {
 Resourcebinder.propTypes = {
   field: PropTypes.object,
   input: PropTypes.object,
-  mango: PropTypes.object,
+  context: PropTypes.object,
 };
 
-Resourcebinder.contextTypes = {
-  checkCondition: PropTypes.func,
-  isStatic: PropTypes.bool
-};
-
-const Binder =  ({input, field}) => (<Resourcebinder
-  input={input}
-  field={field} />);
+const Binder = ({input, field}) => (
+  <AppContext.Consumer>
+    {(context) => <Resourcebinder input={input}
+                                  field={field}
+                                  context={context}
+    />}
+  </AppContext.Consumer>);
 
 Binder.propTypes = {
   field: PropTypes.object,

@@ -15,6 +15,7 @@ import HelpBlock from 'react-bootstrap/lib/HelpBlock';
 import MenuItem from 'react-bootstrap/lib/MenuItem';
 import DropdownButton from 'react-bootstrap/lib/DropdownButton';
 import {Field} from 'react-final-form';
+import AppContext from '../../context/AppContext';
 
 class Wrap extends React.Component {
 
@@ -71,7 +72,7 @@ class Wrap extends React.Component {
 
     let disabled = false;
     if (props.field && props.field.disabled && _isFunction(props.field.disabled)) {
-      disabled = this.context.checkCondition(props.field.disabled());
+      disabled = this.props.context.checkCondition(props.field.disabled());
     }
 
     if (isStatic === true || disabled === true) {
@@ -100,11 +101,11 @@ class Wrap extends React.Component {
     this.input = input;
     const size = _get(props.field, 'bsSize', this.props.size);
     if (props.field && props.field.hidden && _isFunction(props.field.hidden)) {
-      if (this.context.checkCondition(props.field.hidden, _get(props, 'parent')) === true) {
+      if (this.props.context.checkCondition(props.field.hidden, _get(props, 'parent')) === true) {
         return null;
       }
     } else if (props.field && props.field.show && _isFunction(props.field.show)) {
-      if (this.context.checkCondition(props.field.show, _get(props, 'parent')) !== true) {
+      if (this.props.context.checkCondition(props.field.show, _get(props, 'parent')) !== true) {
         return null;
       }
     }
@@ -132,7 +133,7 @@ class Wrap extends React.Component {
       add.componentClass = 'select';
     }
     if (custom.field.disabled && _isFunction(custom.field.disabled)) {
-      add.disabled = this.context.checkCondition(custom.field.disabled, _get(props, 'parent'));
+      add.disabled = this.props.context.checkCondition(custom.field.disabled, _get(props, 'parent'));
     }
 
     if (props.field.placeholder) {
@@ -155,7 +156,7 @@ class Wrap extends React.Component {
         return (<Comp {...props} />);
       }
 
-      if (this.context.isStatic === true || _get(props.field, 'static', false) === true) {
+      if (this.props.context.isStatic === true || _get(props.field, 'static', false) === true) {
         const value = () => {
           if (props.field.type === 'select') {
             return _map(_filter(props.field.options, {value: this.input.value}), (item, key) => {
@@ -281,7 +282,7 @@ class Wrap extends React.Component {
       </Col>
     </FormGroup>);
 
-    if(this.context.debug) {
+    if(this.props.context.debug) {
       return (
         <div style={{position: 'relative'}}>
           {rendered}
@@ -307,6 +308,7 @@ class Wrap extends React.Component {
 
 Wrap.propTypes = {
   'field': PropTypes.object,
+  context: PropTypes.object,
   'size': PropTypes.string,
   'addField': PropTypes.func,
   'static': PropTypes.bool,
@@ -315,11 +317,11 @@ Wrap.propTypes = {
   component: PropTypes.func,
   children: PropTypes.oneOfType([PropTypes.object, PropTypes.array, PropTypes.bool])
 };
-Wrap.contextTypes = {
-  debug: PropTypes.bool.isRequired,
-  checkCondition: PropTypes.func.isRequired,
-  isStatic: PropTypes.bool.isRequired
-};
 Wrap.defaultProps = {};
 
-export default Wrap;
+const Binder = (props) => (
+  <AppContext.Consumer>
+    {(context) => <Wrap context={context} {...props} />}
+  </AppContext.Consumer>);
+
+export default Binder;

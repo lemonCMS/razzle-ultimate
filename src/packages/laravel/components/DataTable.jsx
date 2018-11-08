@@ -222,7 +222,7 @@ class DataTable extends Component {
           onClick={click}>{value}</button>);
 
       } else {
-        cell.push(<span className={'show'}>{value}</span>);
+        cell.push(<span className={'show'} key={'c1'}>{value}</span>);
       }
 
     }
@@ -519,7 +519,7 @@ class DataTable extends Component {
     if (_has(this.props, 'rows')) {
       return _map(this.props.rows, (row, keyRow) => (
         <tr
-          key={`${key}-${keyRow}`}
+          key={(record.id || `${key}-${keyRow}`)}
           className={`data-table-row${keyRow}`}>
           {this.renderRecordCols(row.cols, record)}
         </tr>
@@ -573,7 +573,7 @@ class DataTable extends Component {
 
   render() {
     const noRecords = () => {
-      if (this.props.records.length === 0) {
+      if (!this.props.records || this.props.records.length === 0) {
         return (<Alert variant="warning">No records found.</Alert>);
       }
       return null;

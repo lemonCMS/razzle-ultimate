@@ -12,6 +12,7 @@ import _chunk from 'lodash/chunk';
 import _filter from 'lodash/filter';
 import _includes from 'lodash/includes';
 import _isArray from 'lodash/isArray';
+import AppContext from '../../context/AppContext';
 
 class RadioBinder extends React.Component {
 
@@ -21,7 +22,7 @@ class RadioBinder extends React.Component {
     this.searchBox = this.searchBox.bind(this);
     this.radioButtons = this.radioButtons.bind(this);
     this.radioButtonList = this.radioButtonList.bind(this);
-    this.filtered= this.filtered.bind(this);
+    this.filtered = this.filtered.bind(this);
     this.state = {
       value: ''
     };
@@ -58,7 +59,7 @@ class RadioBinder extends React.Component {
   }
 
   radioButtonList(list) {
-    const staticField = this.context.isStatic || _get(this.props.field, 'static', false);
+    const staticField = this.props.context.isStatic || _get(this.props.field, 'static', false);
     return _map(list, (option, key) => {
       if (staticField === true) {
         return (<FormControl.Static key={key}>{option.children}</FormControl.Static>);
@@ -66,7 +67,7 @@ class RadioBinder extends React.Component {
 
       let disabled = false;
       if (this.props.field && this.props.field.disabled && _isFunction(this.props.field.disabled)) {
-        disabled = this.context.checkCondition(this.props.field.disabled(), _get(this.props.field, 'parent'));
+        disabled = this.props.context.checkCondition(this.props.field.disabled(), _get(this.props.field, 'parent'));
       }
       return (
         <Radio
@@ -103,7 +104,7 @@ class RadioBinder extends React.Component {
         const chunkData = _chunk(filtered, split);
         return _map(chunkData, (chunk, key) => {
           return (
-            <Col key={key} md={Math.round(12 / field.chunks)} >
+            <Col key={key} md={Math.round(12 / field.chunks)}>
               {this.radioButtonList(chunk)}
             </Col>
           );
@@ -119,10 +120,10 @@ class RadioBinder extends React.Component {
   searchBox() {
     let disabled = false;
     if (this.props.field && this.props.field.disabled && _isFunction(this.props.field.disabled)) {
-      disabled = this.context.checkCondition(this.props.field.disabled());
+      disabled = this.props.context.checkCondition(this.props.field.disabled());
     }
 
-    if ((this.props.field.searchable || this.props.field.filter) && !this.props.field.static && !this.context.isStatic) {
+    if ((this.props.field.searchable || this.props.field.filter) && !this.props.field.static && !this.props.context.isStatic) {
       return (<input
         type="text"
         disabled={disabled}
@@ -149,13 +150,15 @@ RadioBinder.propTypes = {
   field: PropTypes.object,
   input: PropTypes.object
 };
-RadioBinder.contextTypes = {
-  checkCondition: PropTypes.func,
-  isStatic: PropTypes.bool
-};
 
-const Binded = ({input, field}) => (<RadioBinder input={input}
-                                                 field={field} />);
+const Binded = ({input, field}) => (
+  <AppContext.Consumer>
+    {(context) => <RadioBinder input={input}
+                               field={field}
+                               context={context}
+    />}
+  </AppContext.Consumer>);
+
 Binded.propTypes = {
   field: PropTypes.object,
   input: PropTypes.object

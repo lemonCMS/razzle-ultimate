@@ -10,6 +10,7 @@ import Col from 'react-bootstrap/lib/Col';
 import ButtonToolbar from 'react-bootstrap/lib/ButtonToolbar';
 import ControlLabel from 'react-bootstrap/lib/ControlLabel';
 import _isFunction from 'lodash/isFunction';
+import AppContext from '../context/AppContext';
 
 class Complex extends React.Component {
 
@@ -182,7 +183,7 @@ class Complex extends React.Component {
 
     let disabled = false;
     if (this.props && this.props.disabled && _isFunction(this.props.disabled)) {
-      disabled = this.context.checkCondition(this.props.disabled());
+      disabled = this.props.context.checkCondition(this.props.disabled());
     }
     const renderAddButton = () => {
       if (_get(this.props, 'multiple', true) === true || fields.length === 0) {
@@ -234,11 +235,11 @@ class Complex extends React.Component {
 
   render() {
     if (this.props && this.props.hidden && _isFunction(this.props.hidden)) {
-      if (this.context.checkCondition(this.props.hidden) === true) {
+      if (this.props.context.checkCondition(this.props.hidden) === true) {
         return null;
       }
     } else if (this.props && this.props.show && _isFunction(this.props.show)) {
-      if (this.context.checkCondition(this.props.show) !== true) {
+      if (this.props.context.checkCondition(this.props.show) !== true) {
         return null;
       }
     }
@@ -269,18 +270,20 @@ Complex.propTypes = {
   label: PropTypes.string,
   name: PropTypes.string,
   row: PropTypes.bool,
-  mandatory: PropTypes.bool
+  mandatory: PropTypes.bool,
+  context: PropTypes.object
 };
 Complex.defaultProps = {
   row: false,
   mandatory: false,
-  multiple: true
+  multiple: true,
+  context: {}
 };
 
-Complex.contextTypes = {
-  checkCondition: PropTypes.func,
-  isStatic: PropTypes.bool
+export default function (props) {
+  return (
+    <AppContext.Consumer>
+      {(context) => <Complex context={context} {...props} />}
+    </AppContext.Consumer>
+  );
 };
-
-export default Complex;
-
