@@ -2,17 +2,15 @@ const UltimateReactLoadable = require('./src/packages/ultimate/webpack/react-loa
 const sassLoader = require('./src/packages/ultimate/webpack/sass');
 const DLLLoader = require('./src/packages/ultimate/webpack/webpack-dll');
 const RawLoader = require('./src/packages/ultimate/webpack/raw-loader');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
   modify: (baseConfig, {dev, target}) => {
-
-    // baseConfig.devtool = dev ? 'source-map' : '';
-    baseConfig.devtool = 'source-map';
+    baseConfig.devtool = dev ? 'source-map' : '';
     let appConfig = Object.assign({}, baseConfig);
-    appConfig = UltimateReactLoadable(sassLoader(appConfig, {dev, target}), {dev, target});
+    appConfig = UltimateReactLoadable(appConfig, {dev, target});
+    appConfig = sassLoader(appConfig, {dev, target});
     appConfig = RawLoader(appConfig, {dev, target});
-
-
     appConfig = DLLLoader(appConfig, {dev, target},
       [
 
@@ -84,6 +82,10 @@ module.exports = {
         'redux-thunk'
       ]
     );
+
+    if (dev && target === 'web') {
+      appConfig.plugins.push(new BundleAnalyzerPlugin());
+    }
 
     return appConfig;
   }
