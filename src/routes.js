@@ -13,6 +13,8 @@ import CookieBarFullScreen from './containers/CookieBar/FullScreen';
 import Sticky from './containers/Sticky';
 import StickyStacked from './containers/Sticky/Stack';
 import Data from './containers/Data';
+import DataFetch from './containers/Data/Fetch';
+import DataDefer from './containers/Data/Defer';
 
 
 const routes = [
@@ -65,6 +67,14 @@ const routes = [
         component: Wrap,
         path: '/data',
         routes: [
+          {
+            path: '/data/fetch',
+            component: DataFetch
+          },
+          {
+            path: '/data/defer',
+            component: DataDefer
+          },
           {
             component: Data
           }

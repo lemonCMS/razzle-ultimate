@@ -88,7 +88,7 @@ class List extends Component {
               ''}
             </SyntaxHighlighter>
 
-            <h2>Api</h2>
+            <h2 className={'mt-5'}>Api</h2>
             <code>@connectList</code> expects an object containing at least the following configuration<br />
             <SyntaxHighlighter language={'js'} showLineNumbers style={prism}>
               {'{\n' +
@@ -98,7 +98,7 @@ class List extends Component {
               '  cols: []\n' +
               '}\n'}
             </SyntaxHighlighter>
-            <Table>
+            <Table className={'mt-5'}>
               <thead>
                 <tr>
                   <th>Attribute</th>
@@ -129,7 +129,7 @@ class List extends Component {
                 </tr>
               </tbody>
             </Table>
-            <h2><code>cols</code></h2>
+            <h2 className={'mt-5'}><code>cols</code></h2>
             <p>
               Cols is an array constructed of at least the following
             </p>

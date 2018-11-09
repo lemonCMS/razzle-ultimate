@@ -5,7 +5,9 @@ import {Form as FinalForm} from 'react-final-form';
 import isEqual from 'react-fast-compare';
 import _omit from 'lodash/omit';
 import {library} from '@fortawesome/fontawesome-svg-core'
-import {faTrash, faChevronDown, faChevronUp} from '@fortawesome/free-solid-svg-icons'
+import {faTrash} from '@fortawesome/free-solid-svg-icons/faTrash'
+import {faChevronDown} from '@fortawesome/free-solid-svg-icons/faChevronDown'
+import {faChevronUp} from '@fortawesome/free-solid-svg-icons/faChevronUp'
 import ContextWrapper from './ContextWrapper';
 
 library.add(faTrash);

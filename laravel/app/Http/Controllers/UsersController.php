@@ -17,7 +17,7 @@ class UsersController extends Controller
    */
   public function index(Request $request)
   {
-    $input = $request->only('search', 'searchField', 'order', 'active');
+    $input = $request->only('search', 'searchField', 'order', 'active', 'sleep');
 
     list($orderField, $orderSort) = Functions::order(['name', 'id', 'email', 'active'], isset($input['order']) ? $input['order'] : null);
 
@@ -33,6 +33,11 @@ class UsersController extends Controller
     })
         ->orderBy($orderField, $orderSort)
         ->paginate(config('app.pagination'));
+
+
+    if (isset($input['sleep'])) {
+      sleep((int) $input['sleep']);
+    }
 
     return $users;
 

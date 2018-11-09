@@ -2,7 +2,9 @@ const UltimateReactLoadable = require('./src/packages/ultimate/webpack/react-loa
 const sassLoader = require('./src/packages/ultimate/webpack/sass');
 const DLLLoader = require('./src/packages/ultimate/webpack/webpack-dll');
 const RawLoader = require('./src/packages/ultimate/webpack/raw-loader');
+const Lodash = require('./src/packages/ultimate/webpack/lodash');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const webpack = require('webpack');
 
 module.exports = {
   modify: (baseConfig, {dev, target}) => {
@@ -11,6 +13,24 @@ module.exports = {
     appConfig = UltimateReactLoadable(appConfig, {dev, target});
     appConfig = sassLoader(appConfig, {dev, target});
     appConfig = RawLoader(appConfig, {dev, target});
+    appConfig = Lodash(appConfig, {dev, target}, {
+      shorthands: true,
+      cloning: true,
+      currying: false,
+      caching: false,
+      collections: true,
+      exotics: false,
+      guards: false,
+      metadata: false,
+      deburring: false,
+      unicode: false,
+      chaining: false,
+      memoizing: false,
+      coercions: false,
+      flattening: true,
+      paths: true,
+      placeholders: false,
+    });
     appConfig = DLLLoader(appConfig, {dev, target},
       [
 
@@ -83,9 +103,16 @@ module.exports = {
       ]
     );
 
-    if (dev && target === 'web') {
+    if (target === 'web') {
       appConfig.plugins.push(new BundleAnalyzerPlugin());
     }
+
+    // Ignore locales from moment
+    // Load them manually within the application
+
+    appConfig.plugins.push(
+      new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+    );
 
     return appConfig;
   }

@@ -46,7 +46,7 @@ module.exports = [
     to: '/data',
     children: [
       {
-        desc: 'Fetch',
+        desc: 'Fetch (waits 5 seconds)',
         to: '/data/fetch'
       },
       {
@@ -62,6 +62,12 @@ module.exports = [
   {
     desc: 'Laravel helpers',
     to: '/laravel',
+    children: [
+      {
+        desc: 'Form connector',
+        to: '/laravel/new'
+      }
+    ]
   },
   {
     desc: 'Sticky component',

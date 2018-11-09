@@ -73,7 +73,7 @@ export default custom => (Component) => {
           resolve(ret.error);
         }
         if (this.state.newItem) {
-          this.props.history.push(`${this.props.history.location.pathname}/${_get(ret, 'id', 'new')}/edit`);
+          this.props.history.push(`${this.props.history.location.pathname.replace(/\/new$/, '')}/${_get(ret, 'id', 'new')}/edit`);
         } else {
           const record = Object.assign({}, payload, {id: parseInt(this.props.match.params.id, 10)});
           this.props.dispatch(updateListItem(config.key, record));

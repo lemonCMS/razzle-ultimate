@@ -1,8 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {library} from '@fortawesome/fontawesome-svg-core';
-import {faCheck, faMinus, faTimes} from '@fortawesome/free-solid-svg-icons';
-import {faPlusSquare, faMinusSquare} from '@fortawesome/free-regular-svg-icons';
+import {faCheck} from '@fortawesome/free-solid-svg-icons/faCheck';
+import {faMinus} from '@fortawesome/free-solid-svg-icons/faMinus';
+import {faTimes} from '@fortawesome/free-solid-svg-icons/faTimes';
+import {faPlusSquare} from '@fortawesome/free-regular-svg-icons/faPlusSquare';
+import {faMinusSquare} from '@fortawesome/free-regular-svg-icons/faMinusSquare';
 
 library.add(
   faPlusSquare,
