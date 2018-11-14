@@ -12,6 +12,8 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+Route::post('/authenticate', 'OAuth\OAuthController@token');
+Route::get('/authuser', 'OAuth\OAuthController@AuthUser')->middleware('auth:api');
 Route::resource('users', 'UsersController');
 
 

@@ -5,13 +5,14 @@ import {StaticRouter} from 'react-router-dom';
 import {triggerWait, authorizeWait} from '../redial';
 import DefaultDoc from './Document';
 import Ultimate from './Ultimate';
+import Error from './ReduxAsyncConnect/Error';
 import asyncMatchRoutes from './asyncMatchRoutes';
 
 const modPageFn = function(Page) {
   return (props) => <Page {...props} />;
 };
 
-export default async function render(options) {
+async function render(options) {
   const { req, res, routes, assets, document, customRenderer, store, client, history, ...rest } = options;
   const Doc = document || DefaultDoc;
   const context = {};
@@ -72,9 +73,24 @@ export default async function render(options) {
 
   })
   .catch((error) => {
-    res.status(401);
+    res.status(501);
     console.log(error);
-    return (`<!doctype html><html><body>Access denied. ${error}</body></html>`);
+    const docProps = {
+      req,
+      res,
+      assets,
+      helmet: Helmet.renderStatic(),
+      data: store.getState(),
+      match,
+      ...rest
+    };
+    const html = ReactDOMServer.renderToString(<Error {...docProps} />);
+
+    return `<!doctype html>${html}`;
   });
 
 }
+
+
+export default render;
+

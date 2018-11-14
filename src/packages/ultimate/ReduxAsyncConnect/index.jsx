@@ -6,14 +6,9 @@ import NProgress from "nprogress";
 import asyncMatchRoutes from "../asyncMatchRoutes";
 import asyncMap from "../asyncMap";
 import {authorize, trigger} from "../../redial";
-/*
-import NProgress from 'nprogress';
-import {authorize, trigger} from '../../redial';
-import asyncMap from '../asyncMap';
-import asyncMatchRoutes from '../asyncMatchRoutes';
-*/
+import Error from './Error';
 
-// require('./nprogress.css');
+require('./nprogress.css');
 
 class ReduxAsyncConnect extends Component {
   static propTypes = {
@@ -34,7 +29,8 @@ class ReduxAsyncConnect extends Component {
         pathname: '',
         search: ''
       },
-      inTransition: false
+      inTransition: false,
+      authorized: true
     };
   }
 
@@ -136,8 +132,15 @@ class ReduxAsyncConnect extends Component {
 
   render() {
     const {children} = this.props;
+    const {authorized} = this.state;
+    console.log('Authorized', authorized);
+    if (authorized) {
+      return <Route location={this.state.location}
+                    render={() => children} />;
+    }
+
     return <Route location={this.state.location}
-                  render={() => children} />;
+                  render={() => <Error />} />;
   }
 }
 

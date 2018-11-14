@@ -15,6 +15,8 @@ import StickyStacked from './containers/Sticky/Stack';
 import Data from './containers/Data';
 import DataFetch from './containers/Data/Fetch';
 import DataDefer from './containers/Data/Defer';
+import DataAuth from './containers/Data/Authorize';
+import DataNeedsToken from './containers/Data/Authorize/NeedsToken';
 
 
 const routes = [
@@ -74,6 +76,19 @@ const routes = [
           {
             path: '/data/defer',
             component: DataDefer
+          },
+          {
+            path: '/data/authorize',
+            component: Wrap,
+            routes: [
+              {
+                path: '/data/authorize/needstoken',
+                component: DataNeedsToken,
+              },
+              {
+                component: DataAuth
+              }
+            ]
           },
           {
             component: Data

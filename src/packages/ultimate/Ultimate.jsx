@@ -5,9 +5,9 @@ import {renderRoutes} from 'react-router-config';
 class Ultimate extends Component {
   render() {
     return (
-      <div>
+      <React.Fragment>
         {renderRoutes(this.props.routes)}
-      </div>
+      </React.Fragment>
     );
   }
 }

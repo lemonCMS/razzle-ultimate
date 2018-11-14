@@ -55,7 +55,13 @@ module.exports = [
       },
       {
         desc: 'Authorize',
-        to: '/data/authorize'
+        to: '/data/authorize',
+        children: [
+          {
+            desc: 'Needs Token',
+            to: '/data/authorize/needstoken',
+          }
+        ]
       }
     ]
   },

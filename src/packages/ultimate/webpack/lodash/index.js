@@ -8,9 +8,6 @@ module.exports = (baseConfig, { dev }, settings = {}) => {
   if (!dev) {
     const fileLoaderFinder = makeLoaderFinder('babel-loader');
     const jsRule = appConfig.module.rules.find(fileLoaderFinder);
-
-    console.log(jsRule.use[0]);
-
     if (jsRule.use[0]) {
       if (!jsRule.use[0].options) {
         jsRule.use[0].options = {};
@@ -23,9 +20,6 @@ module.exports = (baseConfig, { dev }, settings = {}) => {
       if (jsRule.use[0].options.plugins) {
         jsRule.use[0].options.plugins.push('lodash');
       }
-
-      console.log(jsRule.use[0]);
-
     }
   }
 
