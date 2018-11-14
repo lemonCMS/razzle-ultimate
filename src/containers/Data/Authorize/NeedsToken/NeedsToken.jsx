@@ -24,7 +24,7 @@ import {getUser, isLoaded} from '../../../../redux/store/auth';
   }
 })
 @connect((state) => ({
-  user: state.auth.user
+  user: state.auth.user || {}
 }))
 class NeedsToken extends Component {
   render() {
@@ -40,7 +40,6 @@ class NeedsToken extends Component {
       }
       return null;
     };
-
 
     return (
       <Container fluid>
@@ -66,8 +65,6 @@ class NeedsToken extends Component {
             </Table>
           </Col>
         </Row>
-
-
       </Container>
     );
   }

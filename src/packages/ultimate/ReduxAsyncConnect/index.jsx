@@ -133,7 +133,7 @@ class ReduxAsyncConnect extends Component {
   render() {
     const {children} = this.props;
     const {authorized} = this.state;
-    console.log('Authorized', authorized);
+
     if (authorized) {
       return <Route location={this.state.location}
                     render={() => children} />;
