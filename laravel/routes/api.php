@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 */
 Route::post('/authenticate', 'OAuth\OAuthController@token');
 Route::get('/authuser', 'OAuth\OAuthController@AuthUser')->middleware('auth:api');
+Route::get('/users/random', 'UsersController@random');
 Route::resource('users', 'UsersController');
 
 

@@ -13,7 +13,6 @@ import _isFunction from 'lodash/isFunction';
 import _pick from 'lodash/pick';
 import AppContext from "../context/AppContext";
 
-
 class Complex extends React.Component {
   constructor() {
     super();

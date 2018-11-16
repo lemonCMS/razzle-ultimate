@@ -47,12 +47,12 @@ class MenuItem extends Component {
     if (_.has(item, 'children')) {
       if (this.state.active === true) {
         return (
-          <FontAwesomeIcon icon={['far', 'minus-square']} className={'float-right'} fixedWidth />
+          <FontAwesomeIcon icon={['far', 'minus-square']} className={'float-right'} />
         );
       }
 
       return (
-        <FontAwesomeIcon icon={['far', 'plus-square']}  className={'float-right'} fixedWidth />
+        <FontAwesomeIcon icon={['far', 'plus-square']}  className={'float-right'} />
       );
     }
     return null;

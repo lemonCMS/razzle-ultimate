@@ -34,7 +34,8 @@ class Defer extends React.Component {
           <Col md={12}>
             <h1>Deferred fetching of data.</h1>
             <p>
-              It will take about 5 seconds before the data is fetched, because of a server sleep of 5 seconds to demonstrate how ik works.
+              It will take about 5 seconds before the data is fetched, because of a server sleep of 5 seconds to demonstrate how it works.
+              It will take about 5 seconds before the data is fetched, because of a server sleep of 5 seconds to demonstrate how it works.
             </p>
             <Table>
               <tbody>

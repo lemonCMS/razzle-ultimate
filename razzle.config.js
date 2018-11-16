@@ -1,10 +1,10 @@
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const webpack = require('webpack');
 const UltimateReactLoadable = require('./src/packages/ultimate/webpack/react-loadable');
 const sassLoader = require('./src/packages/ultimate/webpack/sass');
 const DLLLoader = require('./src/packages/ultimate/webpack/webpack-dll');
 const RawLoader = require('./src/packages/ultimate/webpack/raw-loader');
 const Lodash = require('./src/packages/ultimate/webpack/lodash');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-const webpack = require('webpack');
 
 module.exports = {
   modify: (baseConfig, {dev, target}) => {
@@ -103,7 +103,7 @@ module.exports = {
       ]
     );
 
-    if (target === 'web') {
+    if (dev && target === 'web') {
       appConfig.plugins.push(new BundleAnalyzerPlugin());
     }
 

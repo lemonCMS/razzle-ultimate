@@ -60,17 +60,17 @@ class Data extends Component {
           <code>authorize</code> must return a boolean. <code>true</code> for authorized, <code>false</code> if the user had no access.
         </p>
 
-        <h3 className={'mt-5'}>fetch</h3>
+        <h3 className={'mt-5'}>fetch<small>({'{store, history, location, match, params, cookies, client}'})</small></h3>
         <p>
           <strong>server</strong>: will wait for all <code>fetch</code> to finish before rendering. The state will passed onto the client.<br />
           <strong>client</strong>: side will not fetch the data again from the server on initial render.
         </p>
-        <h3 className={'mt-5'}>defer</h3>
+        <h3 className={'mt-5'}>defer<small>({'{store, history, location, match, params, cookies, client}'})</small></h3>
         <p>
           <strong>server</strong>: no data will be fetched.<br />
           <strong>client</strong>: data will be fetch on initial render.
         </p>
-        <h3 className={'mt-5'}>authorize</h3>
+        <h3 className={'mt-5'}>authorize<small>({'{store, history, location, match, params, cookies, client}'})</small></h3>
         <p>
           Check your current state if the user has access. If not a error is thrown.
           Authorize is called before fetching any data.

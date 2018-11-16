@@ -106,6 +106,21 @@ class UsersController extends Controller
     return response()->json(Users::findOrFail($id));
   }
 
+
+  /**
+   * Get A random user
+   *
+   * @param $id
+   * @return \Illuminate\Http\JsonResponse
+   */
+  public function random()
+  {
+    //
+    return response()->json(Users::orderByRaw('rand()')->first());
+  }
+
+
+
   private function inputValidator(Request $request, $id = null)
   {
     $validator = Validator::make($request->all(), [
