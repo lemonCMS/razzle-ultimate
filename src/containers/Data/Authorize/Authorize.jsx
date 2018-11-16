@@ -134,7 +134,7 @@ class Authorize extends React.Component {
                       className={'btn btn-link'}
                       type={'button'}
                       onClick={() => {
-                        this.props.simpleLoad('randomUser', '/users/random');
+                        this.props.simpleLoad('randomUser', '/users/random', {nocache: true});
                       }}
                     >
                       <FontAwesomeIcon icon={['fas', 'sync']}/>
