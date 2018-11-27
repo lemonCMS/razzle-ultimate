@@ -9,6 +9,7 @@ import initializeStore from './redux/store';
 import routes from './routes';
 import stats from '../build/react-loadable.json';
 import { saveAndRestoreCookie } from './redux/store/counter';
+import ErrorPage from './containers/Error';
 
 server.use(Cookies.express());
 // server.use(express.static(paths.appPublic));
@@ -73,6 +74,7 @@ server
       { initializeStore, providers },
       wrapper,
       awaitRender,
+      ErrorPage
     );
   });
 

@@ -5,7 +5,6 @@ import {StaticRouter} from 'react-router-dom';
 import {triggerWait, authorizeWait} from '../redial';
 import DefaultDoc from './Document';
 import Ultimate from './Ultimate';
-import Error from './ReduxAsyncConnect/Error';
 import asyncMatchRoutes from './asyncMatchRoutes';
 
 const modPageFn = function(Page) {
@@ -13,7 +12,7 @@ const modPageFn = function(Page) {
 };
 
 async function render(options) {
-  const { req, res, routes, assets, document, customRenderer, store, client, history, ...rest } = options;
+  const { req, res, routes, assets, document, customRenderer, store, client, history, ErrorPage, ...rest } = options;
   const Doc = document || DefaultDoc;
   const context = {};
   const renderPage = async (fn = modPageFn) => {
@@ -74,21 +73,21 @@ async function render(options) {
   })
   .catch((error) => {
     res.status(501);
-    console.log(error);
-    const docProps = {
-      req,
-      res,
-      assets,
-      helmet: Helmet.renderStatic(),
-      data: store.getState(),
-      match,
-      ...rest
-    };
-    const html = ReactDOMServer.renderToString(<Error {...docProps} />);
-
+    let html = '<body><h1>Error</h1><p>There was an error, please try again.</p></body>';
+    if (typeof  ErrorPage !== 'undefined') {
+      const docProps = {
+        req,
+        res,
+        assets,
+        helmet: Helmet.renderStatic(),
+        data: store.getState(),
+        match,
+        ...rest
+      };
+      html = ReactDOMServer.renderToString(<ErrorPage {...docProps} error={error} />);
+    }
     return `<!doctype html>${html}`;
   });
-
 }
 
 

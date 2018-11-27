@@ -6,7 +6,11 @@ import NProgress from "nprogress";
 import asyncMatchRoutes from "../asyncMatchRoutes";
 import asyncMap from "../asyncMap";
 import {authorize, trigger} from "../../redial";
-import Error from './Error';
+
+
+const Error = () =>
+  (<div><h1>Error...</h1></div>);
+
 
 class ReduxAsyncConnect extends Component {
   static propTypes = {
@@ -16,6 +20,7 @@ class ReduxAsyncConnect extends Component {
     store: PropTypes.objectOf(PropTypes.any).isRequired,
     helpers: PropTypes.objectOf(PropTypes.any).isRequired,
     location: PropTypes.objectOf(PropTypes.any).isRequired,
+    errorPage: PropTypes.oneOfType([PropTypes.func, PropTypes.objectOf(PropTypes.any)]),
   };
 
   constructor(props) {
@@ -106,17 +111,16 @@ class ReduxAsyncConnect extends Component {
           });
         }
         await fetchers();
-      } else
-        if (process.env.BUILD_TARGET === 'client') {
-          trigger('defer', components, {
-            ...helpers,
-            store,
-            match,
-            params,
-            history,
-            location
-          });
-        }
+      } else if (process.env.BUILD_TARGET === 'client') {
+        trigger('defer', components, {
+          ...helpers,
+          store,
+          match,
+          params,
+          history,
+          location
+        });
+      }
 
       this.setState({authorized: true});
     }).catch(() => {
@@ -137,8 +141,16 @@ class ReduxAsyncConnect extends Component {
                     render={() => children} />;
     }
 
+    if (this.props.errorPage !== null) {
+      const ErrorPage = this.props.errorPage
+
+      return <Route location={this.state.location}
+                    render={() => <ErrorPage error={'Not authorized'} />} />;
+    }
+
     return <Route location={this.state.location}
-                  render={() => <Error />} />;
+                  render={() => <Error />} />
+
   }
 }
 

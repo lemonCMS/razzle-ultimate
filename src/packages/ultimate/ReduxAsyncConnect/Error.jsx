@@ -1,14 +1,14 @@
 import React, {Component} from 'react';
 
-const style = require('./error.txt');
+// const style = require('./error.txt');
 
 class Error extends Component {
   render() {
     return (
       <React.Fragment>
-        <style type={"text/css"}>
+        {/* <style type={"text/css"}>
           {style}
-        </style>
+        </style> */}
         <div id="notfound">
           <div className="notfound">
             <div className="notfound-404">

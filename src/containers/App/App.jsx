@@ -5,7 +5,7 @@ import Helmet from 'react-helmet';
 import {Switch} from 'react-router';
 import {renderRoutes} from 'react-router-config';
 import FontAwesome from './FontAwesome';
-import Menu from '../../packages/admin/Menu/Menu';
+import Menu from '../../packages/admin/Menu';
 import menu from '../../menu';
 import './app.scss';
 
