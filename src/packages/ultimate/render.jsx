@@ -74,7 +74,7 @@ async function render(options) {
   .catch((error) => {
     res.status(501);
     let html = '<body><h1>Error</h1><p>There was an error, please try again.</p></body>';
-    if (typeof  ErrorPage !== 'undefined') {
+    if (ErrorPage !== null) {
       const docProps = {
         req,
         res,
