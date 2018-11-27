@@ -7,12 +7,26 @@ import SyntaxHighlighter, { registerLanguage } from 'react-syntax-highlighter/di
 import jsx from 'react-syntax-highlighter/dist/languages/prism/jsx';
 import prism from 'react-syntax-highlighter/dist/styles/prism/prism';
 import CookieBar from '../../../packages/cookiebar/CookieConsent';
-import '../../../packages/cookiebar/Cookiebar.scss';
 
 registerLanguage('jsx', jsx);
 // import PropTypes from 'prop-types';
-
 class FullScreen extends Component {
+
+  getDomainName() {
+    let i = 0;
+    let domain = document.domain;
+    const p = domain.split('.');
+    const s = `_gd${(new Date()).getTime()}`;
+
+    while (i < (p.length - 1) && document.cookie.indexOf(`${s}=${s}`) === -1) {
+      domain = p.slice(-1 - (i += 1)).join('.');
+      document.cookie = `${s}=${s};domain=${domain};`;
+    }
+    document.cookie = `${s}=;expires=Thu, 01 Jan 1970 00:00:01 GMT;domain=${domain};`;
+    return domain;
+  }
+
+
   render() {
     return (
       <Container fluid>
@@ -24,9 +38,11 @@ class FullScreen extends Component {
                 type={'button'}
                 className={'btn btn-primary'}
                 onClick={() => {
+                  console.log(window.location.hostname);
+                  const dName = this.getDomainName();
                   const cookies = new CookiesJS();
-                  cookies.remove('cookieConsent', {path: '/'});
-                  cookies.remove('cookieAccepted', {path: '/'});
+                  cookies.remove('cookieConsent', {path: '/', domain: dName});
+                  cookies.remove('cookieAccepted', {path: '/', domain: dName});
                   window.location.reload();
                 }}
               >

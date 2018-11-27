@@ -8,8 +8,6 @@ import asyncMap from "../asyncMap";
 import {authorize, trigger} from "../../redial";
 import Error from './Error';
 
-require('./nprogress.css');
-
 class ReduxAsyncConnect extends Component {
   static propTypes = {
     children: PropTypes.node.isRequired,

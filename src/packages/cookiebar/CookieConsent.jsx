@@ -97,7 +97,6 @@ class CookieConsent extends React.Component {
     }
     document.cookie = `${s}=;expires=Thu, 01 Jan 1970 00:00:01 GMT;domain=${domain};`;
     return domain;
-
   }
 
   getElements(attrib) {

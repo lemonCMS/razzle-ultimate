@@ -42,7 +42,7 @@ class Document extends React.PureComponent {
                 <link
                   rel="stylesheet"
                   key={key}
-                  href={`http://${process.env.HOST}:${parseInt(
+                  href={`${process.env.PROTOCOL}${(process.env.DEV_HOSTNAME ? process.env.DEV_HOSTNAME : process.env.HOST)}:${parseInt(
                     process.env.PORT,
                     10,
                   ) + 1}/${style.file}`}
@@ -66,7 +66,7 @@ class Document extends React.PureComponent {
               ) : (
                 <script
                   key={key}
-                  src={`http://${process.env.HOST}:${parseInt(
+                  src={`${process.env.PROTOCOL}${(process.env.DEV_HOSTNAME ? process.env.DEV_HOSTNAME : process.env.HOST)}:${parseInt(
                     process.env.PORT,
                     10,
                   ) + 1}/${chunk.file}`}
