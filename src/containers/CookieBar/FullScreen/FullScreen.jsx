@@ -38,7 +38,6 @@ class FullScreen extends Component {
                 type={'button'}
                 className={'btn btn-primary'}
                 onClick={() => {
-                  console.log(window.location.hostname);
                   const dName = this.getDomainName();
                   const cookies = new CookiesJS();
                   cookies.remove('cookieConsent', {path: '/', domain: dName});

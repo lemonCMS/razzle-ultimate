@@ -22,8 +22,7 @@ import {provideHooks} from '../../../packages/redial';
 registerLanguage('jsx', jsx);
 
 @provideHooks({
-  defer: ({store: {dispatch}, ...rest}) => {
-    console.log(rest);
+  defer: ({store: {dispatch}}) => {
     const promises = [];
     promises.push(dispatch(simpleLoad('randomUser', '/users/random')));
     return Promise.all(promises);

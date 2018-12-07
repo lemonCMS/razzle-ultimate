@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDomServer from 'react-dom/server';
 import PropTypes from 'prop-types';
-import CookiesJS from 'universal-cookie';
 import uniqid from 'uniqid';
 import CookieBar from './CookieBar';
 import CookieBarCompact from './CookieBarCompact';
 import BlockResource from './BlockResource';
 import AppContext from './context/AppContext';
+import ProvidersContext from '../ultimate/context/Providers';
 
 class CookieConsent extends React.Component {
   config = {
@@ -39,7 +39,7 @@ class CookieConsent extends React.Component {
 
   iFrameBlobData = null;
 
-  constructor() {
+  constructor(props) {
     super();
     this.toggleCookieSettings = this.toggleCookieSettings.bind(this);
     this.saveCookieConsent = this.saveCookieConsent.bind(this);
@@ -55,9 +55,7 @@ class CookieConsent extends React.Component {
       openedByHash: false,
     };
     this.position = 0;
-    if (typeof window !== 'undefined') {
-      this.cookies = new CookiesJS();
-    }
+    this.cookies = props.providers.cookies.cookies
   }
 
   componentWillMount() {
@@ -184,8 +182,6 @@ class CookieConsent extends React.Component {
 
   init() {
     if (typeof window !== 'undefined') {
-      this.cookies = new CookiesJS();
-
       if (typeof window !== 'undefined' && typeof window.reactGpdrSettings !== 'undefined') {
         this.config = Object.assign({}, this.config, window.reactGpdrSettings);
       }
@@ -259,8 +255,12 @@ class CookieConsent extends React.Component {
 }
 
 CookieConsent.propTypes = {
-  settings: PropTypes.object
+  settings: PropTypes.instanceOf(Object),
+  providers: PropTypes.instanceOf(Object)
 };
 CookieConsent.defaultProps = {};
 
-export default CookieConsent;
+export default (props) =>
+  (<ProvidersContext.Consumer>{(providers) => <CookieConsent {...props} {...providers} />}</ProvidersContext.Consumer>);
+
+

@@ -14,12 +14,18 @@ class CookieBar extends React.Component {
     };
   }
 
-  componentDidMount() {
-    const ctxLevel = this.props.context.cookieConsent();
-    if (this.state.level !== ctxLevel) {
-      this.setState({level: ctxLevel, disabled: false});
+  static getDerivedStateFromProps(props, state) {
+    const ctxLevel = props.context.cookieConsent();
+    if (state.level === null && state.level !== ctxLevel) {
+      return {
+        level: ctxLevel,
+        disabled: false
+      }
     }
+    return null;
+  }
 
+  componentDidMount() {
     if (this.props.context.config.ignoreUserAgent === false && this.props.context.config.whitelist === false) {
       if ((window && this.props.context.cookies.get('cookieAccepted') !== 'true') || this.props.open === true) {
         if (this.props.context.cookies.get('cookieAccepted') !== 'true') {
@@ -56,7 +62,6 @@ class CookieBar extends React.Component {
       this.props.context.saveCookieConsent(this.state.level);
       this.ref.style.display = 'none';
     };
-
     return (
       <div
         style={{display: 'none'}}

@@ -22,7 +22,6 @@ class PersistComponent extends React.Component {
   constructor(props) {
     super(props);
     this.append = this.append.bind(this);
-    console.log('AMBER', props);
   }
 
   componentDidMount() {

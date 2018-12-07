@@ -1,13 +1,14 @@
 import React from 'react';
 import express from 'express';
 import Loadable from 'react-loadable';
-import { getBundles } from 'react-loadable/webpack';
+import {getBundles} from 'react-loadable/webpack';
 import createMemoryHistory from 'history/createMemoryHistory';
-import { renderToString } from 'react-dom/server';
-import { Provider } from 'react-redux';
+import {renderToString} from 'react-dom/server';
+import {Provider} from 'react-redux';
 import fs from 'fs-extra';
 import apiClient from '../apiClient';
 import ultimateRender from '../render';
+import ProvidersContext from '../context/Providers';
 
 const paths = require('razzle/config/paths');
 // eslint-disable-next-line
@@ -41,10 +42,10 @@ if (process.env.NODE_ENV === 'production') {
 export default index;
 
 export const render = (
-  { req, res },
+  {req, res},
   stats,
   routes,
-  { initializeStore, providers },
+  {initializeStore, providers},
   wrapper,
   awaitRender,
   ErrorPage = null
@@ -63,9 +64,11 @@ export const render = (
         const modules = [];
         const App = (
           <Loadable.Capture report={moduleName => modules.push(moduleName)}>
-            <Provider store={store}>
-              {typeof wrapper === 'function' ? wrapper(node) : node}
-            </Provider>
+            <ProvidersContext.Provider value={{providers}}>
+              <Provider store={store}>
+                {typeof wrapper === 'function' ? wrapper(node) : node}
+              </Provider>
+            </ProvidersContext.Provider>
           </Loadable.Capture>
         );
         const Html = renderToString(App);
@@ -78,7 +81,7 @@ export const render = (
       };
 
       if (typeof awaitRender === 'function') {
-        await awaitRender({ store, providers, req, res });
+        await awaitRender({store, providers, req, res});
       }
       await Loadable.preloadReady();
 

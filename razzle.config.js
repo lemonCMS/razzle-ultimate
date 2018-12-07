@@ -104,7 +104,7 @@ module.exports = {
     );
 
     if (dev && target === 'web') {
-      appConfig.plugins.push(new BundleAnalyzerPlugin());
+      // appConfig.plugins.push(new BundleAnalyzerPlugin());
     }
 
     // Ignore locales from moment
