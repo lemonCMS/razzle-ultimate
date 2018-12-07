@@ -72,7 +72,7 @@ server
       routes,
       { initializeStore, providers },
       wrapper,
-      awaitRender,
+      awaitRender
     );
   });
 

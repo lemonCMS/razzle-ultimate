@@ -2,7 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import _get from 'lodash/get';
 import _map from 'lodash/map';
+import {ReactReduxContext} from 'react-redux';
 import prepare from './prepare';
+
+
 
 class PersistComponent extends React.Component {
 
@@ -16,9 +19,10 @@ class PersistComponent extends React.Component {
 
   state = {mounted: false};
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.append = this.append.bind(this);
+    console.log('AMBER', props);
   }
 
   componentDidMount() {
@@ -30,8 +34,8 @@ class PersistComponent extends React.Component {
   append() {
     const {storage, modules} = this.props;
     const preparedModules = prepare(modules);
-    this.context.store.subscribe(() => {
-      const state = this.context.store.getState();
+    this.props.store.subscribe(() => {
+      const state = this.props.store.getState();
       if (this.restored === true) {
         _map(preparedModules, (module, key) => {
           const newState = _get(state, key);
@@ -46,9 +50,9 @@ class PersistComponent extends React.Component {
         if (item !== null && item !== 'undefined') {
           try {
             const result = typeof item === 'string' ? JSON.parse(item) : item;
-            const state = this.context.store.getState();
+            const state = this.props.store.getState();
             if (state[key] && JSON.stringify(state[key]) !== item) {
-              module.restore({dispatch: this.context.store.dispatch, result, currentState: state[key], key})
+              module.restore({dispatch: this.props.store.dispatch, result, currentState: state[key], key})
             }
           } catch (e) {
             console.log('Json parse failed', e);
@@ -66,6 +70,7 @@ class PersistComponent extends React.Component {
 
 PersistComponent.propTypes = {
   children: PropTypes.object.isRequired,
+  store: PropTypes.object.isRequired,
   modules: PropTypes.oneOfType([
     PropTypes.array,
     PropTypes.object
@@ -74,4 +79,5 @@ PersistComponent.propTypes = {
 };
 PersistComponent.defaultProps = {};
 
-export default PersistComponent;
+
+export default (props) => (<ReactReduxContext.Consumer>{(context) => <PersistComponent {...context} {...props} />}</ReactReduxContext.Consumer>);

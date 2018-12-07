@@ -114,6 +114,9 @@ module.exports = {
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     );
 
+    if (dev && process.env.DEV_HOSTNAME && process.env.PROTOCOL) {
+      appConfig.output.publicPath = `${process.env.PROTOCOL}${process.env.DEV_HOSTNAME}:${parseInt(process.env.PORT,10) + 1}/`;
+    }
     return appConfig;
   }
 };

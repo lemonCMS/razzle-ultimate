@@ -47,6 +47,7 @@ export const render = (
   { initializeStore, providers },
   wrapper,
   awaitRender,
+  ErrorPage = null
 ) => {
   (async () => {
     try {
@@ -90,6 +91,7 @@ export const render = (
         store,
         history,
         client: providers.client,
+        ErrorPage
       });
       res.send(html);
     } catch (error) {

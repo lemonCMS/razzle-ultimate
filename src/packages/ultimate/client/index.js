@@ -12,12 +12,12 @@ let _store = {};
 let _providers = {};
 let _wrapper = component => component;
 
-export const rehydrate = async (_routes, { store, providers }, wrapper) => {
+export const rehydrate = async (_routes, { store, providers }, wrapper, ErrorPage) => {
   const ultimate = <Ultimate routes={_routes} />;
   hydrate(
     <Provider store={store}>
       <BrowserRouter>
-        <ReduxAsyncConnect routes={_routes} store={store} helpers={providers}>
+        <ReduxAsyncConnect routes={_routes} store={store} helpers={providers} errorPage={ErrorPage} >
           {wrapper(ultimate, { store, providers })}
         </ReduxAsyncConnect>
       </BrowserRouter>
@@ -34,6 +34,7 @@ export default function client(
   { initializeStore, state, providers },
   wrapper,
   awaitRender,
+  _ErrorPage = null
 ) {
   (async () => {
     providers.client = apiClient();
@@ -46,10 +47,10 @@ export default function client(
 
     if (typeof awaitRender === 'function') {
       awaitRender({ store: _store, provider: _providers }).then(() => {
-        rehydrate(routes, { store: _store, providers: _providers }, _wrapper);
+        rehydrate(routes, { store: _store, providers: _providers }, _wrapper, _ErrorPage);
       });
     } else {
-      rehydrate(routes, { store: _store, providers: _providers }, _wrapper);
+      rehydrate(routes, { store: _store, providers: _providers }, _wrapper, _ErrorPage);
     }
   })();
 }
