@@ -18,7 +18,6 @@ import DataDefer from './containers/Data/Defer';
 import DataAuth from './containers/Data/Authorize';
 import DataNeedsToken from './containers/Data/Authorize/NeedsToken';
 
-
 const routes = [
   {
     component: App,

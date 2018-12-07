@@ -2,8 +2,8 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import MenuWrap from './MenuWrap';
 
-require('./animate.css');
-require('./menu.css');
+// require('./animate.css');
+// require('./menu.css');
 
 class Menu extends Component {
 
