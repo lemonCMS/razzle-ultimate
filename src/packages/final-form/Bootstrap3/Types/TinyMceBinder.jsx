@@ -13,7 +13,8 @@ class ContextBinder extends React.Component {
     }
 
     return (
-      <TinyMceInput readOnly {...this.props.input} className={this.props.field.className} tinymceConfig={Object.assign({}, this.props.field.config)} />
+      <TinyMceInput readOnly {...this.props.input} className={this.props.field.className}
+                    tinymceConfig={Object.assign({}, this.props.field.config)} />
     );
   }
 }
@@ -27,8 +28,8 @@ ContextBinder.propTypes = {
 const Binder = ({input, field}) => (
   <AppContext.Consumer>
     {(context) => <ContextBinder input={input}
-                                  field={field}
-                                  context={context}
+                                 field={field}
+                                 context={context}
     />}
   </AppContext.Consumer>);
 

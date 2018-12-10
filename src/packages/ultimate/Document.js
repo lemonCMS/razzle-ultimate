@@ -5,13 +5,13 @@ const AfterRoot = () => (
 );
 
 class Document extends React.PureComponent {
-  static async getInitialProps({ assets, data, renderPage }) {
+  static async getInitialProps({assets, data, renderPage}) {
     const page = await renderPage();
-    return { assets, data, ...page };
+    return {assets, data, ...page};
   }
 
   render() {
-    const { helmet, assets, data, bundles } = this.props;
+    const {helmet, assets, data, bundles} = this.props;
     const chunks = bundles.filter(bundle => bundle.file.endsWith('.js'));
     const styles = bundles.filter(bundle => bundle.file.endsWith('.css'));
     // get attributes from React Helmet

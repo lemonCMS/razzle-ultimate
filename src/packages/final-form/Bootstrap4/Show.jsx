@@ -29,7 +29,6 @@ Show.propTypes = {
 Show.defaultProps = {};
 
 
-
 const Binder = (props) => (
   <AppContext.Consumer>
     {(context) => <Show context={context} {...props} />}

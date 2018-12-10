@@ -18,7 +18,7 @@ const webpack = require('webpack');
  * @returns {*}
  */
 
-module.exports = (baseConfig, { dev }, vendor) => {
+module.exports = (baseConfig, {dev}, vendor) => {
   if (dev && typeof vendor !== 'object' && vendor.constructor !== Array) {
     /* eslint-disable no-console */
     console.error(

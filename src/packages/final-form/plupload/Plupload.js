@@ -27,7 +27,7 @@ class Plupload extends React.Component {
   constructor() {
     super();
     this.id = new Date().valueOf();
-    this.state = { files: [], uploadState: false, progress: {} };
+    this.state = {files: [], uploadState: false, progress: {}};
     this.runUploader = this.runUploader.bind(this);
     this.getComponentId = this.getComponentId.bind(this);
     this.refresh = this.refresh.bind(this);
@@ -96,7 +96,7 @@ class Plupload extends React.Component {
           _.map(files, file => {
             stateFiles.push(file);
           });
-          return { files: stateFiles };
+          return {files: stateFiles};
         },
         () => {
           if (this.props.autoUpload === true) {
@@ -114,13 +114,13 @@ class Plupload extends React.Component {
         up.state === window.plupload.STARTED &&
         this.state.uploadState === false
       ) {
-        this.setState({ uploadState: true });
+        this.setState({uploadState: true});
       }
       if (
         up.state !== window.plupload.STARTED &&
         this.state.uploadState === true
       ) {
-        this.setState({ uploadState: false });
+        this.setState({uploadState: false});
       }
     });
 
@@ -134,7 +134,7 @@ class Plupload extends React.Component {
           }
         });
         this.removeFile(file.id);
-        return { files: stateFiles };
+        return {files: stateFiles};
       });
     });
 
@@ -149,7 +149,7 @@ class Plupload extends React.Component {
               stateFiles[key] = val;
             }
           });
-          return { files: stateFiles };
+          return {files: stateFiles};
         });
       }
     });
@@ -158,7 +158,7 @@ class Plupload extends React.Component {
       this.setState(prevState => {
         const stateProgress = prevState.progress;
         stateProgress[file.id] = file.percent;
-        return { progress: stateProgress };
+        return {progress: stateProgress};
       });
     });
   }
@@ -213,7 +213,7 @@ class Plupload extends React.Component {
         const percent = this.state.progress[val.id] || 0;
         progressBar = React.createElement(
           'div',
-          { className: 'progress' },
+          {className: 'progress'},
           React.createElement(
             'div',
             {
@@ -222,11 +222,11 @@ class Plupload extends React.Component {
               'aria-valuenow': percent,
               'aria-valuemin': 0,
               'aria-valuemax': 100,
-              style: { width: `${percent}%` },
+              style: {width: `${percent}%`},
             },
             React.createElement(
               'span',
-              { className: 'sr-only' },
+              {className: 'sr-only'},
               `${percent}complete`,
             ),
           ),
@@ -237,7 +237,7 @@ class Plupload extends React.Component {
       if (!_.isUndefined(val.error)) {
         errorDiv = React.createElement(
           'div',
-          { className: 'alert alert-danger' },
+          {className: 'alert alert-danger'},
           `Error: ${val.error.code}, Message: ${val.error.message}`,
         );
       }
@@ -249,10 +249,10 @@ class Plupload extends React.Component {
 
       return React.createElement(
         'li',
-        { key: val.id },
+        {key: val.id},
         React.createElement(
           'p',
-          { className: bgSuccess },
+          {className: bgSuccess},
           val.name,
           ' ',
           delButton,
@@ -268,7 +268,7 @@ class Plupload extends React.Component {
       const stateFiles = _.filter(prevState.files, file => {
         this.uploader.removeFile(file.id);
       });
-      return { files: stateFiles };
+      return {files: stateFiles};
     });
   }
 
@@ -280,7 +280,7 @@ class Plupload extends React.Component {
         }
         return !file.error;
       });
-      return { files: stateFiles };
+      return {files: stateFiles};
     });
   }
 
@@ -288,7 +288,7 @@ class Plupload extends React.Component {
     this.setState(prevState => {
       this.uploader.removeFile(id);
       const stateFiles = _.filter(prevState.files, file => file.id !== id);
-      return { files: stateFiles };
+      return {files: stateFiles};
     });
   }
 

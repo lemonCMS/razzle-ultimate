@@ -8,7 +8,7 @@ const asyncMap = (arr, mapper) => {
   return Promise.all(arr.map(v => (q = q.then(() => mapper(v)))));
 };
 
-export default ({ store, storage, modules }) => {
+export default ({store, storage, modules}) => {
   const preparedModules = prepare(modules);
   const promises = [];
 

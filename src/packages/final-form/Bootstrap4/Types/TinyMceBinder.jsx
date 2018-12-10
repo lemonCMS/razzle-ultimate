@@ -14,7 +14,8 @@ class ContextBinder extends React.Component {
     }
 
     return (
-      <TinyMceInput readOnly {...this.props.input} className={this.props.field.className} tinymceConfig={Object.assign({}, this.props.field.config)} />
+      <TinyMceInput readOnly {...this.props.input} className={this.props.field.className}
+                    tinymceConfig={Object.assign({}, this.props.field.config)} />
     );
   }
 }

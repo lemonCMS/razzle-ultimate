@@ -5,8 +5,6 @@ import _map from 'lodash/map';
 import {ReactReduxContext} from 'react-redux';
 import prepare from './prepare';
 
-
-
 class PersistComponent extends React.Component {
 
   static contextTypes = {
@@ -58,7 +56,9 @@ class PersistComponent extends React.Component {
           }
         }
       }));
-      Promise.all(promise).then(() => { this.restored = true; });
+      Promise.all(promise).then(() => {
+        this.restored = true;
+      });
     });
   }
 
@@ -79,4 +79,5 @@ PersistComponent.propTypes = {
 PersistComponent.defaultProps = {};
 
 
-export default (props) => (<ReactReduxContext.Consumer>{(context) => <PersistComponent {...context} {...props} />}</ReactReduxContext.Consumer>);
+export default (props) => (
+  <ReactReduxContext.Consumer>{(context) => <PersistComponent {...context} {...props} />}</ReactReduxContext.Consumer>);

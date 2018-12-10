@@ -13,7 +13,7 @@ const initialState = {};
 
 export default function reducer(orgState = initialState, action = {}) {
   const state = Object.assign({}, orgState);
-  const { key } = action;
+  const {key} = action;
   const keyState = Object.assign({}, _get(state, key));
   const status = _get(action, 'error.status', false);
   switch (action.type) {
@@ -46,7 +46,7 @@ export default function reducer(orgState = initialState, action = {}) {
         _set(
           state,
           key,
-          Object.assign({}, keyState, { pending: true, failed: false }),
+          Object.assign({}, keyState, {pending: true, failed: false}),
         ),
       );
     case constants.STORE_LIST_SUCCESS:
@@ -88,7 +88,7 @@ export default function reducer(orgState = initialState, action = {}) {
           key,
           Object.assign({}, keyState, {
             all: keyState.all,
-            allStatus: { pending: true },
+            allStatus: {pending: true},
           }),
         ),
       );
@@ -101,7 +101,7 @@ export default function reducer(orgState = initialState, action = {}) {
           key,
           Object.assign({}, keyState, {
             all: action.result,
-            allStatus: { pending: false, success: true },
+            allStatus: {pending: false, success: true},
           }),
         ),
       );
@@ -114,7 +114,7 @@ export default function reducer(orgState = initialState, action = {}) {
           key,
           Object.assign({}, keyState, {
             all: keyState.all,
-            allStatus: { pending: false, failed: true, error: status },
+            allStatus: {pending: false, failed: true, error: status},
           }),
         ),
       );
@@ -122,7 +122,7 @@ export default function reducer(orgState = initialState, action = {}) {
       return Object.assign(
         {},
         state,
-        _set(state, key, Object.assign({}, keyState, { all: {} })),
+        _set(state, key, Object.assign({}, keyState, {all: {}})),
       );
 
     case constants.STORE_ITEM_LOAD:
@@ -162,7 +162,7 @@ export default function reducer(orgState = initialState, action = {}) {
           state,
           key,
           Object.assign({}, keyState, {
-            item: { pending: false, failed: true, error: status },
+            item: {pending: false, failed: true, error: status},
           }),
         ),
       );
@@ -175,7 +175,7 @@ export default function reducer(orgState = initialState, action = {}) {
           state,
           key,
           Object.assign({}, keyState, {
-            item: Object.assign({}, { pending: true }),
+            item: Object.assign({}, {pending: true}),
           }),
         ),
       );
@@ -187,7 +187,7 @@ export default function reducer(orgState = initialState, action = {}) {
           state,
           key,
           Object.assign({}, keyState, {
-            item: Object.assign({}, { pending: false, deleted: true }),
+            item: Object.assign({}, {pending: false, deleted: true}),
           }),
         ),
       );
@@ -201,7 +201,7 @@ export default function reducer(orgState = initialState, action = {}) {
           Object.assign({}, keyState, {
             item: Object.assign(
               {},
-              { pending: false, failed: true, error: status },
+              {pending: false, failed: true, error: status},
             ),
           }),
         ),
@@ -341,7 +341,7 @@ export default function reducer(orgState = initialState, action = {}) {
             item: Object.assign(
               {},
               {
-                actionStatus: { pending: true, failed: false, success: false },
+                actionStatus: {pending: true, failed: false, success: false},
               },
             ),
           }),
@@ -375,7 +375,7 @@ export default function reducer(orgState = initialState, action = {}) {
             item: Object.assign(
               {},
               {
-                actionStatus: { pending: false, failed: true, success: false },
+                actionStatus: {pending: false, failed: true, success: false},
               },
             ),
           }),
@@ -386,13 +386,13 @@ export default function reducer(orgState = initialState, action = {}) {
       return Object.assign(
         {},
         state,
-        _set(state, key, Object.assign({}, keyState, { list: {}, success: false, pending: false, failed: false })),
+        _set(state, key, Object.assign({}, keyState, {list: {}, success: false, pending: false, failed: false})),
       );
     case constants.STORE_ITEM_CLEAR:
       return Object.assign(
         {},
         state,
-        _set(state, key, Object.assign({}, keyState, { item: {} })),
+        _set(state, key, Object.assign({}, keyState, {item: {}})),
       );
     case constants.STORE_ITEM_CLEAR_NETWORK_STATE:
       return Object.assign(
@@ -402,14 +402,14 @@ export default function reducer(orgState = initialState, action = {}) {
           state,
           key,
           Object.assign({}, keyState, {
-            item: Object.assign({}, keyState.item, { actionStatus: {} }),
+            item: Object.assign({}, keyState.item, {actionStatus: {}}),
           }),
         ),
       );
 
     case constants.STORE_STACK_ITEM_LOAD: {
       const stack = _clone(_get(state, [key, 'stack'], {}));
-      stack[action.id] = Object.assign({}, { pending: true, success: false });
+      stack[action.id] = Object.assign({}, {pending: true, success: false});
       return Object.assign({}, state, _set({}, [key, 'stack'], stack));
     }
 
@@ -423,7 +423,7 @@ export default function reducer(orgState = initialState, action = {}) {
     }
     case constants.STORE_STACK_ITEM_LOAD_FAILED: {
       const stack = _clone(_get(state, [key, 'stack'], {}));
-      stack[action.id] = Object.assign({}, { pending: false, failed: true });
+      stack[action.id] = Object.assign({}, {pending: false, failed: true});
       return Object.assign({}, state, _set({}, [key, 'stack'], stack));
     }
     case constants.STORE_STACK_ITEM_CLEAR: {
@@ -438,7 +438,7 @@ export default function reducer(orgState = initialState, action = {}) {
         _set(
           state,
           key,
-          Object.assign({}, { pending: true, success: false, failed: false }),
+          Object.assign({}, {pending: true, success: false, failed: false}),
         ),
       );
     case constants.STORE_SIMPLE_LOAD_SUCCESS:
@@ -464,7 +464,7 @@ export default function reducer(orgState = initialState, action = {}) {
         _set(
           state,
           key,
-          Object.assign({}, { pending: false, success: false, failed: true }),
+          Object.assign({}, {pending: false, success: false, failed: true}),
         ),
       );
     case constants.STORE_SIMPLE_CLEAR:

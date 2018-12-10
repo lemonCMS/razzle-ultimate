@@ -1,7 +1,7 @@
 const autoprefixer = require('autoprefixer');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
-module.exports = (baseConfig, { dev, target }) => {
+module.exports = (baseConfig, {dev, target}) => {
   const appConfig = Object.assign({}, baseConfig);
 
   if (target === 'web') {

@@ -9,7 +9,7 @@ import _isArray from 'lodash/isArray';
 import _compact from 'lodash/compact';
 import _find from 'lodash/find';
 import React, {Component} from 'react';
-import {Alert, ButtonToolbar, DropdownButton, Dropdown, Image} from 'react-bootstrap';
+import {Alert, ButtonToolbar, Dropdown, DropdownButton, Image} from 'react-bootstrap';
 import {withRouter} from 'react-router';
 import Paginator from './Paginator';
 import moment from '../utils/moment';
@@ -209,7 +209,7 @@ class DataTable extends Component {
           }}>
           {value}
         </button>);
-      } else if(_has(col, 'onClick')) {
+      } else if (_has(col, 'onClick')) {
         const click = (event) => {
           event.preventDefault();
           col.onClick(record, this.props.history);
@@ -230,8 +230,8 @@ class DataTable extends Component {
     if (_has(col, 'fa')) {
       return (
         <div className="btn-group"
-          role="group"
-          aria-label="Basic example">
+             role="group"
+             aria-label="Basic example">
           {_map(col.fa, (item, itemKey) => {
             const click = () => {
               if (_has(item, 'onClick')) {
@@ -241,9 +241,9 @@ class DataTable extends Component {
             };
             return (
               <button key={itemKey}
-                type={'button'}
-                className="btn btn-sm"
-                onClick={click}>
+                      type={'button'}
+                      className="btn btn-sm"
+                      onClick={click}>
                 <i className={`fa fa-${item.icon}`} />
               </button>);
           })}
@@ -553,7 +553,7 @@ class DataTable extends Component {
       };
 
       if (_has(button, 'divider')) {
-        return <Dropdown.Divider key={`${key}-divider`}/>;
+        return <Dropdown.Divider key={`${key}-divider`} />;
       }
 
       return <Dropdown.Item

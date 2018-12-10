@@ -112,14 +112,10 @@ class Paginator extends React.Component {
     if (this.props.currPage <= sliderNum) {
       buttons = buttons.concat(this.renderRange(1, sliderNum + 2));
       buttons = buttons.concat(this.renderFinish());
-    }
-
-    else if (this.props.currPage >= this.props.lastPage - sliderNum) {
+    } else if (this.props.currPage >= this.props.lastPage - sliderNum) {
       buttons = buttons.concat(this.renderStart());
       buttons = buttons.concat(this.renderRange(this.props.lastPage - sliderNum, this.props.lastPage));
-    }
-
-    else {
+    } else {
       buttons = buttons.concat(this.renderStart());
       buttons = buttons.concat(this.renderAdjacentRange());
       buttons = buttons.concat(this.renderFinish());
@@ -135,8 +131,7 @@ class Paginator extends React.Component {
 
     if (this.props.lastPage <= 13) {
       buttons = buttons.concat(this.renderRange(1, this.props.lastPage));
-    }
-    else {
+    } else {
       buttons = buttons.concat(this.renderSlider());
     }
 

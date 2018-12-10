@@ -7,7 +7,7 @@ class Button extends Component {
   render() {
     const {children, ...rest} = this.props;
 
-    if (this.props.context.isStatic === true ) {
+    if (this.props.context.isStatic === true) {
       return null;
     }
 

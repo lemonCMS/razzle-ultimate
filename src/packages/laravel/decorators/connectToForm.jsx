@@ -3,7 +3,7 @@ import React from 'react';
 import _get from 'lodash/get';
 import _has from 'lodash/has';
 import {withRouter} from 'react-router';
-import {post, update, updateListItem, clearItem, clearList} from '../../redux/store/actions';
+import {clearItem, clearList, post, update, updateListItem} from '../../redux/store/actions';
 
 export default custom => (Component) => {
 

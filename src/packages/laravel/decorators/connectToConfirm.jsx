@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-import {Modal, Button} from 'react-bootstrap';
+import {Button, Modal} from 'react-bootstrap';
 
 export default function connnectToConfirm(conf) {
   return (WrappedComponent) => {
@@ -42,7 +42,7 @@ export default function connnectToConfirm(conf) {
       renderModal() {
         return (
           <Modal show={this.state.showModal}
-            onHide={this.closeModal}>
+                 onHide={this.closeModal}>
             <Modal.Header closeButton>
               <Modal.Title>{thisConf.title}</Modal.Title>
             </Modal.Header>
@@ -51,7 +51,7 @@ export default function connnectToConfirm(conf) {
             </Modal.Body>
             <Modal.Footer>
               <Button variant="danger"
-                onClick={this.confirm}>{thisConf.confirm}</Button>
+                      onClick={this.confirm}>{thisConf.confirm}</Button>
               <Button onClick={this.closeModal}>{thisConf.cancel}</Button>
             </Modal.Footer>
           </Modal>

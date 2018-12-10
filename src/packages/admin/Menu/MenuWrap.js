@@ -18,7 +18,7 @@ class MenuWrap extends Component {
     const {menu, className, id, role, location, match} = this.props;
     return (
       <ul className={className} id={id} role={role}>
-        {_.map(menu, (item, i) => (<MenuItem key={i} item={item} location={location} match={match}/>))}
+        {_.map(menu, (item, i) => (<MenuItem key={i} item={item} location={location} match={match} />))}
       </ul>
     );
   }

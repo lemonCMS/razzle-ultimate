@@ -122,7 +122,7 @@ class RadioBinder extends React.Component {
       const chunks = () => {
         const chunkData = _chunk(filtered, split);
         return _map(chunkData, (chunk, key) =>
-          <Col key={key} md={Math.round(12 / field.chunks)} >
+          <Col key={key} md={Math.round(12 / field.chunks)}>
             {this.radioButtonList(chunk)}
           </Col>
         );

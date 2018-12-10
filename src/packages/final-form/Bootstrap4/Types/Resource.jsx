@@ -59,7 +59,8 @@ class Resourcebinder extends React.Component {
         if (_indexOf(this.props.input.value, option.value) > -1) {
           return (
             <p className="form-control-static" key={key}>
-              {_indexOf(this.props.input.value, option.value) > -1 ? <i className="fa fa-check-square-o" /> : <i className="fa fa-square-o" />}
+              {_indexOf(this.props.input.value, option.value) > -1 ? <i className="fa fa-check-square-o" /> :
+                <i className="fa fa-square-o" />}
               {' '}
               {option.desc}
             </p>
@@ -120,7 +121,7 @@ class Resourcebinder extends React.Component {
     const button = () => {
       if (!this.props.field.static && !this.props.context.isStatic) {
         return (<button type='button' onClick={this.openResource}
-          disabled={disabled}>{_get(this.props, 'field.buttonResource', 'open')}</button>);
+                        disabled={disabled}>{_get(this.props, 'field.buttonResource', 'open')}</button>);
       }
       return null;
     };

@@ -8,7 +8,7 @@ import Button from 'react-bootstrap/lib/Button';
 import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
 import ButtonGroup from 'react-bootstrap/lib/ButtonGroup';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import _isFunction from 'lodash/isFunction';
 import _pick from 'lodash/pick';
 import AppContext from "../context/AppContext";
@@ -34,7 +34,7 @@ class Complex extends React.Component {
   renderChildren(name, count, remove, move, complexIndex, staticField, disabled) {
     const buttons = () => {
       const returnButtons = [];
-      const extra = _pick(this.props.moveBtn, ['className', 'title', 'variant','size']);
+      const extra = _pick(this.props.moveBtn, ['className', 'title', 'variant', 'size']);
       if (staticField !== true) {
         if (complexIndex > 0 && count > 1) {
           returnButtons.push(
@@ -64,7 +64,7 @@ class Complex extends React.Component {
         }
 
         if ((this.props.mandatory && count > 1) || (!this.props.mandatory && count > 0)) {
-          const extraRm = _pick(this.props.removeBtn, ['className', 'title', 'variant','size']);
+          const extraRm = _pick(this.props.removeBtn, ['className', 'title', 'variant', 'size']);
 
           returnButtons.push(
             <Button

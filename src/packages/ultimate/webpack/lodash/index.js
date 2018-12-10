@@ -1,7 +1,7 @@
 const makeLoaderFinder = require('razzle-dev-utils/makeLoaderFinder');
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 
-module.exports = (baseConfig, { dev }, settings = {}) => {
+module.exports = (baseConfig, {dev}, settings = {}) => {
   const appConfig = Object.assign({}, baseConfig);
 
 

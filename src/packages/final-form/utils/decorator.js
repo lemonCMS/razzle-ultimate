@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 
 export default function connnectToConfirm(conf) {
   return WrappedComponent => {
@@ -7,6 +7,7 @@ export default function connnectToConfirm(conf) {
         return <WrappedComponent {...this.props} {...conf} />;
       }
     }
+
     return TmpComponent;
   };
 }

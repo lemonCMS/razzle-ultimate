@@ -23,8 +23,7 @@ class Error extends Component {
   }
 }
 
-Error.propTypes = {
-};
+Error.propTypes = {};
 Error.defaultProps = {};
 
 export default Error;

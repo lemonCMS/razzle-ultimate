@@ -77,25 +77,25 @@ class CookieBarCompact extends React.Component {
         <div className={'react-gdr-page-modal-container'}>
           <div className={'react-gdr-page-modal'}>
             <div className={'header'}
-              dangerouslySetInnerHTML={{__html: data.title}} />
+                 dangerouslySetInnerHTML={{__html: data.title}} />
             <div className={'body'}>
               <div className={'info'}
-                dangerouslySetInnerHTML={{__html: data.intro}} />
+                   dangerouslySetInnerHTML={{__html: data.intro}} />
               {data.level3 !== null &&
               <Level onClick={() => levelClick(3)}
-                active={this.state.level === 3}>
+                     active={this.state.level === 3}>
                 {data.level3}
               </Level>
               }
               {data.level2 !== null &&
               <Level onClick={() => levelClick(2)}
-                active={this.state.level === 2}>
+                     active={this.state.level === 2}>
                 {data.level2}
               </Level>
               }
               {data.level1 !== null &&
               <Level onClick={() => levelClick(1)}
-                active={this.state.level === 1}>
+                     active={this.state.level === 1}>
                 {data.level1}
               </Level>
               }
@@ -137,24 +137,24 @@ class CookieBarCompact extends React.Component {
         <div className="container-fluid">
           <div className="row">
             <div className="col-sm-7"
-              dangerouslySetInnerHTML={{__html: data.cookieBar}} />
+                 dangerouslySetInnerHTML={{__html: data.cookieBar}} />
             <div className="col-sm-5">
               <div className={'cbButtonBar'}>
                 <button className={'cbSettings'}
-                  type={'button'}
-                  onClick={() => {
-                    window.scrollTo(0, 0);
-                    this.refModal.style.display = 'block';
-                  }}>
+                        type={'button'}
+                        onClick={() => {
+                          window.scrollTo(0, 0);
+                          this.refModal.style.display = 'block';
+                        }}>
                   {data.buttonSettings}
                 </button>
                 {' '}
                 <button className={'cbButton'}
-                  type={'button'}
-                  onClick={() => {
-                    this.props.context.saveCookieConsent(3);
-                    this.ref.style.display = 'none';
-                  }}>
+                        type={'button'}
+                        onClick={() => {
+                          this.props.context.saveCookieConsent(3);
+                          this.ref.style.display = 'none';
+                        }}>
                   {data.button}
                 </button>
               </div>

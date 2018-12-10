@@ -1,6 +1,6 @@
-const { ReactLoadablePlugin } = require('react-loadable/webpack');
+const {ReactLoadablePlugin} = require('react-loadable/webpack');
 
-module.exports = (baseConfig, { target }) => {
+module.exports = (baseConfig, {target}) => {
   const appConfig = Object.assign({}, baseConfig);
   if (target === 'web') {
     appConfig.plugins.push(

@@ -1,7 +1,7 @@
-export default function(initModules) {
+export default function (initModules) {
   const modules = typeof initModules === 'string' ? [initModules] : initModules;
   const prepared = {};
-  const saveRestore = (key, { save = null, restore = null } = {}) => ({
+  const saveRestore = (key, {save = null, restore = null} = {}) => ({
     save: (state, lastState, storage) => {
       const saveState = save ? save(state, key, storage) : state;
       if (typeof saveState !== 'undefined') {
@@ -13,9 +13,9 @@ export default function(initModules) {
       }
       return null;
     },
-    restore: ({ result, dispatch, ...rest }) => {
+    restore: ({result, dispatch, ...rest}) => {
       if (restore) {
-        restore({ result, dispatch, ...rest });
+        restore({result, dispatch, ...rest});
       } else {
         dispatch({
           type: `@@redux-persist-component/${key}`,
@@ -30,7 +30,7 @@ export default function(initModules) {
     if (typeof module === 'string') {
       prepared[module] = saveRestore(module);
     } else if (typeof module === 'function') {
-      prepared[key] = saveRestore(key, { save: module });
+      prepared[key] = saveRestore(key, {save: module});
     } else if (typeof module === 'object') {
       if (
         typeof module.save !== 'undefined' ||

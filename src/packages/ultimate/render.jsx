@@ -2,32 +2,32 @@ import * as React from 'react';
 import * as ReactDOMServer from 'react-dom/server';
 import Helmet from 'react-helmet';
 import {StaticRouter} from 'react-router-dom';
-import {triggerWait, authorizeWait} from '../redial';
+import {authorizeWait, triggerWait} from '../redial';
 import DefaultDoc from './Document';
 import Ultimate from './Ultimate';
 import asyncMatchRoutes from './asyncMatchRoutes';
 
-const modPageFn = function(Page) {
+const modPageFn = function (Page) {
   return (props) => <Page {...props} />;
 };
 
 async function render(options) {
-  const { req, res, routes, assets, document, customRenderer, store, client, history, ErrorPage, ...rest } = options;
+  const {req, res, routes, assets, document, customRenderer, store, client, history, ErrorPage, ...rest} = options;
   const Doc = document || DefaultDoc;
   const context = {};
   const renderPage = async (fn = modPageFn) => {
     // By default, we keep ReactDOMServer synchronous renderToString function
-    const defaultRenderer = (element) => ({ html: ReactDOMServer.renderToString(element) });
+    const defaultRenderer = (element) => ({html: ReactDOMServer.renderToString(element)});
     const renderer = customRenderer || defaultRenderer;
     const renderedContent = renderer(
       <StaticRouter location={req.originalUrl} context={context}>
-        {fn(Ultimate)({ routes })}
+        {fn(Ultimate)({routes})}
       </StaticRouter>
     );
 
     const helmet = Helmet.renderStatic();
 
-    return { helmet, ...renderedContent };
+    return {helmet, ...renderedContent};
   };
 
   const {components, match, params} = await asyncMatchRoutes(routes, req._parsedUrl.pathname);
@@ -56,7 +56,7 @@ async function render(options) {
       return null;
     }
 
-    const { html, ...docProps } = await Doc.getInitialProps({
+    const {html, ...docProps} = await Doc.getInitialProps({
       req,
       res,
       assets,
@@ -71,23 +71,23 @@ async function render(options) {
     return `<!doctype html>${doc.replace('DO_NOT_DELETE_THIS_YOU_WILL_BREAK_YOUR_APP', html)}`;
 
   })
-  .catch((error) => {
-    res.status(501);
-    let html = '<body><h1>Error</h1><p>There was an error, please try again.</p></body>';
-    if (ErrorPage !== null) {
-      const docProps = {
-        req,
-        res,
-        assets,
-        helmet: Helmet.renderStatic(),
-        data: store.getState(),
-        match,
-        ...rest
-      };
-      html = ReactDOMServer.renderToString(<ErrorPage {...docProps} error={error} />);
-    }
-    return `<!doctype html>${html}`;
-  });
+    .catch((error) => {
+      res.status(501);
+      let html = '<body><h1>Error</h1><p>There was an error, please try again.</p></body>';
+      if (ErrorPage !== null) {
+        const docProps = {
+          req,
+          res,
+          assets,
+          helmet: Helmet.renderStatic(),
+          data: store.getState(),
+          match,
+          ...rest
+        };
+        html = ReactDOMServer.renderToString(<ErrorPage {...docProps} error={error} />);
+      }
+      return `<!doctype html>${html}`;
+    });
 }
 
 

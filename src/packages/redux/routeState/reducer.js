@@ -1,4 +1,4 @@
-import { ROUTER_STORE_STATE } from './constants';
+import {ROUTER_STORE_STATE} from './constants';
 
 const storeStateReducer = (object, id, value) => {
   const clone = Object.assign({}, object);

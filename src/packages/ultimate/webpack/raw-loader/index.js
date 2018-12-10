@@ -1,6 +1,6 @@
 const makeLoaderFinder = require('razzle-dev-utils/makeLoaderFinder');
 
-module.exports = (baseConfig, { dev, target }) => {
+module.exports = (baseConfig, {dev, target}) => {
   const appConfig = Object.assign({}, baseConfig);
   const fileLoaderFinder = makeLoaderFinder('file-loader');
 
@@ -11,7 +11,6 @@ module.exports = (baseConfig, { dev, target }) => {
     test: /\.txt$/,
     use: ['raw-loader'],
   });
-
 
 
   return appConfig;

@@ -85,12 +85,12 @@ class Wrap extends React.Component {
 
     return (
       <DropdownButton key={this.input.name}
-        onClick={(event) => {
-          event.preventDefault();
-        }}
-        {...thisSize()}
-        title={dropDownTitle || _get(props.field, 'placeholder')}
-        id={'input-dropdown-addon' + this.input.name}>
+                      onClick={(event) => {
+                        event.preventDefault();
+                      }}
+                      {...thisSize()}
+                      title={dropDownTitle || _get(props.field, 'placeholder')}
+                      id={'input-dropdown-addon' + this.input.name}>
         {menuItem}
       </DropdownButton>
     );
@@ -282,7 +282,7 @@ class Wrap extends React.Component {
       </Col>
     </FormGroup>);
 
-    if(this.props.context.debug) {
+    if (this.props.context.debug) {
       return (
         <div style={{position: 'relative'}}>
           {rendered}

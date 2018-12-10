@@ -21,7 +21,7 @@ export function multiUpdate(key, path, params) {
     ],
     key,
     params,
-    promise: ({ client }) => client.post(path, params),
+    promise: ({client}) => client.post(path, params),
   };
 }
 
@@ -35,7 +35,7 @@ export function simpleLoad(key, path, params = {}) {
     key,
     path,
     params,
-    promise: ({ client }) =>
+    promise: ({client}) =>
       client.get(path, {
         params,
       }),
@@ -57,7 +57,7 @@ export function load(key, path, params) {
       constants.STORE_LIST_FAIL,
     ],
     key,
-    promise: ({ client }) => client.get(path, { params }),
+    promise: ({client}) => client.get(path, {params}),
   };
 }
 
@@ -69,7 +69,7 @@ export function loadAll(key, path) {
       constants.STORE_LIST_ALL_FAIL,
     ],
     key,
-    promise: ({ client }) =>
+    promise: ({client}) =>
       client.get(path, {
         params: {
           all: true,
@@ -101,7 +101,7 @@ export function updateAndDispatch(key, path, id, params) {
       constants.STORE_ITEM_LOCAL_UPDATE_FAIL,
     ],
     key,
-    promise: ({ client }) => client.put(`${path}/${id}`, params),
+    promise: ({client}) => client.put(`${path}/${id}`, params),
     payload: params,
   };
 }
@@ -114,7 +114,7 @@ export function update(key, path, id, params) {
       constants.STORE_ITEM_UPDATE_FAIL,
     ],
     key,
-    promise: ({ client }) => client.put(`${path}/${id}`, params),
+    promise: ({client}) => client.put(`${path}/${id}`, params),
     payload: params,
   };
 }
@@ -127,7 +127,7 @@ export function updateDeep(key, path, id, params, pathDeep, cb) {
       constants.STORE_ITEM_UPDATE_DEEP_FAIL,
     ],
     key,
-    promise: ({ client }) => client.put(`${path}/${id}`, params),
+    promise: ({client}) => client.put(`${path}/${id}`, params),
     payload: params,
     pathDeep,
     cb,
@@ -142,7 +142,7 @@ export function destroyDeep(key, path, id, params, pathDeep, cb) {
       constants.STORE_ITEM_DELETE_DEEP_FAIL,
     ],
     key,
-    promise: ({ client }) => client.delete(`${path}/${id}`, { params }),
+    promise: ({client}) => client.delete(`${path}/${id}`, {params}),
     payload: params,
     pathDeep,
     cb,
@@ -157,7 +157,7 @@ export function createDeep(key, path, params, pathDeep) {
       constants.STORE_ITEM_CREATE_DEEP_FAIL,
     ],
     key,
-    promise: ({ client }) => client.post(path, params),
+    promise: ({client}) => client.post(path, params),
     pathDeep,
   };
 }
@@ -170,7 +170,7 @@ export function create(key, path, params) {
       constants.STORE_ITEM_CREATE_FAIL,
     ],
     key,
-    promise: ({ client }) => client.post(path, params),
+    promise: ({client}) => client.post(path, params),
     payload: params,
   };
 }
@@ -183,7 +183,7 @@ export function post(key, path, params) {
       constants.STORE_ITEM_CREATE_FAIL,
     ],
     key,
-    promise: ({ client }) => client.post(path, params),
+    promise: ({client}) => client.post(path, params),
     payload: params,
   };
 }
@@ -196,7 +196,7 @@ export function loadItem(key, path, id, params) {
       constants.STORE_ITEM_LOAD_FAIL,
     ],
     key,
-    promise: ({ client }) =>
+    promise: ({client}) =>
       client.get(`${path}/${id}`, {
         params: {
           ...params,
@@ -213,7 +213,7 @@ export function destroyItem(key, path, id) {
       constants.STORE_ITEM_DELETE_FAIL,
     ],
     key,
-    promise: ({ client }) => client.delete(`${path}/${id}`),
+    promise: ({client}) => client.delete(`${path}/${id}`),
   };
 }
 
@@ -226,7 +226,7 @@ export function setPropertyItem(key, path, id, props) {
     ],
     key,
     props,
-    promise: ({ client }) => client.post(`${path}/${id}`),
+    promise: ({client}) => client.post(`${path}/${id}`),
   };
 }
 
@@ -253,7 +253,7 @@ export function loadStackItem(key, path, id, params) {
     ],
     key,
     id,
-    promise: ({ client }) => client.get(path, params),
+    promise: ({client}) => client.get(path, params),
   };
 }
 
@@ -293,7 +293,7 @@ const Allparams = {};
 export function isLoaded(key, globalState, params = {}) {
   const check =
     _get(globalState, [constants.reducerIndex, key, 'success'], false) ===
-      true &&
+    true &&
     parseInt(
       _get(
         globalState,
@@ -310,7 +310,7 @@ export function isLoaded(key, globalState, params = {}) {
 export function isLoadedSimple(key, globalState, path, params = {}) {
   return (
     _get(globalState, [constants.reducerIndex, key, 'success'], false) ===
-      true &&
+    true &&
     _get(globalState, [constants.reducerIndex, key, 'path'], null) === path &&
     _isEqual(
       _get(globalState, [constants.reducerIndex, key, 'params'], null),
@@ -347,8 +347,8 @@ export function isLoadedItemByString(key, globalState, id) {
     globalState[constants.reducerIndex][key][constants.reducerItem] &&
     (String(
       globalState[constants.reducerIndex][key][constants.reducerItem].id,
-    ) === String(id) ||
+      ) === String(id) ||
       globalState[constants.reducerIndex][key][constants.reducerItem].failed ===
-        true)
+      true)
   );
 }

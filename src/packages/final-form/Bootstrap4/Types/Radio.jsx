@@ -63,8 +63,8 @@ class RadioBinder extends React.Component {
     return _map(list, (option, key) => {
       if (staticField === true) {
         return (<FormControl plaintext
-          readOnly
-          defaultValue={option.children} />);
+                             readOnly
+                             defaultValue={option.children} />);
       }
 
       let disabled = false;
@@ -108,7 +108,7 @@ class RadioBinder extends React.Component {
         return _map(chunkData, (chunk, key) =>
           (
             <Col key={key}
-              md={Math.round(12 / field.chunks)}>
+                 md={Math.round(12 / field.chunks)}>
               {this.radioButtonList(chunk)}
             </Col>
           )

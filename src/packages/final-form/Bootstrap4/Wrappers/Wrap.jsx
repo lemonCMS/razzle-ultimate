@@ -62,7 +62,7 @@ class Wrap extends React.Component {
       }
 
       if (item.props.selected) {
-        menuItem.push(<Divider key={`divider-${key}`}/>);
+        menuItem.push(<Divider key={`divider-${key}`} />);
       }
 
 
@@ -92,12 +92,12 @@ class Wrap extends React.Component {
 
     return (
       <DropdownButton key={this.input.name}
-        onClick={(event) => {
-          event.preventDefault();
-        }}
-        {...thisSize()}
-        title={dropDownTitle || _get(props.field, 'placeholder')}
-        id={`input-dropdown-addon-${this.input.name}`}>
+                      onClick={(event) => {
+                        event.preventDefault();
+                      }}
+                      {...thisSize()}
+                      title={dropDownTitle || _get(props.field, 'placeholder')}
+                      id={`input-dropdown-addon-${this.input.name}`}>
         {menuItem}
       </DropdownButton>
     );
@@ -174,8 +174,8 @@ class Wrap extends React.Component {
       add.bsClass = props.field.bsClass;
     }
 
-    add.isInvalid =  touched && validationState();
-    add.isValid =  touched && !validationState();
+    add.isInvalid = touched && validationState();
+    add.isValid = touched && !validationState();
 
     const component = () => {
       // Render custom component
@@ -297,11 +297,12 @@ class Wrap extends React.Component {
       <Col {...fieldSize()}>
         {getField()}
         {props.field.help && (!touched || (!submitError && !error)) && <HelpBlock>{props.field.help}</HelpBlock>}
-        {((touched && error) || (submitFailed && submitError)) && <FormControl.Feedback type={'invalid'}>{(submitError || error)}</FormControl.Feedback>}
+        {((touched && error) || (submitFailed && submitError)) &&
+        <FormControl.Feedback type={'invalid'}>{(submitError || error)}</FormControl.Feedback>}
       </Col>
     </FormGroup>);
 
-    if(this.props.context.debug) {
+    if (this.props.context.debug) {
       return (
         <div style={{position: 'relative'}}>
           {rendered}

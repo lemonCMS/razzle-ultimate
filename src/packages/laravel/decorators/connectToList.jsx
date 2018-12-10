@@ -11,7 +11,7 @@ import {withRouter} from 'react-router';
 import {Alert} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
 import {provideHooks} from '../../redial';
-import {load, isLoaded, destroyItem} from '../../redux/store/actions';
+import {destroyItem, isLoaded, load} from '../../redux/store/actions';
 import DataTable from '../components/DataTable';
 import connectToFilter, {createAllParamsForFetch} from './connectToFilter';
 import connectToConfirm from './connectToConfirm';
@@ -101,7 +101,7 @@ export default function connnectToList(properties) {
             <div className="card-body">
               <div className="card-heading">
                 <Link to={`${properties.path}/new`}
-                  className="float-right"><i className="fa fa-plus" /> nieuw item
+                      className="float-right"><i className="fa fa-plus" /> nieuw item
                   aanmaken</Link>
                 <h4 className="card-title">Verfijn</h4>
               </div>
