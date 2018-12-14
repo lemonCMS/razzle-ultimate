@@ -143,8 +143,6 @@ module.exports = {
       appConfig.output.publicPath = `${process.env.PROTOCOL}${process.env.DEV_HOSTNAME}:${parseInt(process.env.PORT,10) + 1}/`;
     }
 
-    console.log(JSON.stringify(appConfig.plugins.paths));
-
     return appConfig;
   }
 };

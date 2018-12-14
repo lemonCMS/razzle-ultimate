@@ -1,100 +1,118 @@
+'use strict';
+
 const autoprefixer = require('autoprefixer');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const PostCssFlexBugFixes = require('postcss-flexbugs-fixes');
+const paths = require('razzle/config/paths');
 
-module.exports = (baseConfig, {dev, target}) => {
-  const appConfig = Object.assign({}, baseConfig);
+const defaultOptions = {
+  postcss: {
+    dev: {
+      sourceMap: true,
+      ident: 'postcss',
+    },
+    prod: {
+      sourceMap: false,
+      ident: 'postcss',
+    },
+    plugins: [
+      PostCssFlexBugFixes,
+      autoprefixer({
+        browsers: ['>1%', 'last 4 versions', 'Firefox ESR', 'not ie < 9'],
+        flexbox: 'no-2009',
+      }),
+    ],
+  },
+  sass: {
+    dev: {
+      sourceMap: true,
+      includePaths: [paths.appNodeModules],
+    },
+    prod: {
+      sourceMap: false,
+      includePaths: [paths.appNodeModules],
+    },
+  },
+  css: {
+    dev: {
+      sourceMap: true,
+      importLoaders: 1,
+      modules: false,
+    },
+    prod: {
+      sourceMap: false,
+      importLoaders: 1,
+      modules: false,
+      minimize: true,
+    },
+  },
+  style: {},
+  resolveUrl: {
+    dev: {},
+    prod: {},
+  },
+};
 
-  if (target === 'web') {
-    // Setup SCSS
-    const cssLoader = {
-      loader: 'css-loader',
-      options: {
-        minimize: !dev,
-        sourceMap: dev,
-        importLoaders: 3,
-      },
-    };
+module.exports = (
+  defaultConfig,
+  { target, dev },
+  webpack,
+  userOptions = {}
+) => {
+  const isServer = target !== 'web';
+  const constantEnv = dev ? 'dev' : 'prod';
 
-    const postCSSLoader = {
-      loader: 'postcss-loader',
-      options: {
-        ident: 'postcss', // https://webpack.js.org/guides/migrating/#complex-options
-        sourceMap: dev,
-        plugins: () => [
-          autoprefixer({
-            browsers: [
-              '>1%',
-              'last 2 versions',
-              'Firefox ESR',
-              'not ie < 9', // React doesn't support IE8 anyway
-            ],
-          }),
-        ],
-      },
-    };
+  const config = Object.assign({}, defaultConfig);
 
-    const sassLoader = {
-      loader: require.resolve('sass-loader'),
-      options: {
-        sourceMap: true,
-      },
-    };
+  const options = Object.assign({}, defaultOptions, userOptions);
 
-    const lessLoader = {
-      loader: 'less-loader',
-      options: {
-        outputStyle: 'expanded',
-        sourceMap: true,
-      },
-    };
+  const styleLoader = {
+    loader: require.resolve('style-loader'),
+    options: options.style,
+  };
 
-    if (dev) {
-      appConfig.module.rules.push({
-        test: /\.less$/,
-        use: ['style-loader', cssLoader, postCSSLoader, lessLoader],
-      });
+  const cssLoader = {
+    loader: require.resolve('css-loader'),
+    options: options.css[constantEnv],
+  };
 
-      // For development, include source map
-      appConfig.module.rules.push({
-        test: /\.(sa|sc)ss$/,
-        use: ['style-loader', cssLoader, postCSSLoader, sassLoader],
-      });
+  const resolveUrlLoader = {
+    loader: require.resolve('resolve-url-loader'),
+    options: options.resolveUrl[constantEnv],
+  };
 
-      appConfig.plugins.push(
-        new MiniCssExtractPlugin({
-          // Options similar to the same options in webpackOptions.output
-          // both options are optional
-          filename: '[name].css',
-          chunkFilename: '[id].css',
-        }),
-      );
-    } else {
-      // For production, extract CSS
-      appConfig.module.rules.push({
-        test: /\.(sa|sc)ss$/,
-        use: [
-          MiniCssExtractPlugin.loader,
+  const postCssLoader = {
+    loader: require.resolve('postcss-loader'),
+    options: Object.assign({}, options.postcss[constantEnv], {
+      plugins: () => options.postcss.plugins,
+    }),
+  };
+
+  const sassLoader = {
+    loader: require.resolve('sass-loader'),
+    options: options.sass[constantEnv],
+  };
+
+  config.module.rules = [
+    ...config.module.rules,
+    {
+      test: /\.(sa|sc)ss$/,
+      use: isServer
+        ? [
+          {
+            loader: require.resolve('css-loader/locals'),
+            options: options.css[constantEnv],
+          },
+        ]
+        : [
+          dev ? styleLoader : MiniCssExtractPlugin.loader,
           cssLoader,
-          postCSSLoader,
-          'resolve-url-loader',
+          resolveUrlLoader,
+          postCssLoader,
           sassLoader,
         ],
-      });
+    },
+  ];
 
-      appConfig.plugins.push(
-        new MiniCssExtractPlugin({
-          // Options similar to the same options in webpackOptions.output
-          // both options are optional
-          filename: '[name].css',
-          chunkFilename: '[id].css',
-        }),
-      );
-    }
-  } else {
-    appConfig.module.rules.push({
-      test: /.scss$/,
-      use: ['ignore-loader'],
-    });
-  }
-  return appConfig;
+  return config;
 };
