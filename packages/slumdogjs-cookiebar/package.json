@@ -1,0 +1,17 @@
+{
+  "name": "@slumdogjs/cookiebar",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "sideEffects": false,
+  "dependencies": {
+    "react": "^16.6.3",
+    "react-dom": "^16.6.3",
+    "prop-types": "^15.6.2",
+    "classnames": "^2.2.6",
+    "@fortawesome/fontawesome-svg-core": "^1.2.7",
+    "@fortawesome/free-regular-svg-icons": "^5.4.2",
+    "@fortawesome/free-solid-svg-icons": "^5.4.2",
+    "@fortawesome/react-fontawesome": "^0.1.3"
+  }
+}

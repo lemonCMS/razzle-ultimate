@@ -53,9 +53,9 @@ class List extends Component {
         <Row>
           <Col md={12}>
             <h1>Laravel helpers</h1>
-            <p>UltimateJs comes with some helpers for laravel. With these helper you can create an admin interface</p>
+            <p>SlumDogJs comes with some helpers for laravel. With these helper you can create an admin interface</p>
             <SyntaxHighlighter language={'jsx'} showLineNumbers style={prism}>
-              {'import connectToList from \'@wicked_query/ultimatejs/lib/laravel/decorators/connectToList\';\n' +
+              {'import connectToList from \'@wicked_query/slumdogjs/lib/laravel/decorators/connectToList\';\n' +
               '\n' +
               '@connectToList({\n' +
               '  key: \'users\',\n' +

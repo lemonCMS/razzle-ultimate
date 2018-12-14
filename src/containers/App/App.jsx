@@ -28,7 +28,7 @@ class App extends React.Component {
         <div className="wrapper">
           <nav id="sidebar" className={classNames({'active': this.state.active})}>
             <div className="sidebar-header">
-              <h3>UltimateJS</h3>
+              <h3>SlumDogJs</h3>
             </div>
             <Menu menu={menu} className={'list-unstyled components'}/>
           </nav>

@@ -81,7 +81,7 @@ class Item extends PureComponent {
             </p>
 
             <SyntaxHighlighter language={'js'} showLineNumbers style={prism}>
-              {'import connectToForm from \'@wicked_query/ultimatejs/lib/laravel/decorators/connectToForm\';\n\n' +
+              {'import connectToForm from \'@wicked_query/slumdogjs/lib/laravel/decorators/connectToForm\';\n\n' +
               '@connectToForm({\n' +
               '  api,\n' +
               '  key\n' +

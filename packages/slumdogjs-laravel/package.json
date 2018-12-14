@@ -1,0 +1,20 @@
+{
+  "name": "@slumdogjs/laravel",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "react": "^16.6.3",
+    "react-bootstrap": "^1.0.0-beta.3",
+    "prop-types": "^15.6.2",
+    "lodash": "^4.17.11",
+    "react-router": "^4.4.0-beta.6",
+    "react-redux": "^6.0.0",
+    "classnames": "^2.2.6",
+    "qs": "^6.6.0",
+    "react-router-dom": "^4.4.0-beta.6",
+    "moment": "^2.23.0",
+    "numeral": "^2.0.6",
+    "@fortawesome/react-fontawesome": "^0.1.3"
+  }
+}

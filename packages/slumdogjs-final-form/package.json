@@ -1,0 +1,31 @@
+{
+  "name": "@slumdogjs/final-form",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+
+  "dependencies": {
+    "react": "^16.6.3",
+    "lodash": "^4.17.11",
+    "prop-types": "^15.6.2",
+    "react-bootstrap": "^1.0.0-beta.3",
+    "react-final-form": "^4.0.2",
+    "react-final-form-arrays": "^2.0.1",
+    "final-form": "^4.11.0",
+    "final-form-arrays": "^1.1.1",
+    "moment": "^2.23.0",
+    "react-datetime": "^2.16.3",
+    "react-fast-compare": "^2.0.4",
+    "@fortawesome/fontawesome-svg-core": "^1.2.7",
+    "@fortawesome/free-regular-svg-icons": "^5.4.2",
+    "@fortawesome/free-solid-svg-icons": "^5.4.2",
+    "@fortawesome/react-fontawesome": "^0.1.3",
+    "react-plupload": "^0.0.21",
+    "uuid": "^3.3.2",
+    "validator": "^10.9.0"
+  },
+
+  "devDependencies": {
+    "styled-components": "^4.1.2"
+  }
+}

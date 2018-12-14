@@ -1,3 +1,8 @@
+# Builds
+packages/**/lib
+packages/**/dist
+
+
 logs
 *.log
 npm-debug.log*
