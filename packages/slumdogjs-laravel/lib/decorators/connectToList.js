@@ -160,7 +160,7 @@ function connnectToList(properties) {
       }, {
         key: 'componentDidUpdate',
         value: function componentDidUpdate() {
-          this.path();
+          // this.path();
         }
       }, {
         key: 'path',
