@@ -58,7 +58,7 @@ class CookieConsent extends React.Component {
     this.cookies = props.providers.cookies.cookies
   }
 
-  componentWillMount() {
+  componentDidMount() {
     if (
       typeof window !== 'undefined' &&
       typeof window.location !== 'undefined' &&
@@ -71,10 +71,6 @@ class CookieConsent extends React.Component {
         window.scrollTo(0, 0);
       });
     }
-    this.init();
-  }
-
-  componentDidMount() {
     this.init();
   }
 

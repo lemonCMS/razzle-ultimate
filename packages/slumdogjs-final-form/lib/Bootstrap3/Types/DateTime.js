@@ -78,8 +78,8 @@ var ContextBinder = function (_React$Component) {
   }
 
   (0, _createClass3.default)(ContextBinder, [{
-    key: 'componentWillMount',
-    value: function componentWillMount() {
+    key: 'componentDidMount',
+    value: function componentDidMount() {
       var _this2 = this;
 
       if (this.props.input.value && this.props.input.value !== '' && this.props.field.conf && this.props.field.conf.unix) {

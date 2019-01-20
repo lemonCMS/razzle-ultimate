@@ -26,12 +26,12 @@ class Resourcebinder extends React.Component {
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.getList(this.props);
   }
 
-  componentWillReceiveProps(nextProps) {
-    this.getList(nextProps);
+  componentDidUpdate() {
+    this.getList(this.props);
   }
 
   getList(props) {
@@ -50,7 +50,7 @@ class Resourcebinder extends React.Component {
       list = this.state.list;
     }
 
-    this.setState({list: list});
+    this.setState({list});
   }
 
   options() {

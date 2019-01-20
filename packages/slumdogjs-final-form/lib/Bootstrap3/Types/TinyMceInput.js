@@ -120,16 +120,6 @@ var TinyMCEInput = (_temp = _class = function (_React$Component) {
       this.updateInterval = setInterval(this.checkForChanges, this.props.pollInterval);
     }
   }, {
-    key: 'componentDidUpdate',
-    value: function componentDidUpdate() {
-      if (this.props.focus) {
-        var editor = tinymce.get(this.getComponentID());
-        if (editor) {
-          editor.focus();
-        }
-      }
-    }
-  }, {
     key: 'componentWillUnmount',
     value: function componentWillUnmount() {
       if (typeof tinymce !== 'undefined') {
@@ -197,21 +187,29 @@ var TinyMCEInput = (_temp = _class = function (_React$Component) {
     }
 
     /* eslint-disable-next-line */
+    // UNSAFE_componentWillReceiveProps(nextProps) {
 
   }, {
-    key: 'UNSAFE_componentWillReceiveProps',
-    value: function UNSAFE_componentWillReceiveProps(nextProps) {
-      if (nextProps.value !== this.state.value) {
+    key: 'componentDidUpdate',
+    value: function componentDidUpdate() {
+      if (this.props.value !== this.state.value) {
         if (typeof tinymce !== 'undefined') {
           var editor = tinymce.get(this.getComponentID());
           if (editor) {
             if (!this.props.ignoreUpdatesWhenFocused || tinymce.focusedEditor !== editor || this.isDropOverrideFlagged()) {
               var bookmark = editor.selection.getBookmark(2, true);
-              editor.setContent(nextProps.value);
+              editor.setContent(this.props.value);
               editor.selection.moveToBookmark(bookmark);
             }
           }
-          this.setState({ value: nextProps.value });
+          this.setState({ value: this.props.value });
+        }
+      }
+
+      if (this.props.focus) {
+        var _editor = tinymce.get(this.getComponentID());
+        if (_editor) {
+          _editor.focus();
         }
       }
     }

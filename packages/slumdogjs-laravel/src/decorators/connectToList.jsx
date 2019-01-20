@@ -10,7 +10,7 @@ import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import {Alert} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
-import {provideHooks} from '@slumdogjs/redial';
+import {provideHooks} from '@slumdogjs/redial/lib';
 import {destroyItem, isLoaded, load} from '@slumdogjs/redux/lib/store/actions';
 import DataTable from '../components/DataTable';
 import connectToFilter, {createAllParamsForFetch} from './connectToFilter';
@@ -79,12 +79,12 @@ export default function connnectToList(properties) {
         };
       }
 
-      componentWillMount() {
+      componentDidMount() {
         this.path();
       }
 
-      componentWillReceiveProps() {
-        this.path();
+      componentDidUpdate() {
+        // this.path();
       }
 
       path() {

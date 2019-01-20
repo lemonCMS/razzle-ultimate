@@ -74,7 +74,7 @@ var _reactBootstrap = require('react-bootstrap');
 
 var _reactRouterDom = require('react-router-dom');
 
-var _redial = require('@slumdogjs/redial');
+var _lib = require('@slumdogjs/redial/lib');
 
 var _actions = require('@slumdogjs/redux/lib/store/actions');
 
@@ -104,7 +104,7 @@ function connnectToList(properties) {
   return function (WrappedComponent) {
     var _dec, _dec2, _dec3, _dec4, _class;
 
-    var Connection = (_dec = (0, _redial.provideHooks)({
+    var Connection = (_dec = (0, _lib.provideHooks)({
       fetch: function fetch(_ref) {
         var _ref$store = _ref.store,
             dispatch = _ref$store.dispatch,
@@ -153,13 +153,13 @@ function connnectToList(properties) {
       }
 
       (0, _createClass3.default)(Connection, [{
-        key: 'componentWillMount',
-        value: function componentWillMount() {
+        key: 'componentDidMount',
+        value: function componentDidMount() {
           this.path();
         }
       }, {
-        key: 'componentWillReceiveProps',
-        value: function componentWillReceiveProps() {
+        key: 'componentDidUpdate',
+        value: function componentDidUpdate() {
           this.path();
         }
       }, {

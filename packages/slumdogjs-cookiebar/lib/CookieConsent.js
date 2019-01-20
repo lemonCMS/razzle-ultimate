@@ -120,8 +120,8 @@ var CookieConsent = function (_React$Component) {
   }
 
   (0, _createClass3.default)(CookieConsent, [{
-    key: 'componentWillMount',
-    value: function componentWillMount() {
+    key: 'componentDidMount',
+    value: function componentDidMount() {
       if (typeof window !== 'undefined' && typeof window.location !== 'undefined' && typeof window.location.hash !== 'undefined' && window.location.hash === '#gdprSettings') {
         this.setState({
           openedByHash: true
@@ -129,11 +129,6 @@ var CookieConsent = function (_React$Component) {
           window.scrollTo(0, 0);
         });
       }
-      this.init();
-    }
-  }, {
-    key: 'componentDidMount',
-    value: function componentDidMount() {
       this.init();
     }
   }, {

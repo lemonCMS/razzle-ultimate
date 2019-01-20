@@ -95,14 +95,14 @@ var Resourcebinder = function (_React$Component) {
   }
 
   (0, _createClass3.default)(Resourcebinder, [{
-    key: 'componentWillMount',
-    value: function componentWillMount() {
+    key: 'componentDidMount',
+    value: function componentDidMount() {
       this.getList(this.props);
     }
   }, {
-    key: 'componentWillReceiveProps',
-    value: function componentWillReceiveProps(nextProps) {
-      this.getList(nextProps);
+    key: 'componentDidUpdate',
+    value: function componentDidUpdate() {
+      this.getList(this.props);
     }
   }, {
     key: 'getList',

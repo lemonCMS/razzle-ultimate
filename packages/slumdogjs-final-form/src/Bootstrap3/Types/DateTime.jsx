@@ -12,7 +12,7 @@ class ContextBinder extends React.Component {
     value: null
   };
 
-  componentWillMount() {
+  componentDidMount() {
     if (this.props.input.value && this.props.input.value !== '' && this.props.field.conf && this.props.field.conf.unix) {
       this.setState({value: moment.unix(this.props.input.value)}, () => {
         this.props.input.onChange(this.state.value);

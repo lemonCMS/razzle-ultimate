@@ -129,15 +129,6 @@ class TinyMCEInput extends React.Component {
 
   }
 
-  componentDidUpdate() {
-    if (this.props.focus) {
-      const editor = tinymce.get(this.getComponentID());
-      if (editor) {
-        editor.focus();
-      }
-    }
-  }
-
   componentWillUnmount() {
     if (typeof tinymce !== 'undefined') {
       tinymce.remove(this.getComponentID());
@@ -196,18 +187,26 @@ class TinyMCEInput extends React.Component {
   }
 
   /* eslint-disable-next-line */
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    if (nextProps.value !== this.state.value) {
+  // UNSAFE_componentWillReceiveProps(nextProps) {
+  componentDidUpdate() {
+    if (this.props.value !== this.state.value) {
       if (typeof tinymce !== 'undefined') {
         const editor = tinymce.get(this.getComponentID());
         if (editor) {
           if (!this.props.ignoreUpdatesWhenFocused || tinymce.focusedEditor !== editor || this.isDropOverrideFlagged()) {
             const bookmark = editor.selection.getBookmark(2, true);
-            editor.setContent(nextProps.value);
+            editor.setContent(this.props.value);
             editor.selection.moveToBookmark(bookmark);
           }
         }
-        this.setState({value: nextProps.value});
+        this.setState({value: this.props.value});
+      }
+    }
+
+    if (this.props.focus) {
+      const editor = tinymce.get(this.getComponentID());
+      if (editor) {
+        editor.focus();
       }
     }
   }
