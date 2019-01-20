@@ -1,4 +1,4 @@
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const path = require('path');
 const webpack = require('webpack');
 const UltimateReactLoadable = require('../slumdogjs-core/src/webpack/react-loadable');
@@ -7,6 +7,7 @@ const sassLoader = require('../slumdogjs-core/src/webpack/sass');
 const RawLoader = require('../slumdogjs-core/src/webpack/raw-loader');
 const Lodash = require('../slumdogjs-core/src/webpack/lodash');
 const makeLoaderFinder = require('razzle-dev-utils/makeLoaderFinder');
+const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
 
 module.exports = {
   modify: (baseConfig, {dev, target}) => {
@@ -109,27 +110,6 @@ module.exports = {
       // appConfig.plugins.push(new BundleAnalyzerPlugin());
     }
 
-    // Ignore locales from moment
-    // Load them manually within the application
-
-    /* module.exports = (baseConfig, {dev, target}) => {
-      const appConfig = Object.assign({}, baseConfig);
-      const fileLoaderFinder = makeLoaderFinder('file-loader');
-
-      const jsRule = appConfig.module.rules.find(fileLoaderFinder);
-      jsRule.exclude.push(/\.txt$/);
-
-      appConfig.module.rules.push({
-        test: /\.txt$/,
-        use: ['raw-loader'],
-      });
-
-
-      return appConfig;
-
-    }; */
-
-
     const fileLoaderFinder = makeLoaderFinder('babel-loader');
     const jsxRule = appConfig.module.rules.find(fileLoaderFinder);
     jsxRule.include.push(path.resolve(__dirname, '..'));
@@ -137,6 +117,38 @@ module.exports = {
 
     appConfig.plugins.push(
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+      /* new HardSourceWebpackPlugin({
+        // Either an absolute path or relative to webpack's options.context.
+        cacheDirectory: 'node_modules/.cache/hard-source/[confighash]',
+        // Either a string of object hash function given a webpack config.
+        configHash: function(webpackConfig) {
+          // node-object-hash on npm can be used to build this.
+          return require('node-object-hash')({sort: false}).hash(webpackConfig);
+        },
+        // Either false, a string, an object, or a project hashing function.
+        environmentHash: {
+          root: process.cwd(),
+          directories: [],
+          files: ['package-lock.json', 'yarn.lock'],
+        },
+        // An object.
+        info: {
+          // 'none' or 'test'.
+          mode: 'none',
+          // 'debug', 'log', 'info', 'warn', or 'error'.
+          level: 'debug',
+        },
+        // Clean up large, old caches automatically.
+        cachePrune: {
+          // Caches younger than `maxAge` are not considered for deletion. They must
+          // be at least this (default: 2 days) old in milliseconds.
+          maxAge: 2 * 24 * 60 * 60 * 1000,
+          // All caches together must be larger than `sizeThreshold` before any
+          // caches will be deleted. Together they must be at least this
+          // (default: 50 MB) big in bytes.
+          sizeThreshold: 50 * 1024 * 1024
+        },
+      }) */
     );
 
     if (dev && process.env.DEV_HOSTNAME && process.env.PROTOCOL) {

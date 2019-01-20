@@ -37,11 +37,11 @@ module.exports = (baseConfig, {dev}, vendor) => {
   }
 
   if (process.env.RAZZLE_VENDOR_MANIFEST) {
-    const publicPath = `${process.env.PROTOCOL}${(process.env.DEV_HOSTNAME ? process.env.DEV_HOSTNAME : process.env.HOST)}:${process.env.PORT_DEV}`;
+    const publicPath = `${process.env.PROTOCOL}${(process.env.DEV_HOSTNAME ? process.env.DEV_HOSTNAME : process.env.HOST)}:${process.env.PORT_DEV}/`;
     appConfig.plugins.push(
       new AutoDllPlugin({
         filename: '[name].js',
-        debug: false,
+        debug: true,
         entry: {
           vendor,
         },

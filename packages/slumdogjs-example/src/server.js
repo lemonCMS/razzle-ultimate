@@ -11,8 +11,6 @@ import stats from '../build/react-loadable.json';
 import { saveAndRestoreCookie } from './redux/store/counter';
 
 server.use(Cookies.express());
-// server.use(express.static(paths.appPublic));
-// const dev = process.env.NODE_ENV === 'development';
 
 const devProxy = {
   '/api': {

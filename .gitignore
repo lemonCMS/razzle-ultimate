@@ -1,6 +1,6 @@
 # Builds
-packages/**/lib
-packages/**/dist
+# packages/**/lib
+# packages/**/dist
 
 
 logs
@@ -18,4 +18,4 @@ build
 .idea/*
 yarn.lock
 es
-lib
+# lib

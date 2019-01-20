@@ -1,7 +1,7 @@
 {
   "name": "@slumdogjs/core",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "lib/index.js",
   "license": "MIT",
 
   "dependencies": {
@@ -19,7 +19,10 @@
     "history": "^4.7.2",
     "nprogress": "^0.2.0",
     "react-helmet": "^5.2.0",
-    "razzle": "^2.4.0"
+    "razzle": "^2.4.0",
+    "assets-webpack-plugin": "^3.9.7",
+    "autodll-webpack-plugin": "^0.4.2"
+
 
   }
 }

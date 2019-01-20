@@ -21,7 +21,10 @@ if (fs.pathExistsSync(paths.appManifest)) {
 }
 
 let vendorAssets = {};
+
 if (process.env.RAZZLE_VENDOR_MANIFEST) {
+  console.log(require.resolve(process.env.RAZZLE_VENDOR_MANIFEST));
+
   const vendorFile = `${paths.appBuild}/${process.env.RAZZLE_VENDOR_MANIFEST}`;
   if (fs.pathExistsSync(vendorFile)) {
     vendorAssets = fs.readJsonSync(vendorFile);
