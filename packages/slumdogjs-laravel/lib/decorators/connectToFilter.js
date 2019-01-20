@@ -83,7 +83,7 @@ var _qs = require('qs');
 
 var _qs2 = _interopRequireDefault(_qs);
 
-var _actions = require('../../../slumdogjs-redux/src/routeState/actions');
+var _actions = require('@slumdogjs/redux/lib/routeState/actions');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

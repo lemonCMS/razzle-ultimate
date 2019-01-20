@@ -74,9 +74,9 @@ var _reactBootstrap = require('react-bootstrap');
 
 var _reactRouterDom = require('react-router-dom');
 
-var _src = require('../../../slumdogjs-redial/src');
+var _redial = require('@slumdogjs/redial');
 
-var _actions = require('../../../slumdogjs-redux/src/store/actions');
+var _actions = require('@slumdogjs/redux/lib/store/actions');
 
 var _DataTable = require('../components/DataTable');
 
@@ -104,7 +104,7 @@ function connnectToList(properties) {
   return function (WrappedComponent) {
     var _dec, _dec2, _dec3, _dec4, _class;
 
-    var Connection = (_dec = (0, _src.provideHooks)({
+    var Connection = (_dec = (0, _redial.provideHooks)({
       fetch: function fetch(_ref) {
         var _ref$store = _ref.store,
             dispatch = _ref$store.dispatch,

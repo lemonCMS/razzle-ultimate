@@ -58,7 +58,7 @@ var _has3 = _interopRequireDefault(_has2);
 
 var _reactRouter = require('react-router');
 
-var _actions = require('../../../slumdogjs-redux/src/store/actions');
+var _actions = require('@slumdogjs/redux/lib/store/actions');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

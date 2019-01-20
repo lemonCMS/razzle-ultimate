@@ -3,7 +3,7 @@ import React from 'react';
 import _get from 'lodash/get';
 import _has from 'lodash/has';
 import {withRouter} from 'react-router';
-import {clearItem, clearList, post, update, updateListItem} from '../../../slumdogjs-redux/src/store/actions';
+import {clearItem, clearList, post, update, updateListItem} from '@slumdogjs/redux/lib/store/actions';
 
 export default custom => (Component) => {
 

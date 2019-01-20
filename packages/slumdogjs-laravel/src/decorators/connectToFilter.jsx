@@ -10,7 +10,7 @@ import {withRouter} from 'react-router';
 import {connect} from 'react-redux';
 import classNames from 'classnames';
 import Qs from 'qs';
-import {storeState} from '../../../slumdogjs-redux/src/routeState/actions';
+import {storeState} from '@slumdogjs/redux/lib/routeState/actions';
 
 let myTimeout = null;
 
