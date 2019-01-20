@@ -73,26 +73,22 @@ export default function connnectToList(properties) {
         this.show = this.show.bind(this);
         this.edit = this.edit.bind(this);
         this.destroy = this.destroy.bind(this);
-        this.path = this.path.bind(this);
         this.state = {
           path: ''
         };
       }
 
-      componentDidMount() {
-        this.path();
-      }
-
-      componentDidUpdate() {
-        // this.path();
-      }
-
-      path() {
+      static getDerivedStateFromProps(props, state) {
         let {path} = properties;
         if (_isFunction(path)) {
-          path = path(this.props.match.params);
+          path = path(props.match.params);
         }
-        this.setState({path});
+
+        if (path !== state.path) {
+          return ({path});
+        }
+
+        return null;
       }
 
       filter() {
