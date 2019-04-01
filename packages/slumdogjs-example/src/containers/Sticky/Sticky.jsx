@@ -10,7 +10,6 @@ import StickyComponent from '../../../../slumdogjs-sticky/src';
 
 registerLanguage('jsx', jsx);
 
-
 class Sticky extends React.Component {
   render() {
     return (
@@ -18,7 +17,6 @@ class Sticky extends React.Component {
         <StickyComponent>
           <h1 style={{backgroundColor: '#fff'}}>Sticky Component</h1>
         </StickyComponent>
-
 
         <h2 className={'mt-5'}>Simple implementation</h2>
         <p>

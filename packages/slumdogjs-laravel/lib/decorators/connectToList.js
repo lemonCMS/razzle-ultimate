@@ -145,7 +145,6 @@ function connnectToList(properties) {
         _this.show = _this.show.bind(_this);
         _this.edit = _this.edit.bind(_this);
         _this.destroy = _this.destroy.bind(_this);
-        _this.path = _this.path.bind(_this);
         _this.state = {
           path: ''
         };
@@ -153,26 +152,6 @@ function connnectToList(properties) {
       }
 
       (0, _createClass3.default)(Connection, [{
-        key: 'componentDidMount',
-        value: function componentDidMount() {
-          this.path();
-        }
-      }, {
-        key: 'componentDidUpdate',
-        value: function componentDidUpdate() {
-          // this.path();
-        }
-      }, {
-        key: 'path',
-        value: function path() {
-          var path = properties.path;
-
-          if ((0, _isFunction3.default)(path)) {
-            path = path(this.props.match.params);
-          }
-          this.setState({ path: path });
-        }
-      }, {
         key: 'filter',
         value: function filter() {
           return _react2.default.createElement(
@@ -305,6 +284,21 @@ function connnectToList(properties) {
             ),
             this.props.children
           );
+        }
+      }], [{
+        key: 'getDerivedStateFromProps',
+        value: function getDerivedStateFromProps(props, state) {
+          var path = properties.path;
+
+          if ((0, _isFunction3.default)(path)) {
+            path = path(props.match.params);
+          }
+
+          if (path !== state.path) {
+            return { path: path };
+          }
+
+          return null;
         }
       }]);
       return Connection;

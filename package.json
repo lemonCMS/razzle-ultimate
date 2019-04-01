@@ -9,7 +9,7 @@
   ],
   "scripts": {
     "start": "NODE_ENV=production node build/server.js",
-    "dev": "razzle start",
+    "dev": "npm run lerna:dev",
     "build": "razzle build",
     "test": "razzle test --env=jsdom",
     "ci-lint": "eslint --rule 'prettier/prettier: 2'",

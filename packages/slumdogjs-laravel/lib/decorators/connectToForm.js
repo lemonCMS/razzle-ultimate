@@ -97,7 +97,7 @@ exports.default = function (custom) {
                     return _context.abrupt('return', new _promise2.default(function (resolve) {
                       var promise = null;
                       if (!_this.state.edit) {
-                        _this.props.dispatch((0, _actions.clearList)('users'));
+                        _this.props.dispatch((0, _actions.clearList)(config.key));
                         promise = _this.props.dispatch((0, _actions.post)(config.key, '' + config.api, payload));
                       } else {
                         promise = _this.props.dispatch((0, _actions.update)(config.key, '' + config.api, _this.props.match.params.id, payload));
@@ -150,7 +150,7 @@ exports.default = function (custom) {
       (0, _createClass3.default)(WrappedComponent, [{
         key: 'componentWillUnmount',
         value: function componentWillUnmount() {
-          this.props.dispatch((0, _actions.clearItem)('users'));
+          this.props.dispatch((0, _actions.clearItem)(config.key));
         }
       }, {
         key: 'render',

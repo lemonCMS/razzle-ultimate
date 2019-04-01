@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _PersistComponent = require('./PersistComponent');
 
-Object.defineProperty(exports, 'PersistCompoentn', {
+Object.defineProperty(exports, 'PersistComponent', {
   enumerable: true,
   get: function get() {
     return _interopRequireDefault(_PersistComponent).default;

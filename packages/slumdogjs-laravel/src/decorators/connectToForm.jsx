@@ -56,13 +56,13 @@ export default custom => (Component) => {
     }
 
     componentWillUnmount() {
-      this.props.dispatch(clearItem('users'));
+      this.props.dispatch(clearItem(config.key));
     }
 
     onSubmit = async (payload) => new Promise((resolve) => {
       let promise = null;
       if (!this.state.edit) {
-        this.props.dispatch(clearList('users'));
+        this.props.dispatch(clearList(config.key));
         promise = this.props.dispatch(post(config.key, `${config.api}`, payload));
       } else {
         promise = this.props.dispatch(update(config.key, `${config.api}`, this.props.match.params.id, payload));
